@@ -35,14 +35,14 @@ const Nav = () => {
             <li>
               <Link href={"/"}>
                 <a className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:text-primary md:p-0">
-                  Catigorys
+                  Categories
                   </a>
               </Link>
             </li>
             <li>
               <Link href={"/"}>
                 <a className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:text-primary md:p-0">
-                  Prands
+                  Brands
                   </a>
               </Link>
             </li>
