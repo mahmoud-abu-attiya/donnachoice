@@ -14,8 +14,8 @@ const Footer = () => {
             </div>
             <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
                <div>
-                  <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Resources</h2>
-                  <ul className="text-gray-600 dark:text-gray-400">
+                  <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase">Resources</h2>
+                  <ul className="text-gray-600">
                      <li className="mb-4">
                         <a href="https://flowbite.com/" className="hover:underline">Flowbite</a>
                      </li>
@@ -25,8 +25,8 @@ const Footer = () => {
                   </ul>
                </div>
                <div>
-                  <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Follow us</h2>
-                  <ul className="text-gray-600 dark:text-gray-400">
+                  <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase">Follow us</h2>
+                  <ul className="text-gray-600">
                      <li className="mb-4">
                         <a href="https://github.com/themesberg/flowbite" className="hover:underline ">Github</a>
                      </li>
@@ -36,8 +36,8 @@ const Footer = () => {
                   </ul>
                </div>
                <div>
-                  <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Legal</h2>
-                  <ul className="text-gray-600 dark:text-gray-400">
+                  <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase">Legal</h2>
+                  <ul className="text-gray-600">
                      <li className="mb-4">
                         <a href="#" className="hover:underline">Privacy Policy</a>
                      </li>
@@ -60,7 +60,7 @@ const Footer = () => {
                   <i className="fab fa-instagram"></i>
                   </a>
                   <a href="#" className="hover:text-gray-900">
-                     <i class="fab fa-twitter"></i>
+                     <i className="fab fa-twitter"></i>
                   </a>
                   <a href="#" className="hover:text-gray-900">
                   <i className="fab fa-whatsapp"></i>

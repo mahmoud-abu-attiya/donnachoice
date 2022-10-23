@@ -12,7 +12,7 @@ const Nav = () => {
     }
   }, []);
   return (
-    <header>
+    <header className="shadow-md">
       <Subnav />
       <nav className="bg-gray-50 px-2 sm:px-4 py-2.5">
       <div className="container flex flex-wrap justify-between items-center mx-auto">
@@ -33,21 +33,21 @@ const Nav = () => {
               </Link>
             </li>
             <li>
-              <Link href={"/"}>
+              <Link href={"/categories"}>
                 <a className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:text-primary md:p-0">
                   Categories
                   </a>
               </Link>
             </li>
             <li>
-              <Link href={"/"}>
+              <Link href={"/brands"}>
                 <a className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:text-primary md:p-0">
                   Brands
                   </a>
               </Link>
             </li>
             <li>
-              <Link href={"/"}>
+              <Link href={"/blog"}>
                 <a className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:text-primary md:p-0">
                   Blog
                   </a>
