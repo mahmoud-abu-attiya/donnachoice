@@ -25,7 +25,7 @@ const Cat = ({ brands }) => {
                      )
                   }) : (
                      <div className='text-2xl capitalize text-center col-span-4'>
-                        no brands in this category
+                        there no brands in this categoryhcfg
                         <div className="max-w-[500px] mx-auto">
                            <Image src={img} alt="no result" />
                         </div>
