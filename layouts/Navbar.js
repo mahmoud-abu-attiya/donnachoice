@@ -47,6 +47,13 @@ const Nav = () => {
               </Link>
             </li>
             <li>
+              <Link href={"/products"}>
+                <a className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:text-primary md:p-0">
+                  Products
+                  </a>
+              </Link>
+            </li>
+            <li>
               <Link href={"/blog"}>
                 <a className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:text-primary md:p-0">
                   Blog
