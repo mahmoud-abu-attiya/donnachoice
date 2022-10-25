@@ -20,7 +20,7 @@ export default function Index({ brands }) {
    }, [brands]);
    return (
       <div>
-         <Hero />
+         <Hero title="brands" />
          <div className="container pt-6">
             <div className="relative max-w-lg mx-auto">
                <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">

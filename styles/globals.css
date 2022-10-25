@@ -2,27 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
-.swiper-pagination-bullet{
+#loading {
+   position: fixed;
+   width: 100vw;
+   height: 100vh;
+   display: -ms-grid;
+   display: grid;
+   place-content: center;
+   background-color: rgba(0, 0, 0, 0.5);
+   z-index: 21;
+   cursor: wait;
+}
+
+.swiper-pagination-bullet {
    background-color: #e681e4 !important;
 }
-.homehero{
+
+.homehero {
    max-height: calc(100vh - 116px);
 }
-.homehero .swiper-button-next, .homehero .swiper-button-prev{
+
+.homehero .swiper-button-next,
+.homehero .swiper-button-prev {
    color: #e681e4;
 }
-.catigory_box div{
+
+.catigory_box div {
    transition: 0.5s;
    background-size: cover;
-   /* background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("https://d2tsjbw4u8kqa2.cloudfront.net/images/1665918777634be7397475a4.88652377.jpeg"); */
 }
-.catigory_box div:hover{
+
+.catigory_box div:hover {
    scale: 1.1;
 }
+
 .caregories-slider {
    padding-bottom: 3rem !important;
 }
-.caregories-slider .swiper-button-prev,.caregories-slider .swiper-button-next{
+
+.caregories-slider .swiper-button-prev,
+.caregories-slider .swiper-button-next {
    bottom: 0;
    width: 2.5rem;
    top: auto;
@@ -34,24 +53,29 @@
    aspect-ratio: 1/1;
    @apply shadow bg-gray-100 border border-gray-300 hover:bg-primary/25 transition
 }
-.caregories-slider .swiper-button-prev::after{
+
+.caregories-slider .swiper-button-prev::after {
    content: "<";
 }
-.caregories-slider .swiper-button-next::after{
+
+.caregories-slider .swiper-button-next::after {
    content: ">";
 }
-.caregories-slider .swiper-button-prev::after, .caregories-slider .swiper-button-next::after{
+
+.caregories-slider .swiper-button-prev::after,
+.caregories-slider .swiper-button-next::after {
    font-weight: bold;
    font-size: inherit;
    color: #e681e4;
-   /* color: white; */
 }
-.hero{
+
+.hero {
    background-image: url("../public/images/bg.jpg");
    background-size: cover;
    background-position: center;
 }
-.hero .overlay{
+
+.hero .overlay {
    position: absolute;
    top: 0;
    left: 0;
