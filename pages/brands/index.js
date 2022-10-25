@@ -1,8 +1,23 @@
 import React from 'react'
 import BrandSection from '../../components/BrandSection'
 import Hero from '../../components/Hero'
+import Axios from 'axios'
+import { useEffect } from 'react'
 
-export default function index() {
+export const getStaticProps = async () => {
+   const res = await fetch('http://3.83.152.24/api/brand/');
+   let brands = await res.json();
+   return {
+      props: {
+         brands: brands
+      }
+   }
+}
+
+export default function Index({ brands }) {
+   useEffect(() => {
+      console.log(brands);
+   }, [brands]);
    return (
       <div>
          <Hero />
@@ -17,28 +32,13 @@ export default function index() {
                   className="text-white absolute right-2.5 bottom-2.5 bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 transition hover:shadow-md hover:scale-105">
                   Search
                </button>
-               {/* <button
-                  className="text-white bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 transition hover:shadow-md hover:scale-105">
-                  Search
-               </button> */}
             </div>
-
-
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-10 py-8">
-               <BrandSection />
-               <BrandSection />
-               <BrandSection />
-               <BrandSection />
-               <BrandSection />
-               <BrandSection />
-               <BrandSection />
-               <BrandSection />
-               <BrandSection />
-               <BrandSection />
-               <BrandSection />
-               <BrandSection />
-               <BrandSection />
-               <BrandSection />
+               {brands.map((brand) => {
+                  return (
+                     <BrandSection key={brand.id} name={brand.name} slug={brand.slug} />
+                  )
+               })}
             </div>
          </div>
       </div>

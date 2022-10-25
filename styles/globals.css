@@ -14,7 +14,7 @@
 .catigory_box div{
    transition: 0.5s;
    background-size: cover;
-   background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("https://d2tsjbw4u8kqa2.cloudfront.net/images/1665918777634be7397475a4.88652377.jpeg");
+   /* background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("https://d2tsjbw4u8kqa2.cloudfront.net/images/1665918777634be7397475a4.88652377.jpeg"); */
 }
 .catigory_box div:hover{
    scale: 1.1;
