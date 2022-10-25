@@ -3,7 +3,7 @@ import Axios from "axios";
 
 const Brand = ({ brand }) => {
    return (
-      <div>{brand.name}</div>
+      <div>{brand && brand.name}</div>
    )
 }
 
