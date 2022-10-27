@@ -1,7 +1,11 @@
 import Link from 'next/link';
 import React from 'react'
+import { useEffect } from 'react';
 
-export default function index({ blogs }) {
+export default function Index({ blogs }) {
+   useEffect(() => {
+     console.log(blogs);
+   }, [blogs]);
 
    function strip_tags(input, allowed) {
       //  discuss at: http://phpjs.org/functions/strip_tags/

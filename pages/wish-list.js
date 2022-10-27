@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from 'react'
 import { useEffect } from 'react';
 import ProductBox from '../components/ProductBox';
@@ -16,9 +17,12 @@ export const getStaticProps = async () => {
 const WishList = ({products}) => {
    useEffect(() => {
       console.log(products);
+      axios.get('https://backends.donnachoice.com/api/products/?is_wishlist=1').then(res => console.log(res.data))
    }, [products]);
    return (
-      <div className='container'>{products.length == 0 ? "there is no products in with list yet." : (
+      <div className='container'>
+         {products.length == 0 ? "there is no products in with list yet."
+         : (
          products.map(product => {
             return(
                <ProductBox key={product.id} product={product} />

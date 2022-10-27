@@ -1,27 +1,30 @@
 import ProductBox from "../../components/ProductBox";
 import { useEffect, useState } from "react";
 import Hero from "../../components/Hero";
+import axios from "axios";
 
 export const getStaticProps = async () => {
-   const proRes = await fetch('https://backends.donnachoice.com/api/products/');
-   let products = await proRes.json();
+   // const proRes = await fetch('https://backends.donnachoice.com/api/products/');
+   // let products = await proRes.json();
 
    const brandRes = await fetch('https://backends.donnachoice.com/api/brand/');
    let brands = await brandRes.json();
 
    return {
       props: {
-         products,
-         brands
+         // products,
+         brands,
       }
    }
 }
 
-export default function Products({ products, brands }) {
+export default function Products({  brands }) {
    const [query, setQuery] = useState("");
+   const [products, setProducts] = useState([])
    useEffect(() => {
-      console.log(products);
-   }, [products]);
+      axios.get("https://backends.donnachoice.com/api/products/").then(res => setProducts(res.data))
+      // console.log(products);
+   }, []);
    return (
       <div>
          <Hero title="products" />

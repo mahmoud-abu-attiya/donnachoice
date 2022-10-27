@@ -18,8 +18,8 @@ const ProductBox = (props) => {
       // } else {
       //    dispatch(addToWishList(item))
       // }
+      console.log(isWish);
       if (isWish) {
-         console.log(props.product.slug);
          axios.post(`https://backends.donnachoice.com/api/products/${item}/remove_from_wishlist/`).then((res) => console.log(res.data))
       } else {
          axios.post(`https://backends.donnachoice.com/api/products/${item}/add_to_wishlist/`).then((res) => console.log(res.data))
