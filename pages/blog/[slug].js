@@ -4,7 +4,6 @@ import Axios from "axios";
 const Brand = ({ blog }) => {
    return (
       <div>{blog && blog.name}</div>
-      // <div>test blog</div>
    )
 }
 

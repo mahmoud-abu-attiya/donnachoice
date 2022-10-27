@@ -12,9 +12,9 @@ const Nav = () => {
     }
   }, []);
   return (
-    <header className="shadow-md">
+    <header className="">
       <Subnav />
-      <nav className="bg-gray-50 px-2 sm:px-4 py-2.5">
+      <nav className="bg-white px-2 sm:px-4 py-2.5">
       <div className="container flex flex-wrap justify-between items-center mx-auto">
         <a href="https://flowbite.com/" className="flex items-center">
           <img src="https://donnachoice.com/wp-content/uploads/2022/06/donnachoice-4.png" className="mr-3 h-7 sm:h-10" alt="Flowbite Logo" />
