@@ -3,7 +3,7 @@ import Category from '../../components/Category'
 import Hero from "../../components/Hero"
 
 export const getStaticProps = async () => {
-   const res = await fetch('http://3.83.152.24/api/brand/?category');
+   const res = await fetch('https://backends.donnachoice.com/api/brand/?category');
    let brands = await res.json();
    return {
       props: {

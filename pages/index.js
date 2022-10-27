@@ -2,7 +2,7 @@ import Hero from "../components/HomeHero"
 import Section from "../components/Sections"
 
 export const getStaticProps = async () => {
-  const res = await fetch('http://3.83.152.24/api/category/');
+  const res = await fetch('https://backends.donnachoice.com/api/category/');
   let sections = await res.json();
   return {
     props: {

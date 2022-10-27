@@ -4,6 +4,7 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Langs from './Langs'
+import Currencies from './Currencies'
 
 const Subnav = () => {
 
@@ -14,7 +15,7 @@ const Subnav = () => {
    const [wishListCount, setwishListCount] = useState();
    const [cartCount, setcartCount] = useState();
    useEffect(() => {
-      axios.get("http://3.83.152.24/api/counts").then(res => {
+      axios.get("https://backends.donnachoice.com/api/counts").then(res => {
          setwishListCount(res.data.wishlist)
          setcartCount(res.data.cart)
       })
@@ -22,7 +23,7 @@ const Subnav = () => {
    return (
       <div className='bg-primary px-2 sm:px-4 py-2.5 text-white'>
          <div className="container flex justify-between items-center flex-wrap">
-            <div className="flex gap-4">
+            <div className="hidden md:flex gap-4">
                <a href="#">
                   <i className="fab fa-facebook-f"></i>
                </a>
@@ -39,16 +40,13 @@ const Subnav = () => {
                   <i className="fab fa-whatsapp"></i>
                </a>
             </div>
-            <div className="phone">
+            <div className="hidden md:block">
                <a href="#"><i className="fas fa-phone-alt"></i> +123 456 7890</a>
             </div>
-            <div className="whats flex gap-2 items-center">
-               <img src="https://d2tsjbw4u8kqa2.cloudfront.net/images/1612601586601e58f26676c0.82320448.jpeg" alt="" className='h-4' />
-               qa
-            </div>
+            <Currencies />
             <Langs />
-            <div className="links capitalize">
-               <Link href={"#"}>
+            <div className="links capitalize hidden sm:block">
+               <Link href={"/about"}>
                   <a className='border-r px-4 border-gray-900/25'>
                      about us
                   </a>
@@ -58,7 +56,7 @@ const Subnav = () => {
                      Account
                   </a>
                </Link>
-               <Link href={"#"}>
+               <Link href={"/help"}>
                   <a className='px-4'>
                      Help
                   </a>

@@ -10,7 +10,7 @@ const Brand = ({ brand }) => {
 export default Brand
 
 export const getStaticProps = async ({ params }) => {
-   const { data } = await Axios.get(`http://3.83.152.24/api/brand/${params.slug}`);
+   const { data } = await Axios.get(`https://backends.donnachoice.com/api/brand/${params.slug}`);
    const brand = data;
    return {
       props: {
@@ -20,7 +20,7 @@ export const getStaticProps = async ({ params }) => {
 };
 
 export const getStaticPaths = async () => {
-   const { data } = await Axios.get("http://3.83.152.24/api/brand/");
+   const { data } = await Axios.get("https://backends.donnachoice.com/api/brand/");
    const paths = data.map((brand) => ({ params: { slug: brand.slug.toString() } }));
    return {
       paths,

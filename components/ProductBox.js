@@ -20,9 +20,9 @@ const ProductBox = (props) => {
       // }
       if (isWish) {
          console.log(props.product.slug);
-         axios.post(`http://3.83.152.24/api/products/${item}/remove_from_wishlist/`).then((res) => console.log(res.data))
+         axios.post(`https://backends.donnachoice.com/api/products/${item}/remove_from_wishlist/`).then((res) => console.log(res.data))
       } else {
-         axios.post(`http://3.83.152.24/api/products/${item}/add_to_wishlist/`).then((res) => console.log(res.data))
+         axios.post(`https://backends.donnachoice.com/api/products/${item}/add_to_wishlist/`).then((res) => console.log(res.data))
       }
    }
    useEffect(() => {
@@ -53,7 +53,7 @@ const ProductBox = (props) => {
                </div>
             </a>
          </Link>
-         <div className="flex flex-wrap justify-between items-center px-5">
+         <div className="flex flex-wrap justify-between items-center px-5 pb-5">
             <span className="text-3xl font-bold text-gray-900">${props.product.price}</span>
             <button
                className="text-white bg-primary hover:bg-primary/75 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"

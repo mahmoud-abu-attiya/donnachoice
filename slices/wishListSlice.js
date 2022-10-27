@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 // const data = [];
 
 // const wishlist = () => {
-//    fetch("http://3.83.152.24/api/products/?is_wishlist=1")
+//    fetch("https://backends.donnachoice.com/api/products/?is_wishlist=1")
 //    .then(res => {
 //       res.json()
 //       .then(pros => data = pros.data)

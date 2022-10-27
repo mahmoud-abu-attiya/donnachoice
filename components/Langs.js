@@ -12,6 +12,7 @@ const Langs = () => {
       location.reload();
    }
    useEffect(() => {
+      console.log(Cookies.get("lang"));
       let lang = document.querySelector(".lang")
       let langs = document.querySelector(".langs")
       lang.onclick = ()=>{
@@ -21,7 +22,7 @@ const Langs = () => {
    return (
       <a className="flex items-center relative cursor-pointer">
          <button className='lang flex'>
-         {lang == "en" ? (
+         {lang == "en" || !lang ? (
             <>
                <div className="mr-1 h-4 w-4 g-ml-minus-10">
                   <Image src={enimg} alt="hi" />

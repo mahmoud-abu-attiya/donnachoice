@@ -119,7 +119,7 @@ export default function index({ blogs }) {
    )
 }
 export const getStaticProps = async () => {
-   const res = await fetch('http://3.83.152.24/api/blog/');
+   const res = await fetch('https://backends.donnachoice.com/api/blog/');
    let blogs = await res.json();
    return {
       props: {
