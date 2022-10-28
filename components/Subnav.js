@@ -71,7 +71,7 @@ const Subnav = () => {
                      about us
                   </a>
                </Link>
-               <Link href={"#"}>
+               <Link href={"/profile"}>
                   <a className='border-r px-4 border-gray-900/25'>
                      Account
                   </a>

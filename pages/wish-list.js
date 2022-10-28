@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import React, { useState } from 'react'
 import { useEffect } from 'react';
 import ProductBox from '../components/ProductBox';
@@ -18,25 +19,29 @@ const WishList = () => {
    const [products, setProducts] = useState([])
    const [loading, setLoading] = useState(true)
    useEffect(() => {
-      const auth = false
-      if(!auth){
+      const auth = Cookies.get("auth")
+      if (!auth) {
          const storedWishlist = JSON.parse(localStorage.getItem("stored-wishlist")) || []
-         if(storedWishlist.length < 1){
+         if (storedWishlist.length < 1) {
             storedWishlist.push("---")
          }
          axios.get('https://backends.donnachoice.com/api/products/?slug__in=' + storedWishlist).then(res => {
             setProducts(res.data)
             setLoading(false)
          })
-      }else{
-         axios.get('https://backends.donnachoice.com/api/products/?is_wishlist=1').then(res => {
+      } else {
+         axios.get('https://backends.donnachoice.com/api/products/?is_wishlist=1', {
+            headers: {
+               Authorization: `Bearer ${Cookies.get("token")}`,
+            },
+         }).then(res => {
             setProducts(res.data)
             setLoading(false)
          })
       }
    }, []);
 
-   if(loading){
+   if (loading) {
       return <>
          <div>
             <p>Loading</p>
@@ -47,13 +52,13 @@ const WishList = () => {
    return (
       <div className='container p-5 flex flex-col items-center sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
          {products.length == 0 ? "there is no products in wishlist yet."
-         : (
-         products.map(product => {
-            return(
-               <ProductBox key={product.id} product={product} />
-            )
-         })
-      )}</div>
+            : (
+               products.map(product => {
+                  return (
+                     <ProductBox key={product.id} product={product} />
+                  )
+               })
+            )}</div>
    )
 }
 

@@ -8,6 +8,7 @@ import { setCartCount } from "../slices/cartIndicatorSlice"
 // import { useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 const getNumberOfProductsInWishlist = () => {
    const storedWishlist = JSON.parse(localStorage.getItem("stored-wishlist")) || []
@@ -21,21 +22,21 @@ const getNumberOfProductsInCart = () => {
 
 const handleWishlistLocalStorage = (heartElement, itemSlug, changed) => {
    const storedWishlist = JSON.parse(localStorage.getItem("stored-wishlist")) || []
-   if(storedWishlist.includes(itemSlug)){
-      if(changed){
+   if (storedWishlist.includes(itemSlug)) {
+      if (changed) {
          storedWishlist.splice(storedWishlist.indexOf(itemSlug), 1)
          heartElement.current.classList.remove("fas")
          heartElement.current.classList.add("far")
-      }else{
+      } else {
          heartElement.current.classList.add("fas")
          heartElement.current.classList.remove("far")
       }
-   }else{
-      if(changed){
+   } else {
+      if (changed) {
          storedWishlist.push(itemSlug)
          heartElement.current.classList.remove("far")
          heartElement.current.classList.add("fas")
-      }else{
+      } else {
          heartElement.current.classList.add("far")
          heartElement.current.classList.remove("fas")
       }
@@ -45,18 +46,18 @@ const handleWishlistLocalStorage = (heartElement, itemSlug, changed) => {
 
 const handleCartLocalStorage = (addToCartButton, itemSlug, changed) => {
    const storedCart = JSON.parse(localStorage.getItem("stored-cart")) || []
-   if(storedCart.includes(itemSlug)){
-      if(changed){
+   if (storedCart.includes(itemSlug)) {
+      if (changed) {
          storedCart.splice(storedCart.indexOf(itemSlug), 1)
          addToCartButton.current.textContent = "Add to cart"
-      }else{
+      } else {
          addToCartButton.current.textContent = "Remove from cart"
       }
-   }else{
-      if(changed){
+   } else {
+      if (changed) {
          storedCart.push(itemSlug)
          addToCartButton.current.textContent = "Remove from cart"
-      }else{
+      } else {
          addToCartButton.current.textContent = "Add to cart"
       }
    }
@@ -67,7 +68,7 @@ const ProductBox = (props) => {
    const heartIcon = useRef()
    const cartBtn = useRef()
    const dispatch = useDispatch()
-   useEffect(()=>{
+   useEffect(() => {
       handleWishlistLocalStorage(heartIcon, props.product.slug, false)
       handleCartLocalStorage(cartBtn, props.product.slug, false)
    }, [])
@@ -79,23 +80,38 @@ const ProductBox = (props) => {
       // } else {
       //    dispatch(addToWishList(item))
       // }
-      const auth = false
-      if(!auth){
+      const auth = Cookies.get("auth")
+      if (!auth) {
          handleWishlistLocalStorage(heartIcon, item, true)
          dispatch(setAmount(getNumberOfProductsInWishlist()))
          return
       }
       console.log(isWish);
       if (isWish) {
-         axios.post(`https://backends.donnachoice.com/api/products/${item}/remove_from_wishlist/`).then((res) => console.log(res.data))
+         // axios.post(`https://backends.donnachoice.com/api/products/${item}/remove_from_wishlist/`, {
+         axios.post(`https://backends.donnachoice.com/api/products/update_wishlist/`, {
+            headers: {
+               Authorization: `Bearer ${Cookies.get("token")}`,
+            },
+         })
+            .then((res) => {
+               console.log(res.data)
+            })
       } else {
-         axios.post(`https://backends.donnachoice.com/api/products/${item}/add_to_wishlist/`).then((res) => console.log(res.data))
+         axios.post(`https://backends.donnachoice.com/api/products/${item}/add_to_wishlist/`, {
+            headers: {
+               Authorization: `Bearer ${Cookies.get("token")}`,
+            },
+         })
+            .then((res) => {
+               console.log(res.data)
+            })
       }
    }
 
    const handleCart = (item) => {
-      const auth = false
-      if(!auth){
+      const auth = Cookies.get("auth")
+      if (!auth) {
          handleCartLocalStorage(cartBtn, item, true)
          dispatch(setCartCount(getNumberOfProductsInCart()))
          return
