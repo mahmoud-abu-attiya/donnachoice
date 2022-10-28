@@ -26,11 +26,13 @@ export default function Login() {
          axios.post("https://backends.donnachoice.com/api/users/login/", myStatus)
             .then(res => {
                Cookies.set("token", res.data.access)
-               console.log(res.data);
+               Cookies.set("auth" , true)
+               location.reload();
+               // console.log(res.data);
             }).catch(err => {
                setLoading(false)
-               console.log(err);
-               console.log(err.response);
+               // console.log(err);
+               // console.log(err.response);
                setLogError(true)
             })
       }
@@ -57,18 +59,20 @@ export default function Login() {
             myStatus
          )
             .then(res => {
-               console.log(res.data);
+               // console.log(res.data);
                Cookies.set("token", res.data.access)
+               Cookies.set("auth", true)
+               location.reload();
             }).catch(err => {
                setLoading(false)
                let res = err.response.data
                console.log(res);
                if (res.hasOwnProperty("email")) {
-                  console.log(res.email);
+                  // console.log(res.email);
                   setEmailError(res.email);
                }
                if (res.hasOwnProperty("password")) {
-                  console.log(res.password);
+                  // console.log(res.password);
                   setPasswordError(res.password);
                }
             })

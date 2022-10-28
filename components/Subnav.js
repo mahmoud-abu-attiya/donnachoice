@@ -14,12 +14,12 @@ const Subnav = () => {
 
    const [wishListCount, setwishListCount] = useState();
    const [cartCount, setcartCount] = useState();
-   useEffect(() => {
-      axios.get("https://backends.donnachoice.com/api/counts").then(res => {
-         setwishListCount(res.data.wishlist)
-         setcartCount(res.data.cart)
-      })
-   }, [wishListCount]);
+   // useEffect(() => {
+   //    axios.get("https://backends.donnachoice.com/api/counts").then(res => {
+   //       setwishListCount(res.data.wishlist)
+   //       setcartCount(res.data.cart)
+   //    })
+   // }, [wishListCount]);
    return (
       <div className='bg-primary px-2 sm:px-4 py-2.5 text-white'>
          <div className="container flex justify-between items-center flex-wrap">
