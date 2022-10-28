@@ -21,6 +21,9 @@ const WishList = () => {
       const auth = false
       if(!auth){
          const storedWishlist = JSON.parse(localStorage.getItem("stored-wishlist")) || []
+         if(storedWishlist.length < 1){
+            storedWishlist.push("---")
+         }
          axios.get('https://backends.donnachoice.com/api/products/?slug__in=' + storedWishlist).then(res => {
             setProducts(res.data)
             setLoading(false)

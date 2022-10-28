@@ -3,6 +3,7 @@ import React, { useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { increment } from "../slices/cartSlice"
 import { setAmount } from "../slices/wishlistIndicatorSlice"
+import { setCartCount } from "../slices/cartIndicatorSlice"
 // import { addToWishList, removeFromWishList } from "../slices/wishListSlice"
 // import { useSelector } from 'react-redux'
 import { useEffect } from 'react'
@@ -11,6 +12,11 @@ import axios from 'axios'
 const getNumberOfProductsInWishlist = () => {
    const storedWishlist = JSON.parse(localStorage.getItem("stored-wishlist")) || []
    return storedWishlist.length
+}
+
+const getNumberOfProductsInCart = () => {
+   const storedCart = JSON.parse(localStorage.getItem("stored-cart")) || []
+   return storedCart.length
 }
 
 const handleWishlistLocalStorage = (heartElement, itemSlug, changed) => {
@@ -35,6 +41,16 @@ const handleWishlistLocalStorage = (heartElement, itemSlug, changed) => {
       }
    }
    localStorage.setItem("stored-wishlist", JSON.stringify(storedWishlist))
+}
+
+const handleCartLocalStorage = (itemSlug) => {
+   const storedCart = JSON.parse(localStorage.getItem("stored-cart")) || []
+   if(storedCart.includes(itemSlug)){
+      console.log("Product already exists")
+   }else{
+      storedCart.push(itemSlug)
+   }
+   localStorage.setItem("stored-cart", JSON.stringify(storedCart))
 }
 
 const ProductBox = (props) => {
@@ -64,9 +80,20 @@ const ProductBox = (props) => {
          axios.post(`https://backends.donnachoice.com/api/products/${item}/add_to_wishlist/`).then((res) => console.log(res.data))
       }
    }
+
+   const handleCart = (item) => {
+      const auth = false
+      if(!auth){
+         handleCartLocalStorage(item)
+         dispatch(setCartCount(getNumberOfProductsInCart()))
+         return
+      }
+   }
+
    useEffect(() => {
       console.log(props.product);
    }, []);
+
    return (
       <div className="w-full relative border max-w-sm bg-gray-100 rounded-lg shadow-md">
          <div className="wish absolute top-[1rem] text-red-500 text-xl right-[1rem]">
@@ -96,7 +123,7 @@ const ProductBox = (props) => {
             <span className="text-3xl font-bold text-gray-900">${props.product.price}</span>
             <button
                className="text-white bg-primary hover:bg-primary/75 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-               onClick={() => dispatch(increment(props.product.slug))}
+               onClick={() => handleCart(props.product.slug)}
             >
                Add to cart
             </button>
