@@ -1,15 +1,76 @@
 import Link from 'next/link'
-import React from 'react'
+import React, { useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { increment } from "../slices/cartSlice"
+import { setAmount } from "../slices/wishlistIndicatorSlice"
+import { setCartCount } from "../slices/cartIndicatorSlice"
 // import { addToWishList, removeFromWishList } from "../slices/wishListSlice"
 // import { useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import axios from 'axios'
 
+const getNumberOfProductsInWishlist = () => {
+   const storedWishlist = JSON.parse(localStorage.getItem("stored-wishlist")) || []
+   return storedWishlist.length
+}
+
+const getNumberOfProductsInCart = () => {
+   const storedCart = JSON.parse(localStorage.getItem("stored-cart")) || []
+   return storedCart.length
+}
+
+const handleWishlistLocalStorage = (heartElement, itemSlug, changed) => {
+   const storedWishlist = JSON.parse(localStorage.getItem("stored-wishlist")) || []
+   if(storedWishlist.includes(itemSlug)){
+      if(changed){
+         storedWishlist.splice(storedWishlist.indexOf(itemSlug), 1)
+         heartElement.current.classList.remove("fas")
+         heartElement.current.classList.add("far")
+      }else{
+         heartElement.current.classList.add("fas")
+         heartElement.current.classList.remove("far")
+      }
+   }else{
+      if(changed){
+         storedWishlist.push(itemSlug)
+         heartElement.current.classList.remove("far")
+         heartElement.current.classList.add("fas")
+      }else{
+         heartElement.current.classList.add("far")
+         heartElement.current.classList.remove("fas")
+      }
+   }
+   localStorage.setItem("stored-wishlist", JSON.stringify(storedWishlist))
+}
+
+const handleCartLocalStorage = (addToCartButton, itemSlug, changed) => {
+   const storedCart = JSON.parse(localStorage.getItem("stored-cart")) || []
+   if(storedCart.includes(itemSlug)){
+      if(changed){
+         storedCart.splice(storedCart.indexOf(itemSlug), 1)
+         addToCartButton.current.textContent = "Add to cart"
+      }else{
+         addToCartButton.current.textContent = "Remove from cart"
+      }
+   }else{
+      if(changed){
+         storedCart.push(itemSlug)
+         addToCartButton.current.textContent = "Remove from cart"
+      }else{
+         addToCartButton.current.textContent = "Add to cart"
+      }
+   }
+   localStorage.setItem("stored-cart", JSON.stringify(storedCart))
+}
 
 const ProductBox = (props) => {
+   const heartIcon = useRef()
+   const cartBtn = useRef()
    const dispatch = useDispatch()
+   useEffect(()=>{
+      handleWishlistLocalStorage(heartIcon, props.product.slug, false)
+      handleCartLocalStorage(cartBtn, props.product.slug, false)
+   }, [])
    // const wishList = useSelector((state) => state.wishList.value)
    // const [wished, setwished] = useState(false);
    const handleWishList = (item, isWish) => {
@@ -18,6 +79,12 @@ const ProductBox = (props) => {
       // } else {
       //    dispatch(addToWishList(item))
       // }
+      const auth = false
+      if(!auth){
+         handleWishlistLocalStorage(heartIcon, item, true)
+         dispatch(setAmount(getNumberOfProductsInWishlist()))
+         return
+      }
       console.log(isWish);
       if (isWish) {
          axios.post(`https://backends.donnachoice.com/api/products/${item}/remove_from_wishlist/`).then((res) => console.log(res.data))
@@ -25,14 +92,25 @@ const ProductBox = (props) => {
          axios.post(`https://backends.donnachoice.com/api/products/${item}/add_to_wishlist/`).then((res) => console.log(res.data))
       }
    }
+
+   const handleCart = (item) => {
+      const auth = false
+      if(!auth){
+         handleCartLocalStorage(cartBtn, item, true)
+         dispatch(setCartCount(getNumberOfProductsInCart()))
+         return
+      }
+   }
+
    useEffect(() => {
       console.log(props.product);
    }, []);
+
    return (
       <div className="w-full relative border max-w-sm bg-gray-100 rounded-lg shadow-md">
          <div className="wish absolute top-[1rem] text-red-500 text-xl right-[1rem]">
             <button className='z-10' onClick={() => handleWishList(props.product.slug, props.product.is_wishlist)}>
-               <i className="far fa-heart"></i>
+               <i ref={heartIcon} className="far fa-heart"></i>
             </button>
          </div>
          <Link href={`/products/${props.product.slug}`}>
@@ -55,9 +133,9 @@ const ProductBox = (props) => {
          </Link>
          <div className="flex flex-wrap justify-between items-center px-5 pb-5">
             <span className="text-3xl font-bold text-gray-900">${props.product.price}</span>
-            <button
+            <button ref={cartBtn}
                className="text-white bg-primary hover:bg-primary/75 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-               onClick={() => dispatch(increment(props.product.slug))}
+               onClick={() => handleCart(props.product.slug)}
             >
                Add to cart
             </button>
