@@ -2,8 +2,12 @@ import React from 'react'
 import Axios from "axios";
 
 const Brand = ({ blog }) => {
+   console.log(blog)
    return (
-      <div>{blog && blog.name}</div>
+      <div>
+         <h3 className='text-xl font-bold'>{blog && blog.name}</h3>
+         <div dangerouslySetInnerHTML={{ __html: blog.description }}></div>
+      </div>
    )
 }
 
