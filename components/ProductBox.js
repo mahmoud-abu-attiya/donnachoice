@@ -1,15 +1,48 @@
 import Link from 'next/link'
-import React from 'react'
+import React, { useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { increment } from "../slices/cartSlice"
+import { setAmount } from "../slices/wishlistIndicatorSlice"
 // import { addToWishList, removeFromWishList } from "../slices/wishListSlice"
 // import { useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import axios from 'axios'
 
+const getNumberOfProductsInWishlist = () => {
+   const storedWishlist = JSON.parse(localStorage.getItem("stored-wishlist")) || []
+   return storedWishlist.length
+}
+
+const handleWishlistLocalStorage = (heartElement, itemSlug, changed) => {
+   const storedWishlist = JSON.parse(localStorage.getItem("stored-wishlist")) || []
+   if(storedWishlist.includes(itemSlug)){
+      if(changed){
+         storedWishlist.splice(storedWishlist.indexOf(itemSlug), 1)
+         heartElement.current.classList.remove("fas")
+         heartElement.current.classList.add("far")
+      }else{
+         heartElement.current.classList.add("fas")
+         heartElement.current.classList.remove("far")
+      }
+   }else{
+      if(changed){
+         storedWishlist.push(itemSlug)
+         heartElement.current.classList.remove("far")
+         heartElement.current.classList.add("fas")
+      }else{
+         heartElement.current.classList.add("far")
+         heartElement.current.classList.remove("fas")
+      }
+   }
+   localStorage.setItem("stored-wishlist", JSON.stringify(storedWishlist))
+}
 
 const ProductBox = (props) => {
+   const heartIcon = useRef()
    const dispatch = useDispatch()
+   useEffect(()=>{
+      handleWishlistLocalStorage(heartIcon, props.product.slug, false)
+   }, [])
    // const wishList = useSelector((state) => state.wishList.value)
    // const [wished, setwished] = useState(false);
    const handleWishList = (item, isWish) => {
@@ -18,6 +51,12 @@ const ProductBox = (props) => {
       // } else {
       //    dispatch(addToWishList(item))
       // }
+      const auth = false
+      if(!auth){
+         handleWishlistLocalStorage(heartIcon, item, true)
+         dispatch(setAmount(getNumberOfProductsInWishlist()))
+         return
+      }
       console.log(isWish);
       if (isWish) {
          axios.post(`https://backends.donnachoice.com/api/products/${item}/remove_from_wishlist/`).then((res) => console.log(res.data))
@@ -32,7 +71,7 @@ const ProductBox = (props) => {
       <div className="w-full relative border max-w-sm bg-gray-100 rounded-lg shadow-md">
          <div className="wish absolute top-[1rem] text-red-500 text-xl right-[1rem]">
             <button className='z-10' onClick={() => handleWishList(props.product.slug, props.product.is_wishlist)}>
-               <i className="far fa-heart"></i>
+               <i ref={heartIcon} className="far fa-heart"></i>
             </button>
          </div>
          <Link href={`/products/${props.product.slug}`}>

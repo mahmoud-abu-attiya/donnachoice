@@ -2,11 +2,23 @@ import Link from 'next/link'
 import React from 'react'
 // import { useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { setAmount } from "../slices/wishlistIndicatorSlice"
 import axios from 'axios'
 import Langs from './Langs'
 import Currencies from './Currencies'
 
+const getNumberOfProductsInWishlist = () => {
+   const storedWishlist = JSON.parse(localStorage.getItem("stored-wishlist")) || []
+   return storedWishlist.length
+}
+
 const Subnav = () => {
+   const wishlistIndicator = useSelector(state => state.wishlistIndicator.count)
+   const dispatch = useDispatch()
+   useEffect(()=>{
+      dispatch(setAmount(getNumberOfProductsInWishlist()))
+   }, [])
 
 // export default function Subnav () {
    // const cartCount = useSelector((state) => state.cart.value)
@@ -70,7 +82,7 @@ const Subnav = () => {
                         className="top-0 left-full absolute w-5 h-5 bg-red-500 border-2 border-white rounded-full text-sm flex items-center justify-center"
                         style={{ transform: "translate(-50%,-50%)" }}
                      >
-                        {wishListCount}
+                        {wishlistIndicator}
                      </span>
                   </a>
                </Link>
