@@ -43,21 +43,33 @@ const handleWishlistLocalStorage = (heartElement, itemSlug, changed) => {
    localStorage.setItem("stored-wishlist", JSON.stringify(storedWishlist))
 }
 
-const handleCartLocalStorage = (itemSlug) => {
+const handleCartLocalStorage = (addToCartButton, itemSlug, changed) => {
    const storedCart = JSON.parse(localStorage.getItem("stored-cart")) || []
    if(storedCart.includes(itemSlug)){
-      console.log("Product already exists")
+      if(changed){
+         storedCart.splice(storedCart.indexOf(itemSlug), 1)
+         addToCartButton.current.textContent = "Add to cart"
+      }else{
+         addToCartButton.current.textContent = "Remove from cart"
+      }
    }else{
-      storedCart.push(itemSlug)
+      if(changed){
+         storedCart.push(itemSlug)
+         addToCartButton.current.textContent = "Remove from cart"
+      }else{
+         addToCartButton.current.textContent = "Add to cart"
+      }
    }
    localStorage.setItem("stored-cart", JSON.stringify(storedCart))
 }
 
 const ProductBox = (props) => {
    const heartIcon = useRef()
+   const cartBtn = useRef()
    const dispatch = useDispatch()
    useEffect(()=>{
       handleWishlistLocalStorage(heartIcon, props.product.slug, false)
+      handleCartLocalStorage(cartBtn, props.product.slug, false)
    }, [])
    // const wishList = useSelector((state) => state.wishList.value)
    // const [wished, setwished] = useState(false);
@@ -84,7 +96,7 @@ const ProductBox = (props) => {
    const handleCart = (item) => {
       const auth = false
       if(!auth){
-         handleCartLocalStorage(item)
+         handleCartLocalStorage(cartBtn, item, true)
          dispatch(setCartCount(getNumberOfProductsInCart()))
          return
       }
@@ -121,7 +133,7 @@ const ProductBox = (props) => {
          </Link>
          <div className="flex flex-wrap justify-between items-center px-5 pb-5">
             <span className="text-3xl font-bold text-gray-900">${props.product.price}</span>
-            <button
+            <button ref={cartBtn}
                className="text-white bg-primary hover:bg-primary/75 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                onClick={() => handleCart(props.product.slug)}
             >
