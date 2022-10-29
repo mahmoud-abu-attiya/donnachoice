@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import React, { useState } from 'react'
 import { useEffect } from 'react';
-import ProductBox from '../components/ProductBox';
+import CartItem from '../components/CartItem';
 
 // export const getStaticProps = async () => {
 //    const res = await fetch('https://backends.donnachoice.com/api/products/?slug__in=product,item-2');
@@ -27,7 +27,9 @@ const Cart = () => {
             storedCart.push("---")
          }
          console.log(storedCart)
-         axios.get('https://backends.donnachoice.com/api/products/?slug__in=' + storedCart).then(res => {
+         const storedCartIds = storedCart.map(item => item.id)
+         axios.get(`https://backends.donnachoice.com/api/products/options/?ids=${storedCartIds}`).then(res => {
+            console.log(res.data)
             setProducts(res.data)
             setLoading(false)
          })
@@ -54,13 +56,13 @@ const Cart = () => {
    return (
       <div className='container p-5 flex flex-col items-center sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
          {products.length == 0 ? "there is no products in cart yet."
-            : (
-               products.map(product => {
-                  return (
-                     <ProductBox key={product.id} product={product} />
-                  )
-               })
-            )}</div>
+         : (
+            products.map(product => {
+               return (
+                  <CartItem key={product.id} product={product} />
+               )
+            })
+         )}</div>
    )
 }
 
