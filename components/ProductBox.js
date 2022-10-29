@@ -50,21 +50,34 @@ const handleWishlistLocalStorage = (heartElement, itemSlug, changed) => {
    localStorage.setItem("stored-wishlist", JSON.stringify(storedWishlist))
 }
 
-const handleCartLocalStorage = (addToCartButton, itemSlug, changed) => {
+const handleCartLocalStorage = (addToCartButton, itemId, changed) => {
    const storedCart = JSON.parse(localStorage.getItem("stored-cart")) || []
-   if (storedCart.includes(itemSlug)) {
+   const storedCartIds = storedCart.map(cartId => cartId.id)
+   if (storedCartIds.includes(itemId)) {
       if (changed) {
-         storedCart.splice(storedCart.indexOf(itemSlug), 1)
-         addToCartButton.current.textContent = "Add to cart"
+         console.log(storedCart)
+         console.log(itemId)
+         for(let i=0; i<storedCart.length; i++){
+            console.log("LOOP")
+            if(storedCart[i].id === itemId){
+               console.log("IF", storedCart[i].id, itemId, i)
+               storedCart.splice(i, 1)
+               break
+            }
+         }
+         addToCartButton.textContent = "add"
       } else {
-         addToCartButton.current.textContent = "Remove from cart"
+         addToCartButton.textContent = "remove"
       }
    } else {
       if (changed) {
-         storedCart.push(itemSlug)
-         addToCartButton.current.textContent = "Remove from cart"
+         storedCart.push({
+            id: itemId,
+            amount: 1
+         })
+         addToCartButton.textContent = "remove"
       } else {
-         addToCartButton.current.textContent = "Add to cart"
+         addToCartButton.textContent = "add"
       }
    }
    localStorage.setItem("stored-cart", JSON.stringify(storedCart))
@@ -95,15 +108,16 @@ const handleCompareLocalStorage = (compareElement, itemSlug, changed) => {
 }
 
 const ProductBox = (props) => {
+   const storedCart = JSON.parse(localStorage.getItem("stored-cart")) || []
+   const storedCartIds = storedCart.map(cartId => cartId.id)
    const auth = Cookies.get("auth")
    const heartIcon = useRef()
    const compareIcon = useRef()
-   const cartBtn = useRef()
+   const optionsMenu = useRef()
    const dispatch = useDispatch()
    useEffect(() => {
       if (!auth) {
          handleWishlistLocalStorage(heartIcon, props.product.slug, false)
-         handleCartLocalStorage(cartBtn, props.product.slug, false)
          handleCompareLocalStorage(compareIcon, props.product.slug, false)
       }
    }, [])
@@ -150,12 +164,22 @@ const ProductBox = (props) => {
       }
    }
 
-   const handleCart = (item) => {
+   const handleCart = (cartBtn, itemId) => {
       const auth = Cookies.get("auth")
       if (!auth) {
-         handleCartLocalStorage(cartBtn, item, true)
+         handleCartLocalStorage(cartBtn, itemId, true)
          dispatch(setCartCount(getNumberOfProductsInCart()))
          return
+      }
+   }
+
+   const toggleOptionsMenu = () => {
+      if(optionsMenu.current){
+         if(optionsMenu.current.classList.contains("hidden")){
+            optionsMenu.current.classList.remove("hidden")
+         }else{
+            optionsMenu.current.classList.add("hidden")
+         }
       }
    }
 
@@ -200,15 +224,27 @@ const ProductBox = (props) => {
          </Link>
          <div className="flex flex-wrap justify-between items-center px-5 pb-5">
             <span className="text-3xl font-bold text-gray-900">${props.product.price}</span>
-            <button ref={cartBtn}
-               className="text-white bg-primary hover:bg-primary/75 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-               onClick={() => handleCart(props.product.slug)}
-            >
-               Add to cart
-            </button>
+            <div className='relative'>
+               <button
+                  className="text-white bg-primary hover:bg-primary/75 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                  onClick={() => toggleOptionsMenu(props.product.slug)}
+               >
+                  Add to cart
+               </button>
+               {props.product.options.length > 0 ? <div ref={optionsMenu} className='absolute right-0 top-full w-48 p-3 bg-white shadow rounded z-10 hidden'>
+                  {props.product.options.map(option => {
+                     return <div className='grid grid-cols-3 option'>
+                        <span>{option.name}</span>
+                        <span>{option.price}$</span>
+                        <button data-slug={props.product.slug} onClick={(e) => handleCart(e.target, option.id)}>
+                        {storedCartIds.includes(option.id) ? "remove" : "add"}
+                        </button>
+                     </div>
+                  })}
+               </div> : null}
+            </div>
          </div>
       </div>
-
    )
 }
 
