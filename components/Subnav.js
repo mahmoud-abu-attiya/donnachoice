@@ -37,6 +37,15 @@ const Subnav = () => {
          dispatch(setAmount(getNumberOfProductsInWishlist()))
          dispatch(setCartCount(getNumberOfProductsInCart()))
          dispatch(setCompareCount(getNumberOfProductsInCompare()))
+      }else{
+         axios.get(`https://backends.donnachoice.com/api/counts`,{
+            headers: {
+               Authorization: `Bearer ${Cookies.get("token")}`,
+            },
+         })
+         .then(res => {
+            dispatch(setAmount(res.data.wishlist))
+         })
       }
    }, [])
 

@@ -2,6 +2,7 @@ import ProductBox from "../../components/ProductBox";
 import { useEffect, useState } from "react";
 import Hero from "../../components/Hero";
 import axios from "axios";
+import Cookies from 'js-cookie'
 
 export const getStaticProps = async () => {
    // const proRes = await fetch('https://backends.donnachoice.com/api/products/');
@@ -22,7 +23,17 @@ export default function Products({  brands }) {
    const [query, setQuery] = useState("");
    const [products, setProducts] = useState([])
    useEffect(() => {
-      axios.get("https://backends.donnachoice.com/api/products/").then(res => setProducts(res.data))
+      const auth = Cookies.get("auth")
+      if (!auth) {
+         axios.get("https://backends.donnachoice.com/api/products/").then(res => setProducts(res.data))
+      }else{
+         axios.get("https://backends.donnachoice.com/api/products/", {
+            headers: {
+               Authorization: `Bearer ${Cookies.get("token")}`
+            }
+         }).then(res => setProducts(res.data))
+      }
+      
       // console.log(products);
    }, []);
    return (

@@ -134,9 +134,10 @@ const ProductBox = (props) => {
          dispatch(setAmount(getNumberOfProductsInWishlist()))
          return
       }
+      isWish = heartIcon.current.classList.contains("fas")
       console.log(isWish);
       if (isWish) {
-         axios.delete(`https://backends.donnachoice.com/api/products/update_wishlist/`, {
+         axios.post(`https://backends.donnachoice.com/api/products/remove_from_wishlist/`, {
                products: [
                   item
                ]
@@ -147,6 +148,16 @@ const ProductBox = (props) => {
             })
             .then((res) => {
                console.log(res.data)
+               heartIcon.current.classList.remove("fas")
+               heartIcon.current.classList.add("far")
+               axios.get(`https://backends.donnachoice.com/api/counts`,{
+                  headers: {
+                     Authorization: `Bearer ${Cookies.get("token")}`,
+                  },
+               })
+               .then(res => {
+                  dispatch(setAmount(res.data.wishlist))
+               })
             })
       } else {
          axios.post(`https://backends.donnachoice.com/api/products/update_wishlist/`, {
@@ -160,6 +171,16 @@ const ProductBox = (props) => {
             })
             .then((res) => {
                console.log(res.data)
+               heartIcon.current.classList.add("fas")
+               heartIcon.current.classList.remove("far")
+               axios.get(`https://backends.donnachoice.com/api/counts`,{
+                  headers: {
+                     Authorization: `Bearer ${Cookies.get("token")}`,
+                  },
+               })
+               .then(res => {
+                  dispatch(setAmount(res.data.wishlist))
+               })
             })
       }
    }
@@ -196,7 +217,7 @@ const ProductBox = (props) => {
       <div className="w-full relative border max-w-sm bg-gray-100 rounded-lg shadow-md">
          <div className="wish absolute top-[1rem] text-red-500 text-xl right-[1rem]">
             <button className='z-10' onClick={() => handleWishList(props.product.slug, props.product.is_wishlist)}>
-               <i ref={heartIcon} className="far fa-heart"></i>
+               {props.product.is_wishlist ? <i ref={heartIcon} className="fas fa-heart"></i> : <i ref={heartIcon} className="far fa-heart"></i>}
             </button>
          </div>
          <div className="wish absolute top-[1rem] text-blue-500 text-xl left-[1rem]">
