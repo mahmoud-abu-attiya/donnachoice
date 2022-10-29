@@ -57,9 +57,9 @@ const handleCartLocalStorage = (addToCartButton, itemId, changed) => {
       if (changed) {
          console.log(storedCart)
          console.log(itemId)
-         for(let i=0; i<storedCart.length; i++){
+         for (let i = 0; i < storedCart.length; i++) {
             console.log("LOOP")
-            if(storedCart[i].id === itemId){
+            if (storedCart[i].id === itemId) {
                console.log("IF", storedCart[i].id, itemId, i)
                storedCart.splice(i, 1)
                break
@@ -138,49 +138,49 @@ const ProductBox = (props) => {
       console.log(isWish);
       if (isWish) {
          axios.post(`https://backends.donnachoice.com/api/products/remove_from_wishlist/`, {
-               products: [
-                  item
-               ]
-            },{
-               headers: {
-                  Authorization: `Bearer ${Cookies.get("token")}`,
-               },
-            })
+            products: [
+               item
+            ]
+         }, {
+            headers: {
+               Authorization: `Bearer ${Cookies.get("token")}`,
+            },
+         })
             .then((res) => {
                console.log(res.data)
                heartIcon.current.classList.remove("fas")
                heartIcon.current.classList.add("far")
-               axios.get(`https://backends.donnachoice.com/api/counts`,{
+               axios.get(`https://backends.donnachoice.com/api/counts`, {
                   headers: {
                      Authorization: `Bearer ${Cookies.get("token")}`,
                   },
                })
-               .then(res => {
-                  dispatch(setAmount(res.data.wishlist))
-               })
+                  .then(res => {
+                     dispatch(setAmount(res.data.wishlist))
+                  })
             })
       } else {
          axios.post(`https://backends.donnachoice.com/api/products/update_wishlist/`, {
-               products: [
-                  item
-               ]
-            },{
-               headers: {
-                  Authorization: `Bearer ${Cookies.get("token")}`,
-               },
-            })
+            products: [
+               item
+            ]
+         }, {
+            headers: {
+               Authorization: `Bearer ${Cookies.get("token")}`,
+            },
+         })
             .then((res) => {
                console.log(res.data)
                heartIcon.current.classList.add("fas")
                heartIcon.current.classList.remove("far")
-               axios.get(`https://backends.donnachoice.com/api/counts`,{
+               axios.get(`https://backends.donnachoice.com/api/counts`, {
                   headers: {
                      Authorization: `Bearer ${Cookies.get("token")}`,
                   },
                })
-               .then(res => {
-                  dispatch(setAmount(res.data.wishlist))
-               })
+                  .then(res => {
+                     dispatch(setAmount(res.data.wishlist))
+                  })
             })
       }
    }
@@ -195,10 +195,10 @@ const ProductBox = (props) => {
    }
 
    const toggleOptionsMenu = () => {
-      if(optionsMenu.current){
-         if(optionsMenu.current.classList.contains("hidden")){
+      if (optionsMenu.current) {
+         if (optionsMenu.current.classList.contains("hidden")) {
             optionsMenu.current.classList.remove("hidden")
-         }else{
+         } else {
             optionsMenu.current.classList.add("hidden")
          }
       }
@@ -254,13 +254,13 @@ const ProductBox = (props) => {
                </button>
                {props.product.options.length > 0 ? <div ref={optionsMenu} className='absolute right-0 top-full w-48 p-3 bg-white shadow rounded z-10 hidden'>
                   {props.product.options.map(option => {
-                     return <div className='grid grid-cols-3 option'>
+                     return (<div key={option.id} className='grid grid-cols-3 option'>
                         <span>{option.name}</span>
                         <span>{option.price}$</span>
                         <button data-slug={props.product.slug} onClick={(e) => handleCart(e.target, option.id)}>
-                        {storedCartIds.includes(option.id) ? "remove" : "add"}
+                           {storedCartIds.includes(option.id) ? "remove" : "add"}
                         </button>
-                     </div>
+                     </div>)
                   })}
                </div> : null}
             </div>
