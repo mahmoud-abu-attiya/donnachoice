@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux'
 import { increment } from "../slices/cartSlice"
 import { setAmount } from "../slices/wishlistIndicatorSlice"
 import { setCartCount } from "../slices/cartIndicatorSlice"
+import { setCompareCount } from "../slices/compareIndicatorSlice"
 // import { addToWishList, removeFromWishList } from "../slices/wishListSlice"
 // import { useSelector } from 'react-redux'
 import { useEffect } from 'react'
@@ -18,6 +19,11 @@ const getNumberOfProductsInWishlist = () => {
 const getNumberOfProductsInCart = () => {
    const storedCart = JSON.parse(localStorage.getItem("stored-cart")) || []
    return storedCart.length
+}
+
+const getNumberOfProductsInCompare = () => {
+   const storedCompare = JSON.parse(localStorage.getItem("stored-compare")) || []
+   return storedCompare.length
 }
 
 const handleWishlistLocalStorage = (heartElement, itemSlug, changed) => {
@@ -64,15 +70,41 @@ const handleCartLocalStorage = (addToCartButton, itemSlug, changed) => {
    localStorage.setItem("stored-cart", JSON.stringify(storedCart))
 }
 
+const handleCompareLocalStorage = (compareElement, itemSlug, changed) => {
+   const storedCompare = JSON.parse(localStorage.getItem("stored-compare")) || []
+   if (storedCompare.includes(itemSlug)) {
+      if (changed) {
+         storedCompare.splice(storedCompare.indexOf(itemSlug), 1)
+         compareElement.current.classList.remove("fa-check-circle")
+         compareElement.current.classList.add("fa-balance-scale")
+      } else {
+         compareElement.current.classList.add("fa-check-circle")
+         compareElement.current.classList.remove("fa-balance-scale")
+      }
+   } else {
+      if (changed) {
+         storedCompare.push(itemSlug)
+         compareElement.current.classList.remove("fa-balance-scale")
+         compareElement.current.classList.add("fa-check-circle")
+      } else {
+         compareElement.current.classList.add("fa-balance-scale")
+         compareElement.current.classList.remove("fa-check-circle")
+      }
+   }
+   localStorage.setItem("stored-compare", JSON.stringify(storedCompare))
+}
+
 const ProductBox = (props) => {
    const auth = Cookies.get("auth")
    const heartIcon = useRef()
+   const compareIcon = useRef()
    const cartBtn = useRef()
    const dispatch = useDispatch()
    useEffect(() => {
       if (!auth) {
          handleWishlistLocalStorage(heartIcon, props.product.slug, false)
          handleCartLocalStorage(cartBtn, props.product.slug, false)
+         handleCompareLocalStorage(compareIcon, props.product.slug, false)
       }
    }, [])
    // const wishList = useSelector((state) => state.wishList.value)
@@ -125,7 +157,11 @@ const ProductBox = (props) => {
          dispatch(setCartCount(getNumberOfProductsInCart()))
          return
       }
+   }
 
+   const handleCompare = (item) => {
+      handleCompareLocalStorage(compareIcon, item, true)
+      dispatch(setCompareCount(getNumberOfProductsInCompare()))
    }
 
    useEffect(() => {
@@ -137,6 +173,11 @@ const ProductBox = (props) => {
          <div className="wish absolute top-[1rem] text-red-500 text-xl right-[1rem]">
             <button className='z-10' onClick={() => handleWishList(props.product.slug, props.product.is_wishlist)}>
                <i ref={heartIcon} className="far fa-heart"></i>
+            </button>
+         </div>
+         <div className="wish absolute top-[1rem] text-blue-500 text-xl left-[1rem]">
+            <button className='z-10' onClick={() => handleCompare(props.product.slug)}>
+               <i ref={compareIcon} class="fas fa-balance-scale"></i>
             </button>
          </div>
          <Link href={`/products/${props.product.slug}`}>
