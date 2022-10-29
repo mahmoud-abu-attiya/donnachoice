@@ -47,6 +47,7 @@ const Subnav = () => {
             dispatch(setAmount(res.data.wishlist))
             dispatch(setCartCount(res.data.cart))
          })
+         dispatch(setCompareCount(getNumberOfProductsInCompare()))
       }
    }, [])
 
