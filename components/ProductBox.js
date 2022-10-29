@@ -108,14 +108,15 @@ const handleCompareLocalStorage = (compareElement, itemSlug, changed) => {
 }
 
 const ProductBox = (props) => {
-   const storedCart = JSON.parse(localStorage.getItem("stored-cart")) || []
-   const storedCartIds = storedCart.map(cartId => cartId.id)
+   let storedCart, storedCartIds = []
    const auth = Cookies.get("auth")
    const heartIcon = useRef()
    const compareIcon = useRef()
    const optionsMenu = useRef()
    const dispatch = useDispatch()
    useEffect(() => {
+      storedCart = JSON.parse(localStorage.getItem("stored-cart")) || []
+      storedCartIds = storedCart.map(cartId => cartId.id)
       if (!auth) {
          handleWishlistLocalStorage(heartIcon, props.product.slug, false)
          handleCompareLocalStorage(compareIcon, props.product.slug, false)
