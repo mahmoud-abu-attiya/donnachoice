@@ -27,6 +27,8 @@ export default function Login() {
             .then(res => {
                Cookies.set("token", res.data.access)
                Cookies.set("auth" , true)
+               localStorage.setItem("stored-cart", JSON.stringify([]))
+               localStorage.setItem("stored-wishlist", JSON.stringify([]))
                location.reload();
                // console.log(res.data);
             }).catch(err => {
@@ -38,6 +40,8 @@ export default function Login() {
       }
 
       const handleSignup = () => {
+         const storedWishlist = JSON.parse(localStorage.getItem("stored-wishlist")) || []
+
          setLoading(true);
          setEmailError([])
          setPasswordError([])
@@ -51,7 +55,7 @@ export default function Login() {
             last_name: lastName.value,
             email: signupEmail.value,
             password: signupPassword.value,
-            wishlist: [],
+            wishlist: storedWishlist,
          }
 
          axios.post(
@@ -62,6 +66,8 @@ export default function Login() {
                // console.log(res.data);
                Cookies.set("token", res.data.access)
                Cookies.set("auth", true)
+               localStorage.setItem("stored-cart", JSON.stringify([]))
+               localStorage.setItem("stored-wishlist", JSON.stringify([]))
                location.reload();
             }).catch(err => {
                setLoading(false)

@@ -8,6 +8,7 @@ import { setCartCount } from "../slices/cartIndicatorSlice"
 import axios from 'axios'
 import Langs from './Langs'
 import Currencies from './Currencies'
+import Cookies from 'js-cookie'
 
 const getNumberOfProductsInWishlist = () => {
    const storedWishlist = JSON.parse(localStorage.getItem("stored-wishlist")) || []
@@ -20,12 +21,15 @@ const getNumberOfProductsInCart = () => {
 }
 
 const Subnav = () => {
+   const auth = Cookies.get("auth")
    const wishlistIndicator = useSelector(state => state.wishlistIndicator.count)
    const cartIndicator = useSelector(state => state.cartIndicator.count)
    const dispatch = useDispatch()
    useEffect(()=>{
-      dispatch(setAmount(getNumberOfProductsInWishlist()))
-      dispatch(setCartCount(getNumberOfProductsInCart()))
+      if (!auth) {
+         dispatch(setAmount(getNumberOfProductsInWishlist()))
+         dispatch(setCartCount(getNumberOfProductsInCart()))
+      }
    }, [])
 
 // export default function Subnav () {

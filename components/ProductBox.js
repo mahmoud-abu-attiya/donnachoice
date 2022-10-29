@@ -65,12 +65,15 @@ const handleCartLocalStorage = (addToCartButton, itemSlug, changed) => {
 }
 
 const ProductBox = (props) => {
+   const auth = Cookies.get("auth")
    const heartIcon = useRef()
    const cartBtn = useRef()
    const dispatch = useDispatch()
    useEffect(() => {
-      handleWishlistLocalStorage(heartIcon, props.product.slug, false)
-      handleCartLocalStorage(cartBtn, props.product.slug, false)
+      if (!auth) {
+         handleWishlistLocalStorage(heartIcon, props.product.slug, false)
+         handleCartLocalStorage(cartBtn, props.product.slug, false)
+      }
    }, [])
    // const wishList = useSelector((state) => state.wishList.value)
    // const [wished, setwished] = useState(false);
@@ -80,7 +83,6 @@ const ProductBox = (props) => {
       // } else {
       //    dispatch(addToWishList(item))
       // }
-      const auth = Cookies.get("auth")
       if (!auth) {
          handleWishlistLocalStorage(heartIcon, item, true)
          dispatch(setAmount(getNumberOfProductsInWishlist()))
@@ -88,21 +90,28 @@ const ProductBox = (props) => {
       }
       console.log(isWish);
       if (isWish) {
-         // axios.post(`https://backends.donnachoice.com/api/products/${item}/remove_from_wishlist/`, {
-         axios.post(`https://backends.donnachoice.com/api/products/update_wishlist/`, {
-            headers: {
-               Authorization: `Bearer ${Cookies.get("token")}`,
-            },
-         })
+         axios.delete(`https://backends.donnachoice.com/api/products/update_wishlist/`, {
+               products: [
+                  item
+               ]
+            },{
+               headers: {
+                  Authorization: `Bearer ${Cookies.get("token")}`,
+               },
+            })
             .then((res) => {
                console.log(res.data)
             })
       } else {
-         axios.post(`https://backends.donnachoice.com/api/products/${item}/add_to_wishlist/`, {
-            headers: {
-               Authorization: `Bearer ${Cookies.get("token")}`,
-            },
-         })
+         axios.post(`https://backends.donnachoice.com/api/products/update_wishlist/`, {
+               products: [
+                  item
+               ]
+            },{
+               headers: {
+                  Authorization: `Bearer ${Cookies.get("token")}`,
+               },
+            })
             .then((res) => {
                console.log(res.data)
             })
@@ -116,6 +125,7 @@ const ProductBox = (props) => {
          dispatch(setCartCount(getNumberOfProductsInCart()))
          return
       }
+
    }
 
    useEffect(() => {
