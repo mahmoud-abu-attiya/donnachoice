@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setAmount } from "../slices/wishlistIndicatorSlice"
 import { setCartCount } from "../slices/cartIndicatorSlice"
+import { setCompareCount } from "../slices/compareIndicatorSlice"
 import axios from 'axios'
 import Langs from './Langs'
 import Currencies from './Currencies'
@@ -20,15 +21,22 @@ const getNumberOfProductsInCart = () => {
    return storedCart.length
 }
 
+const getNumberOfProductsInCompare = () => {
+   const storedCompare = JSON.parse(localStorage.getItem("stored-compare")) || []
+   return storedCompare.length
+}
+
 const Subnav = () => {
    const auth = Cookies.get("auth")
    const wishlistIndicator = useSelector(state => state.wishlistIndicator.count)
    const cartIndicator = useSelector(state => state.cartIndicator.count)
+   const compareIndicator = useSelector(state => state.compareIndicator.count)
    const dispatch = useDispatch()
    useEffect(()=>{
       if (!auth) {
          dispatch(setAmount(getNumberOfProductsInWishlist()))
          dispatch(setCartCount(getNumberOfProductsInCart()))
+         dispatch(setCompareCount(getNumberOfProductsInCompare()))
       }
    }, [])
 
@@ -106,6 +114,17 @@ const Subnav = () => {
                         style={{ transform: "translate(-50%,-50%)" }}
                      >
                         {cartIndicator}
+                     </span>
+                  </a>
+               </Link>
+               <Link href={"/compare"}>
+                  <a className="compare relative">
+                     <i class="fas fa-balance-scale"></i>
+                     <span
+                        className="top-0 left-full absolute w-5 h-5 bg-red-500 border-2 border-white rounded-full text-sm flex items-center justify-center"
+                        style={{ transform: "translate(-50%,-50%)" }}
+                     >
+                        {compareIndicator}
                      </span>
                   </a>
                </Link>
