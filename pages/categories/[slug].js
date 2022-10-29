@@ -21,7 +21,7 @@ const Cat = ({ brands }) => {
                {brands && brands.length != 0 ?
                   brands.map((brand) => {
                      return (
-                        <BrandSection key={brand.id} name={brand.name} slug={brand.slug} />
+                        <BrandSection key={brand.id} name={brand.name} slug={brand.slug} category_slug={slug} />
                      )
                   }) : (
                      <div className='text-2xl capitalize text-center col-span-4'>

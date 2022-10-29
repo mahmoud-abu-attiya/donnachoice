@@ -5,7 +5,7 @@ import logo from "../public/images/logo-placeholder.png"
 
 const BrandSection = (props) => {
    return (
-      <Link href={`/brands/${props.slug}`}>
+      <Link href={`/products?brand=${props.slug}${props.category_slug ? "&category=" + props.category_slug : ""} `}>
          <a>
             <div className='grid grid-cols-5 items-center bg-gray-100 px-6 py-4 gap-2 border border-gray-300 shadow rounded transition hover:shadow-md hover:scale-105'>
                <div className="col-span-2">

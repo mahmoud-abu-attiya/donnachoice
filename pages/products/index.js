@@ -5,36 +5,37 @@ import axios from "axios";
 import Cookies from 'js-cookie'
 
 export const getStaticProps = async () => {
-   // const proRes = await fetch('https://backends.donnachoice.com/api/products/');
-   // let products = await proRes.json();
-
    const brandRes = await fetch('https://backends.donnachoice.com/api/brand/');
    let brands = await brandRes.json();
-
    return {
       props: {
-         // products,
          brands,
       }
    }
 }
 
-export default function Products({  brands }) {
+export default function Products({ brands }) {
    const [query, setQuery] = useState("");
-   const [products, setProducts] = useState([])
+   const [products, setProducts] = useState([]);
    useEffect(() => {
+      let categorySlug;
+      let brandSlug = window.location.search.split("&")[0].split("=")[1]
+      if (window.location.search.split("=").length > 2) {
+         categorySlug = window.location.search.split("&")[1].split("=")[1]
+      }
+
+      const URL = `https://backends.donnachoice.com/api/products/?brand__slug=${brandSlug}${categorySlug ? "&category__slug=" + categorySlug : ""}`
+
       const auth = Cookies.get("auth")
       if (!auth) {
-         axios.get("https://backends.donnachoice.com/api/products/").then(res => setProducts(res.data))
-      }else{
-         axios.get("https://backends.donnachoice.com/api/products/", {
+         axios.get(URL).then(res => setProducts(res.data))
+      } else {
+         axios.get(URL, {
             headers: {
                Authorization: `Bearer ${Cookies.get("token")}`
             }
          }).then(res => setProducts(res.data))
       }
-      
-      // console.log(products);
    }, []);
    return (
       <div>
@@ -51,10 +52,6 @@ export default function Products({  brands }) {
                         </div>
                         <input onChange={(e) => setQuery(e.target.value)} type="text" id="simple-search" className="bg-gray-50 outline-none border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full pl-10 p-2.5" placeholder="Search" required />
                      </div>
-                     {/* <button className="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                        <span className="sr-only">Search</span>
-                     </button> */}
                   </div>
                   <h5 className="mb-2">Price Range</h5>
                   <div className="flex gap-4 mb-4">
@@ -89,7 +86,7 @@ export default function Products({  brands }) {
                      <select id="countries" className="bg-gray-50 outline-none border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5">
                         <option selected>Choose a brand</option>
                         {brands.map((brand) => {
-                           return(
+                           return (
                               <option value={brand.slug} key={brand.id}>{brand.name}</option>
                            )
                         })}
