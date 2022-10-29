@@ -45,6 +45,7 @@ const Subnav = () => {
          })
          .then(res => {
             dispatch(setAmount(res.data.wishlist))
+            dispatch(setCartCount(res.data.cart))
          })
       }
    }, [])
