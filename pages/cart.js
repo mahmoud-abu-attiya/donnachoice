@@ -30,8 +30,8 @@ const handleCartLocalStorage = (itemId) => {
    if (storedCartIds.includes(itemId)) {
       for (let i = 0; i < storedCart.length; i++) {
          if (storedCart[i].id === itemId) {
-               storedCart.splice(i, 1)
-               break
+            storedCart.splice(i, 1)
+            break
          }
       }
    }
@@ -50,10 +50,10 @@ const Cart = () => {
       const prices = document.querySelectorAll(".product-total-price")
       setTotalAmount(0)
       setTotalPrice(0)
-      for(let i=0; i<amounts.length; i++){
+      for (let i = 0; i < amounts.length; i++) {
          setTotalAmount(x => x + parseInt(amounts[i].textContent))
       }
-      for(let i=0; i<prices.length; i++){
+      for (let i = 0; i < prices.length; i++) {
          setTotalPrice(x => x + parseInt(prices[i].textContent))
       }
    }, [loading])
@@ -146,7 +146,7 @@ const Cart = () => {
          <h2 className='text-3xl text-gray-700'>Delivery Details / <span className="text-sm">Add new or use existing delivery address.</span></h2>
 
          <div className='mt-8'>
-            <div className="mb-4 border-gray-200 bg-primary-300 text-primary-100  rounded-lg overflow-hidden">
+            <div className="hidden lg:block mb-4 border-gray-200 bg-primary-300 text-primary-100  rounded-lg overflow-hidden">
                <ul className="flex flex-wrap -mb-px text-sm font-medium text-center">
                   <li className="grow bg-primary-100 text-primary-300">
                      <a href="" className='flex gap-4 justify-center items-center py-4 border-r border-primary-100'>
@@ -176,95 +176,92 @@ const Cart = () => {
             </div>
             {products.length == 0 ? (
                <div className='text-2xl capitalize text-center col-span-4'>
-               <div className="max-w-[500px] mx-auto">
-                  <Image src={img} alt="no result" />
-               </div>
-               There no products in your cart. <br />
-               <Link href={"/products"}>
-               <div className='w-full max-w-[200px] text-center bg-primary-100 text-white rounded py-3 px-5 mx-auto cursor-pointer my-8'>
-                  Shopping Now
+                  <div className="max-w-[500px] mx-auto">
+                     <Image src={img} alt="no result" />
                   </div>
-               </Link>
-            </div>
+                  There no products in your cart. <br />
+                  <Link href={"/products"}>
+                     <div className='w-full max-w-[200px] text-center bg-primary-100 text-white rounded py-3 px-5 mx-auto cursor-pointer my-8'>
+                        Shopping Now
+                     </div>
+                  </Link>
+               </div>
             ) : (
                <div className='grid grid-cols-1 lg:grid-cols-8 gap-4 mb-8'>
-               <div className="col-span-8 lg:col-span-6 overflow-x-auto relative h-fit rounded-lg border">
-                  <table className="w-full text-sm text-left text-gray-500">
-                     <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                        <tr className='border-b'>
-                           <th scope="col" className="p-4">
-                              #
-                           </th>
-                           <th scope="col" className="py-3 px-6">
-                              Product
-                           </th>
-                           <th scope="col" className="py-3 px-6">
-                              Price (QA)
-                           </th>
-                           <th scope="col" className="py-3 px-6">
-                              Count
-                           </th>
-                           <th scope="col" className="py-3 px-6">
-                              Total (QA)
-                           </th>
-                           <th scope="col" className="py-3 px-6">
-                              Action
-                           </th>
-                        </tr>
-                     </thead>
-                     <tbody>
-                     {products.length == 0 ? "there is no products in cart yet."
-                     : (
-                        products.map((product, index) => {
-                           return (
-                              <tr key={product.id} className="bg-white border-b">
-                                 <td className="p-4 w-4">
-                                    {index + 1}
-                                 </td>
-                                 <th className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    {`${product.product.name} (${product.name})`} 
-                                 </th>
-                                 <td className="py-4 px-6">
-                                    {product.price}
-                                 </td>
-                                 <td className="py-4 px-6 product-amount">
-                                    {product.amount || 1}
-                                 </td>
-                                 <td className="py-4 px-6 product-total-price">
-                                    {product.amount || 1 * product.price}
-                                 </td>
-                                 <td className="py-4 px-6">
-                                    <button onClick={() => removeProductFromCart(product.id)} className='px-4 py-2 rounded text-xl text-white bg-red-700'>
-                                       <i className="fad fa-trash-alt"></i>
-                                    </button>
-                                 </td>
-                              </tr>
-                           )
-                        })
-                     )}
-                        
-                     </tbody>
-                  </table>
-               </div>
-               <div className="col-span-8 lg:col-span-2 flex flex-col gap-4">
-                  <div className="bg-gray-50 p-4 border rounded-md">
-                     <h4 className='text-2xl mb-4'>SUMMARY</h4>
-                     <div className='capitalize'>total items: <span className='text-xl font-bold'>{totalAmount}</span></div>
-                     <div className='capitalize'>total price (QR) : <span className='text-xl font-bold'>{totalPrice}</span></div>
+                  <div className="col-span-8 lg:col-span-6 overflow-x-auto relative h-fit rounded-lg border">
+                     <table className="w-full text-sm text-left text-gray-500">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                           <tr className='border-b'>
+                              <th scope="col" className="p-4">
+                                 #
+                              </th>
+                              <th scope="col" className="py-3 px-6">
+                                 Product
+                              </th>
+                              <th scope="col" className="py-3 px-6">
+                                 Price (QA)
+                              </th>
+                              <th scope="col" className="py-3 px-6">
+                                 Count
+                              </th>
+                              <th scope="col" className="py-3 px-6">
+                                 Total (QA)
+                              </th>
+                              <th scope="col" className="py-3 px-6">
+                                 Action
+                              </th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           {products.length == 0 ? "there is no products in cart yet."
+                              : (
+                                 products.map((product, index) => {
+                                    return (
+                                       <tr key={product.id} className="bg-white border-b">
+                                          <td className="p-4 w-4">
+                                             {index + 1}
+                                          </td>
+                                          <th className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                             <img
+                                                className='h-12 aspect-square object-cover'
+                                                src={product.product.images.length == 0 ? "https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg" : product.product.images[0].img}
+                                                alt={product.product.name}
+                                             />
+                                             {`${product.product.name} (${product.name})`}
+                                          </th>
+                                          <td className="py-4 px-6">
+                                             {product.price}
+                                          </td>
+                                          <td className="py-4 px-6 product-amount">
+                                             {product.amount || 1}
+                                          </td>
+                                          <td className="py-4 px-6 product-total-price">
+                                             {product.amount || 1 * product.price}
+                                          </td>
+                                          <td className="py-4 px-6">
+                                             <button onClick={() => removeProductFromCart(product.id)} className='px-4 py-2 rounded text-xl text-white bg-red-700'>
+                                                <i className="fad fa-trash-alt"></i>
+                                             </button>
+                                          </td>
+                                       </tr>
+                                    )
+                                 })
+                              )}
+
+                        </tbody>
+                     </table>
                   </div>
-                  <button className='w-full bg-primary-100 text-white rounded-md py-4'>Next <i class="fas fa-arrow-right"></i> Delivery</button>
+                  <div className="col-span-8 lg:col-span-2 flex flex-col gap-4">
+                     <div className="bg-gray-50 p-4 border rounded-md">
+                        <h4 className='text-2xl mb-4'>SUMMARY</h4>
+                        <div className='capitalize'>total items: <span className='text-xl font-bold'>{totalAmount}</span></div>
+                        <div className='capitalize'>total price (QR) : <span className='text-xl font-bold'>{totalPrice}</span></div>
+                     </div>
+                     <button className='w-full bg-primary-100 text-white rounded-md py-4'>Next <i class="fas fa-arrow-right"></i> Delivery</button>
+                  </div>
                </div>
-            </div>
             )}
          </div>
-
-
-
-
-
-
-
-
       </div>
    )
 }

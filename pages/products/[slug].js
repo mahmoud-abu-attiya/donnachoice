@@ -54,12 +54,12 @@ const handleCartLocalStorage = (addToCartButton, itemId, changed) => {
       console.log(storedCart)
       console.log(itemId)
       for (let i = 0; i < storedCart.length; i++) {
-          console.log("LOOP")
-          if (storedCart[i].id === itemId) {
-            console.log("IF", storedCart[i].id, itemId, i)
-            storedCart.splice(i, 1)
-            break
-          }
+        console.log("LOOP")
+        if (storedCart[i].id === itemId) {
+          console.log("IF", storedCart[i].id, itemId, i)
+          storedCart.splice(i, 1)
+          break
+        }
       }
       addToCartButton.textContent = "add"
     } else {
@@ -68,8 +68,8 @@ const handleCartLocalStorage = (addToCartButton, itemId, changed) => {
   } else {
     if (changed) {
       storedCart.push({
-          id: itemId,
-          amount: 1
+        id: itemId,
+        amount: 1
       })
       addToCartButton.textContent = "remove"
     } else {
@@ -111,12 +111,12 @@ const Product = ({ product }) => {
   const optionsMenu = useRef()
   const dispatch = useDispatch()
   useEffect(() => {
-      storedCart = JSON.parse(localStorage.getItem("stored-cart")) || []
-      storedCartIds = storedCart.map(cartId => cartId.id)
-      if (!auth) {
-        handleWishlistLocalStorage(heartIcon, product.slug, false)
-        handleCompareLocalStorage(compareIcon, product.slug, false)
-      }
+    storedCart = JSON.parse(localStorage.getItem("stored-cart")) || []
+    storedCartIds = storedCart.map(cartId => cartId.id)
+    if (!auth) {
+      handleWishlistLocalStorage(heartIcon, product.slug, false)
+      handleCompareLocalStorage(compareIcon, product.slug, false)
+    }
   }, [])
   const [relatedPro, setRelatedPro] = useState([]);
 
@@ -131,49 +131,49 @@ const Product = ({ product }) => {
     if (isWish) {
       axios.post(`https://backends.donnachoice.com/api/products/remove_from_wishlist/`, {
         products: [
-            item
+          item
         ]
       }, {
         headers: {
-            Authorization: `Bearer ${Cookies.get("token")}`,
+          Authorization: `Bearer ${Cookies.get("token")}`,
         },
       })
-      .then((res) => {
+        .then((res) => {
           console.log(res.data)
           heartIcon.current.classList.remove("fas")
           heartIcon.current.classList.add("far")
           axios.get(`https://backends.donnachoice.com/api/counts`, {
             headers: {
-                Authorization: `Bearer ${Cookies.get("token")}`,
+              Authorization: `Bearer ${Cookies.get("token")}`,
             },
           })
             .then(res => {
-                dispatch(setAmount(res.data.wishlist))
+              dispatch(setAmount(res.data.wishlist))
             })
-      })
+        })
     } else {
       axios.post(`https://backends.donnachoice.com/api/products/update_wishlist/`, {
         products: [
-            item
+          item
         ]
       }, {
         headers: {
-            Authorization: `Bearer ${Cookies.get("token")}`,
+          Authorization: `Bearer ${Cookies.get("token")}`,
         },
       })
-      .then((res) => {
-        console.log(res.data)
-        heartIcon.current.classList.add("fas")
-        heartIcon.current.classList.remove("far")
-        axios.get(`https://backends.donnachoice.com/api/counts`, {
-          headers: {
+        .then((res) => {
+          console.log(res.data)
+          heartIcon.current.classList.add("fas")
+          heartIcon.current.classList.remove("far")
+          axios.get(`https://backends.donnachoice.com/api/counts`, {
+            headers: {
               Authorization: `Bearer ${Cookies.get("token")}`,
-          },
-        })
+            },
+          })
             .then(res => {
               dispatch(setAmount(res.data.wishlist))
             })
-      })
+        })
     }
   }
 
@@ -189,9 +189,9 @@ const Product = ({ product }) => {
   const toggleOptionsMenu = () => {
     if (optionsMenu.current) {
       if (optionsMenu.current.classList.contains("hidden")) {
-          optionsMenu.current.classList.remove("hidden")
+        optionsMenu.current.classList.remove("hidden")
       } else {
-          optionsMenu.current.classList.add("hidden")
+        optionsMenu.current.classList.add("hidden")
       }
     }
   }
@@ -206,7 +206,7 @@ const Product = ({ product }) => {
       .then(res => setRelatedPro(res.data))
     console.log(product);
   }, [product])
-  return ( product &&
+  return (product &&
     <div className='container'>
       <nav className="flex" aria-label="Breadcrumb">
         <ol className="inline-flex items-center space-x-1 md:space-x-3">
@@ -239,29 +239,48 @@ const Product = ({ product }) => {
         <div className="images">
           <img src={product.img ? product.img : "https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg"} alt="" />
         </div>
-        <div className="flex flex-col gap-4">
+        {/* ///////////////////////////////////////////////// */}
+
+        <div>
+          <div className="mb-4 border-b border-gray-200 dark:border-gray-700">
+            <ul className="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
+              <li className="mr-2" role="presentation">
+                <button className="inline-block p-4 rounded-t-lg border-b-2 text-blue-600 hover:text-blue-600 dark:text-blue-500 dark:hover:text-blue-500 border-blue-600 dark:border-blue-500" id="profile-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="true">
+                  Description
+                  </button>
+              </li>
+              <li className="mr-2" role="presentation">
+                <button className="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 dark:border-transparent text-gray-500 dark:text-gray-400 border-gray-100 dark:border-gray-700" id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="false">
+                  Product Details
+                  </button>
+              </li>
+            </ul>
+          </div>
+          <div id="myTabContent">
+            <div className="p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <div className="flex flex-col gap-4">
           <h2 className='text-2xl'>{product && product.name}</h2>
           <p className='text-gray-600'>{product.description ? product.description : "no descrioption"}</p>
           <span className='text-xl text-gray-700'>$ {product.options[0].price}</span>
           <div className='flex gap-4'>
-          <div className='relative'>
-               <button
-                  className="text-white bg-primary-200 hover:bg-primary-300 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                  onClick={() => toggleOptionsMenu(product.slug)}
-               >
-                  Add to cart
-               </button>
-               {product.options.length > 0 ? <div ref={optionsMenu} className='absolute right-0 top-full w-48 p-3 bg-white shadow rounded z-10 hidden'>
-                  {product.options.map(option => {
-                     return (<div key={option.id} className='grid grid-cols-3 option'>
-                        <span>{option.name}</span>
-                        <span>{option.price}$</span>
-                        <button data-slug={product.slug} onClick={(e) => handleCart(e.target, option.id)}>
-                           {storedCartIds.includes(option.id) ? "remove" : "add"}
-                        </button>
-                     </div>)
-                  })}
-               </div> : null}
+            <div className='relative'>
+              <button
+                className="text-white bg-primary-200 hover:bg-primary-300 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                onClick={() => toggleOptionsMenu(product.slug)}
+              >
+                Add to cart
+              </button>
+              {product.options.length > 0 ? <div ref={optionsMenu} className='absolute right-0 top-full w-48 p-3 bg-white shadow rounded z-10 hidden'>
+                {product.options.map(option => {
+                  return (<div key={option.id} className='grid grid-cols-3 option'>
+                    <span>{option.name}</span>
+                    <span>{option.price}$</span>
+                    <button data-slug={product.slug} onClick={(e) => handleCart(e.target, option.id)}>
+                      {storedCartIds.includes(option.id) ? "remove" : "add"}
+                    </button>
+                  </div>)
+                })}
+              </div> : null}
             </div>
             {/* <button
               className="text-white w-full bg-primary-200 hover:bg-primary-300 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
@@ -278,11 +297,21 @@ const Product = ({ product }) => {
             </button>
           </div>
         </div>
+            </div>
+            <div className="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+              <p className="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong className="font-medium text-gray-800 dark:text-white">Dashboard tab`s associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
+            </div>
+          </div>
+        </div>
+
+
+        {/* ///////////////////////////////////////////////// */}
+
       </div>
       <hr className="my-8 h-px bg-gray-200 border-0" />
       <div className="mb-8">
         <h2 className='font-bold text-3xl mb-8'>Related Products</h2>
-        <div className="grid gird-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {relatedPro.map(pro => <ProductBox key={pro.id} product={pro} />)}
         </div>
       </div>
