@@ -3,6 +3,9 @@ import Cookies from 'js-cookie';
 import React, { useState } from 'react'
 import { useEffect } from 'react';
 import ProductBox from '../components/ProductBox';
+import Image from 'next/image';
+import img from "../public/images/no-result.png";
+import Link from 'next/link';
 
 // export const getStaticProps = async () => {
 //    const res = await fetch('https://backends.donnachoice.com/api/products/?slug__in=product,item-2');
@@ -77,7 +80,19 @@ const WishList = () => {
                </li>
             </ol>
          </nav>
-         {products.length == 0 ? "there is no products in wishlist yet."
+         {products.length == 0 ? (
+            <div className='text-2xl capitalize text-center col-span-4'>
+            <div className="max-w-[400px] mx-auto">
+               <Image src={img} alt="no result" />
+            </div>
+            there no products in your wishlist <br />
+            <Link href={"/products"}>
+                     <div className='w-full max-w-[300px] text-center bg-primary-100 text-white rounded-xl shadow hover:bg-primary-200 py-3 px-5 mx-auto cursor-pointer my-8'>
+                        Explore our products
+                     </div>
+                  </Link>
+         </div>
+         )
             : (
                products.map(product => {
                   return (

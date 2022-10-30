@@ -15,7 +15,7 @@ export default function about() {
                Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis ipsa, optio provident ab officiis mollitia alias neque sunt voluptatum beatae magnam? Cupiditate aliquid nisi voluptatibus architecto officia odit eum quasi.
             </p>
             <Link href={"/help"}>
-               <a className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300">
+               <a className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white bg-primary-100 rounded-lg hover:bg-primary-200 focus:ring-4">
                   Get touch with us
                </a>
             </Link>

@@ -41,7 +41,7 @@ export default function Index({ blogs, category_blogs }) {
                })}
             </div>
          </aside>
-         <div className="col-span-8 md:col-span-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:px-6 gap-4">
+         <div className="h-fit col-span-8 md:col-span-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:px-6 gap-4">
             {blogs.reverse().map((blog) => {
                return (
                   <div key={blog.id} className="bg-gray-50 rounded-lg border shadow-md">

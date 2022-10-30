@@ -88,14 +88,14 @@ const Subnav = () => {
             </div>
             {/* <Currencies />
             <Langs /> */}
-            <div className="links capitalize hidden sm:block">
+            <div className="links capitalize">
                <Link href={"/about"}>
-                  <a className='border-r px-4 border-gray-900/25'>
+                  <a className='border-r px-2 md:px-4 border-gray-900/25'>
                      about us
                   </a>
                </Link>
                <Link href={"/profile"}>
-                  <a className='border-r px-4 border-gray-900/25'>
+                  <a className='border-r px-2 md:px-4 border-gray-900/25'>
                      Account
                   </a>
                </Link>
@@ -130,7 +130,7 @@ const Subnav = () => {
                </Link>
                <Link href={"/compare"}>
                   <a className="compare relative">
-                     <i class="fas fa-balance-scale"></i>
+                     <i className="fas fa-balance-scale"></i>
                      <span
                         className="top-0 left-full absolute w-5 h-5 bg-red-500 border-2 border-white rounded-full text-sm flex items-center justify-center"
                         style={{ transform: "translate(-50%,-50%)" }}

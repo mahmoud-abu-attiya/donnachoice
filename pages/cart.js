@@ -221,7 +221,7 @@ const Cart = () => {
                                           <td className="p-4 w-4">
                                              {index + 1}
                                           </td>
-                                          <th className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                          <th className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
                                              <img
                                                 className='h-12 aspect-square object-cover'
                                                 src={product.product.images.length == 0 ? "https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg" : product.product.images[0].img}
@@ -257,7 +257,7 @@ const Cart = () => {
                         <div className='capitalize'>total items: <span className='text-xl font-bold'>{totalAmount}</span></div>
                         <div className='capitalize'>total price (QR) : <span className='text-xl font-bold'>{totalPrice}</span></div>
                      </div>
-                     <button className='w-full bg-primary-100 text-white rounded-md py-4'>Next <i class="fas fa-arrow-right"></i> Delivery</button>
+                     <button className='w-full bg-primary-100 text-white rounded-md py-4'>Next <i className="fas fa-arrow-right"></i> Delivery</button>
                   </div>
                </div>
             )}

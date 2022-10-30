@@ -105,6 +105,7 @@ const handleCompareLocalStorage = (compareElement, itemSlug, changed) => {
 
 const Product = ({ product }) => {
   let storedCart, storedCartIds = []
+  const [tab, setTab] = useState(false);
   const auth = Cookies.get("auth")
   const heartIcon = useRef()
   const compareIcon = useRef()
@@ -242,64 +243,100 @@ const Product = ({ product }) => {
         {/* ///////////////////////////////////////////////// */}
 
         <div>
-          <div className="mb-4 border-b border-gray-200 dark:border-gray-700">
+          <div className="mb-4 border-b border-primary-100">
             <ul className="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
-              <li className="mr-2" role="presentation">
-                <button className="inline-block p-4 rounded-t-lg border-b-2 text-blue-600 hover:text-blue-600 dark:text-blue-500 dark:hover:text-blue-500 border-blue-600 dark:border-blue-500" id="profile-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="true">
+              <li className="mr-2">
+                <button
+                  onClick={() => { tab == false && setTab(!tab) }}
+                  className={`inline-block p-4 rounded-t-lg border-b-0 ${tab == true && "border-2 bg-primary-300 text-primary-100 border-primary-100 "}`}>
                   Description
-                  </button>
+                </button>
               </li>
-              <li className="mr-2" role="presentation">
-                <button className="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 dark:border-transparent text-gray-500 dark:text-gray-400 border-gray-100 dark:border-gray-700" id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="false">
+              <li className="mr-2">
+                <button
+                  onClick={() => { tab == true && setTab(!tab) }}
+                  className={`inline-block p-4 rounded-t-lg border-b-0 ${tab == false && "border-2 bg-primary-300 text-primary-100 border-primary-100 "}`}>
                   Product Details
-                  </button>
+                </button>
               </li>
             </ul>
           </div>
           <div id="myTabContent">
-            <div className="p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-            <div className="flex flex-col gap-4">
-          <h2 className='text-2xl'>{product && product.name}</h2>
-          <p className='text-gray-600'>{product.description ? product.description : "no descrioption"}</p>
-          <span className='text-xl text-gray-700'>$ {product.options[0].price}</span>
-          <div className='flex gap-4'>
-            <div className='relative'>
-              <button
-                className="text-white bg-primary-200 hover:bg-primary-300 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                onClick={() => toggleOptionsMenu(product.slug)}
-              >
-                Add to cart
-              </button>
-              {product.options.length > 0 ? <div ref={optionsMenu} className='absolute right-0 top-full w-48 p-3 bg-white shadow rounded z-10 hidden'>
-                {product.options.map(option => {
-                  return (<div key={option.id} className='grid grid-cols-3 option'>
-                    <span>{option.name}</span>
-                    <span>{option.price}$</span>
-                    <button data-slug={product.slug} onClick={(e) => handleCart(e.target, option.id)}>
-                      {storedCartIds.includes(option.id) ? "remove" : "add"}
+            <div className={tab == false && "hidden"}>
+              <div className="flex flex-col gap-4">
+                <h2 className='text-2xl'>{product && product.name}</h2>
+                <p className='text-gray-600'>{product.description ? product.description : "no descrioption"}</p>
+                <span className='text-xl text-gray-700'>$ {product.options[0].price}</span>
+                <div className='flex gap-4'>
+                  <div className='relative'>
+                    <button
+                      className="text-white bg-primary-200 hover:bg-primary-300 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                      onClick={() => toggleOptionsMenu(product.slug)}
+                    >
+                      Add to cart
                     </button>
-                  </div>)
-                })}
-              </div> : null}
-            </div>
-            {/* <button
+                    {product.options.length > 0 ? <div ref={optionsMenu} className='absolute right-0 top-full w-48 p-3 bg-white shadow rounded z-10 hidden'>
+                      {product.options.map(option => {
+                        return (<div key={option.id} className='grid grid-cols-3 option'>
+                          <span>{option.name}</span>
+                          <span>{option.price}$</span>
+                          <button data-slug={product.slug} onClick={(e) => handleCart(e.target, option.id)}>
+                            {storedCartIds.includes(option.id) ? "remove" : "add"}
+                          </button>
+                        </div>)
+                      })}
+                    </div> : null}
+                  </div>
+                  {/* <button
               className="text-white w-full bg-primary-200 hover:bg-primary-300 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
             // onClick={() => dispatch(increment(product.slug))}
             >
               Add to cart
             </button> */}
-            <button className='z-10 text-xl border rounded px-4 bg-gray-100 hover:shadow transition hover:scale-105 text-red-600' title='Add product to wishlist' onClick={() => handleWishList(product.slug, product.is_wishlist)}>
-              {/* <button className='z-10' onClick={() => handleWishList(product.slug, product.is_wishlist)}> */}
-              <i ref={heartIcon} className="far fa-heart"></i>
-            </button>
-            <button className='z-10 text-xl border rounded px-4 bg-gray-100 hover:shadow transition hover:scale-105 text-blue-600' title='Add product to comper list' onClick={() => handleCompare(product.slug)}>
-              <i ref={compareIcon} className="fas fa-balance-scale"></i>
-            </button>
-          </div>
-        </div>
+                  <button className='z-10 text-xl border rounded px-4 bg-gray-100 hover:shadow transition hover:scale-105 text-red-600' title='Add product to wishlist' onClick={() => handleWishList(product.slug, product.is_wishlist)}>
+                    {/* <button className='z-10' onClick={() => handleWishList(product.slug, product.is_wishlist)}> */}
+                    <i ref={heartIcon} className="far fa-heart"></i>
+                  </button>
+                  <button className='z-10 text-xl border rounded px-4 bg-gray-100 hover:shadow transition hover:scale-105 text-blue-600' title='Add product to comper list' onClick={() => handleCompare(product.slug)}>
+                    <i ref={compareIcon} className="fas fa-balance-scale"></i>
+                  </button>
+                </div>
+              </div>
             </div>
-            <div className="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
-              <p className="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong className="font-medium text-gray-800 dark:text-white">Dashboard tab`s associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
+            <div className={tab == true && "hidden"}>
+            <div className="flex flex-col gap-4">
+                <p>mahmoud</p>
+                <p>mahmoud</p>
+                <p>mahmoud</p>
+                <p>mahmoud</p>
+                <div className='flex gap-4'>
+                  <div className='relative'>
+                    <button
+                      className="text-white bg-primary-200 hover:bg-primary-300 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                      onClick={() => toggleOptionsMenu(product.slug)}
+                    >
+                      Add to cart
+                    </button>
+                    {product.options.length > 0 ? <div ref={optionsMenu} className='absolute right-0 top-full w-48 p-3 bg-white shadow rounded z-10 hidden'>
+                      {product.options.map(option => {
+                        return (<div key={option.id} className='grid grid-cols-3 option'>
+                          <span>{option.name}</span>
+                          <span>{option.price}$</span>
+                          <button data-slug={product.slug} onClick={(e) => handleCart(e.target, option.id)}>
+                            {storedCartIds.includes(option.id) ? "remove" : "add"}
+                          </button>
+                        </div>)
+                      })}
+                    </div> : null}
+                  </div>
+                  <button className='z-10 text-xl border rounded px-4 bg-gray-100 hover:shadow transition hover:scale-105 text-red-600' title='Add product to wishlist' onClick={() => handleWishList(product.slug, product.is_wishlist)}>
+                    <i ref={heartIcon} className="far fa-heart"></i>
+                  </button>
+                  <button className='z-10 text-xl border rounded px-4 bg-gray-100 hover:shadow transition hover:scale-105 text-blue-600' title='Add product to comper list' onClick={() => handleCompare(product.slug)}>
+                    <i ref={compareIcon} className="fas fa-balance-scale"></i>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

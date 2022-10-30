@@ -61,7 +61,7 @@ export default function Profile() {
                         href="#"
                         className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg bg-gray-100"
                      >
-                        <i class="fad fa-user text-gray-500 text-xl"></i>
+                        <i className="fad fa-user text-gray-500 text-xl"></i>
                         <span className="ml-3">
                            User
                         </span>
@@ -72,7 +72,7 @@ export default function Profile() {
                         href="#"
                         className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100"
                      >
-                        <i class="fad fa-heart text-gray-500 text-xl"></i>
+                        <i className="fad fa-heart text-gray-500 text-xl"></i>
                         <span className="flex-1 ml-3 whitespace-nowrap">Wish list</span>
                         <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-primary-200 bg-primary/25 rounded-full">
                            3
@@ -84,8 +84,8 @@ export default function Profile() {
                         href="#"
                         className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100"
                      >
-                        {/* <i class="fad fa-shopping-cart"></i> */}
-                        <i class="fad fa-shopping-cart text-gray-500 text-xl"></i>
+                        {/* <i className="fad fa-shopping-cart"></i> */}
+                        <i className="fad fa-shopping-cart text-gray-500 text-xl"></i>
                         <span className="flex-1 ml-3 whitespace-nowrap">Cart</span>
                         <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-primary-200 bg-primary/25 rounded-full">
                            3
@@ -97,8 +97,8 @@ export default function Profile() {
                         href="#"
                         className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100"
                      >
-                        {/* <i class="fad fa-balance-scale"></i> */}
-                        <i class="fad fa-balance-scale text-gray-500 text-xl"></i>
+                        {/* <i className="fad fa-balance-scale"></i> */}
+                        <i className="fad fa-balance-scale text-gray-500 text-xl"></i>
                         <span className="flex-1 ml-3 whitespace-nowrap">Compare</span>
                         <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-primary-200 bg-primary/25 rounded-full">
                            3
@@ -134,7 +134,7 @@ export default function Profile() {
                      <button
                         className="flex w-full items-center p-2 text-base font-normal text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100"
                      >
-                        <i class="fad fa-door-open text-gray-500 text-xl"></i>
+                        <i className="fad fa-door-open text-gray-500 text-xl"></i>
                         <span className="ml-3">
                            Logout
                         </span>
@@ -145,7 +145,7 @@ export default function Profile() {
          </aside>
          <div className="col-span-7 space-y-4">
             <div className="head capitalize flex gap-4 items-center text-3xl">
-               <i class="fad fa-user-circle text-gray-600 text-5xl"></i>
+               <i className="fad fa-user-circle text-gray-600 text-5xl"></i>
                {user.first_name + " " + user.last_name}
             </div>
             <div className="info grid grid-cols-8 bg-gray-50 rounded-md border">
