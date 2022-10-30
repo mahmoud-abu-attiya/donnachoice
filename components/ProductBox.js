@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { increment } from "../slices/cartSlice"
 import { setAmount } from "../slices/wishlistIndicatorSlice"
@@ -108,19 +108,27 @@ const handleCompareLocalStorage = (compareElement, itemSlug, changed) => {
 }
 
 const ProductBox = (props) => {
-   let storedCart, storedCartIds = []
-   const auth = Cookies.get("auth")
+   const [storedCartIds, setStoredCartIds] = useState([])
+   const [authState, setAuthState] = useState(false)
+   let storedCart = []
+   let auth
    const heartIcon = useRef()
    const compareIcon = useRef()
    const optionsMenu = useRef()
    const dispatch = useDispatch()
    useEffect(() => {
       storedCart = JSON.parse(localStorage.getItem("stored-cart")) || []
-      storedCartIds = storedCart.map(cartId => cartId.id)
-      if (!auth) {
+      const tempStoredCartIds = storedCart.map(cartId => cartId.id)
+      console.log(tempStoredCartIds)
+      auth = Cookies.get("auth")
+      console.log(auth)
+      if (auth) {
+         setAuthState(true)
+      }else{
          handleWishlistLocalStorage(heartIcon, props.product.slug, false)
          handleCompareLocalStorage(compareIcon, props.product.slug, false)
       }
+      setStoredCartIds(tempStoredCartIds)
    }, [])
    // const wishList = useSelector((state) => state.wishList.value)
    // const [wished, setwished] = useState(false);
@@ -179,19 +187,61 @@ const ProductBox = (props) => {
                      Authorization: `Bearer ${Cookies.get("token")}`,
                   },
                })
-                  .then(res => {
-                     dispatch(setAmount(res.data.wishlist))
-                  })
+               .then(res => {
+                  dispatch(setAmount(res.data.wishlist))
+               })
             })
       }
    }
 
    const handleCart = (cartBtn, itemId) => {
       const auth = Cookies.get("auth")
-      if (!auth) {
+      if (auth) {
+         if(cartBtn.textContent == "add"){
+            axios.post(`https://backends.donnachoice.com/api/products/cart/`, [
+                  {
+                     "option": itemId,
+                     "quantity": 1
+                  }
+               ], {
+               headers: {
+                  Authorization: `Bearer ${Cookies.get("token")}`,
+               },
+            })
+            .then(res => {
+               cartBtn.textContent = "remove"
+               axios.get(`https://backends.donnachoice.com/api/counts`, {
+                  headers: {
+                     Authorization: `Bearer ${Cookies.get("token")}`,
+                  },
+               })
+               .then(res => {
+                  dispatch(setCartCount(res.data.cart))
+               })
+            })
+         }else{
+            axios.post(`https://backends.donnachoice.com/api/products/remove_from_cart/`, {
+                  "options": [itemId]
+               }, {
+               headers: {
+                  Authorization: `Bearer ${Cookies.get("token")}`,
+               },
+            })
+            .then(res => {
+               cartBtn.textContent = "add"
+               axios.get(`https://backends.donnachoice.com/api/counts`, {
+                  headers: {
+                     Authorization: `Bearer ${Cookies.get("token")}`,
+                  },
+               })
+               .then(res => {
+                  dispatch(setCartCount(res.data.cart))
+               })
+            })
+         }
+      }else{
          handleCartLocalStorage(cartBtn, itemId, true)
          dispatch(setCartCount(getNumberOfProductsInCart()))
-         return
       }
    }
 
@@ -259,9 +309,11 @@ const ProductBox = (props) => {
                      return (<div key={option.id} className='grid grid-cols-3 option'>
                         <span>{option.name}</span>
                         <span>{option.price}$</span>
-                        <button data-slug={props.product.slug} onClick={(e) => handleCart(e.target, option.id)}>
+                        {authState ? <button data-slug={props.product.slug} onClick={(e) => handleCart(e.target, option.id)}>
+                           {option.is_added_to_cart ? "remove" : "add"}
+                        </button> : <button data-slug={props.product.slug} onClick={(e) => handleCart(e.target, option.id)}>
                            {storedCartIds.includes(option.id) ? "remove" : "add"}
-                        </button>
+                        </button>}
                      </div>)
                   })}
                </div> : null}

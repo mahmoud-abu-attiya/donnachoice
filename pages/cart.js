@@ -60,7 +60,16 @@ const Cart = () => {
 
    useEffect(() => {
       const auth = Cookies.get("auth")
-      if (!auth) {
+      if (auth) {
+         axios.get('https://backends.donnachoice.com/api/products/cart/', {
+            headers: {
+               Authorization: `Bearer ${Cookies.get("token")}`,
+            },
+         }).then(res => {
+            setProducts(res.data)
+            setLoading(false)
+         })
+      } else {
          const storedCart = JSON.parse(localStorage.getItem("stored-cart")) || []
          if (storedCart.length < 1) {
             storedCart.push("---")
@@ -72,15 +81,6 @@ const Cart = () => {
          const storedCartIds = storedCart.map(item => item.id)
          axios.get(`https://backends.donnachoice.com/api/products/options/?ids=${storedCartIds}`).then(res => {
             console.log(res.data)
-            setProducts(res.data)
-            setLoading(false)
-         })
-      } else {
-         axios.get('https://backends.donnachoice.com/api/products/cart/', {
-            headers: {
-               Authorization: `Bearer ${Cookies.get("token")}`,
-            },
-         }).then(res => {
             setProducts(res.data)
             setLoading(false)
          })
