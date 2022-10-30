@@ -4,6 +4,9 @@ import logo from "../public/images/logo.png";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useDispatch } from 'react-redux'
+import { setAmount } from "../slices/wishlistIndicatorSlice"
+import { setCartCount } from "../slices/cartIndicatorSlice"
 
 export default function Login() {
    const [log, setLog] = useState(false)
@@ -11,6 +14,7 @@ export default function Login() {
    const [emailError, setEmailError] = useState([])
    const [passwordError, setPasswordError] = useState([])
    const [logError, setLogError] = useState(false)
+   const dispatch = useDispatch()
    useEffect(() => {
       let loginForm = document.getElementById("login_form")
       let signupForm = document.getElementById("signup_form")
@@ -27,9 +31,43 @@ export default function Login() {
             .then(res => {
                Cookies.set("token", res.data.access)
                Cookies.set("auth" , true)
-               localStorage.setItem("stored-cart", JSON.stringify([]))
-               localStorage.setItem("stored-wishlist", JSON.stringify([]))
-               location.reload();
+               const storedCart = JSON.parse(localStorage.getItem("stored-cart")) || []
+               const modifiedStoredCart = []
+               for(let i=0; i<storedCart.length; i++){
+                  modifiedStoredCart.push({
+                     option: storedCart[i].id,
+                     quantity: storedCart[i].amount
+                  })
+               }
+               const storedWishlist = JSON.parse(localStorage.getItem("stored-wishlist")) || []
+               axios.post(`https://backends.donnachoice.com/api/products/cart/`, modifiedStoredCart, {
+                  headers: {
+                     Authorization: `Bearer ${Cookies.get("token")}`,
+                  },
+               })
+               .then(res => {
+                  axios.post(`https://backends.donnachoice.com/api/products/update_wishlist/`, {
+                     products: storedWishlist
+                  }, {
+                     headers: {
+                        Authorization: `Bearer ${Cookies.get("token")}`,
+                     },
+                  })
+                  .then((res) => {
+                     axios.get(`https://backends.donnachoice.com/api/counts`, {
+                        headers: {
+                           Authorization: `Bearer ${Cookies.get("token")}`,
+                        },
+                     })
+                     .then(res => {
+                        dispatch(setAmount(res.data.wishlist))
+                        dispatch(setCartCount(res.data.cart))
+                        localStorage.setItem("stored-cart", JSON.stringify([]))
+                        localStorage.setItem("stored-wishlist", JSON.stringify([]))
+                        location.reload();
+                     })
+                  })
+               })
                // console.log(res.data);
             }).catch(err => {
                setLoading(false)
