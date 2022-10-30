@@ -126,8 +126,8 @@ const ProductBox = (props) => {
          setAuthState(true)
       }else{
          handleWishlistLocalStorage(heartIcon, props.product.slug, false)
-         handleCompareLocalStorage(compareIcon, props.product.slug, false)
       }
+      handleCompareLocalStorage(compareIcon, props.product.slug, false)
       setStoredCartIds(tempStoredCartIds)
    }, [])
    // const wishList = useSelector((state) => state.wishList.value)
