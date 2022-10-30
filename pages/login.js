@@ -103,7 +103,7 @@ export default function Login() {
             <section className="bg-gray-50">
                <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto">
                   <a
-                     className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
+                     className="flex items-center mb-6 text-2xl font-semibold text-gray-900"
                   >
                      <img
                         className="h-20 mr-2"
@@ -111,14 +111,14 @@ export default function Login() {
                         alt="logo"
                      />
                   </a>
-                  <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-lg xl:p-0">
+                  <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-lg xl:p-0">
                      <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-                        <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                        <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
                            Create an account
                         </h1>
 
                         {emailError.length !== 0 && (
-                           <div className="p-4 capitalize mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">
+                           <div className="p-4 capitalize mb-4 text-sm text-red-700 bg-red-100 rounded-lg" role="alert">
                               {emailError.map(err => {
                                  return(
                                     err
@@ -127,7 +127,7 @@ export default function Login() {
                            </div>
                         )}
                         {passwordError.length !== 0 && (
-                           <div className="p-4 capitalize mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">
+                           <div className="p-4 capitalize mb-4 text-sm text-red-700 bg-red-100 rounded-lg" role="alert">
                               {passwordError.map((err, index) => {
                                  return(
                                     <p key={index}>{err}</p>
@@ -140,7 +140,7 @@ export default function Login() {
                            <div>
                               <label
                                  htmlFor="first_name"
-                                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                 className="block mb-2 text-sm font-medium text-gray-900"
                               >
                                  First name
                               </label>
@@ -156,7 +156,7 @@ export default function Login() {
                            <div>
                               <label
                                  htmlFor="last_name"
-                                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                 className="block mb-2 text-sm font-medium text-gray-900"
                               >
                                  Last Name
                               </label>
@@ -172,7 +172,7 @@ export default function Login() {
                            <div>
                               <label
                                  htmlFor="Semail"
-                                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                 className="block mb-2 text-sm font-medium text-gray-900"
                               >
                                  Your email
                               </label>
@@ -188,7 +188,7 @@ export default function Login() {
                            <div>
                               <label
                                  htmlFor="Spassword"
-                                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                 className="block mb-2 text-sm font-medium text-gray-900"
                               >
                                  Password
                               </label>
@@ -215,7 +215,7 @@ export default function Login() {
                                  </div>
                               )}
                            </button>
-                           <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                           <p className="text-sm font-light text-gray-500">
                               Already have an account?{" "}
                               <a
                                  onClick={() => setLog(!log)}
@@ -230,10 +230,10 @@ export default function Login() {
                </div>
             </section>
          ) : (
-            <section className="bg-gray-50 dark:bg-gray-900">
+            <section className="bg-gray-50">
                <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                   <a
-                     className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
+                     className="flex items-center mb-6 text-2xl font-semibold text-gray-900"
                   >
                      <img
                         className="h-20 mr-2"
@@ -241,13 +241,13 @@ export default function Login() {
                         alt="logo"
                      />
                   </a>
-                  <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+                  <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
                      <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-                        <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                        <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
                            Log in to your account
                         </h1>
                         {logError && (
-                           <div className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">
+                           <div className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg" role="alert">
                               Email or Password is not correct. please try again !
                            </div>
                         )}
@@ -255,7 +255,7 @@ export default function Login() {
                            <div>
                               <label
                                  htmlFor="Lemail"
-                                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                 className="block mb-2 text-sm font-medium text-gray-900"
                               >
                                  Your email
                               </label>
@@ -271,7 +271,7 @@ export default function Login() {
                            <div>
                               <label
                                  htmlFor="Lpassword"
-                                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                 className="block mb-2 text-sm font-medium text-gray-900"
                               >
                                  Password
                               </label>
@@ -287,14 +287,14 @@ export default function Login() {
                            <div className="flex items-center justify-between">
                               <a
                                  href="#"
-                                 className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
+                                 className="text-sm font-medium text-blue-600 hover:underline"
                               >
                                  Forgot password?
                               </a>
                            </div>
                            <button
                               type="submit"
-                              className="w-full text-white bg-primary hover:bg-primary/75 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                              className="w-full text-white bg-primary hover:bg-primary/75 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                            >
                               {/* Log in */}
                               {!loading ? "Log in" : (

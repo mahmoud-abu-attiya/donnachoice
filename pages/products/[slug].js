@@ -16,7 +16,7 @@ const Product = ({ product }) => {
       <nav className="flex" aria-label="Breadcrumb">
         <ol className="inline-flex items-center space-x-1 md:space-x-3">
           <li className="inline-flex items-center">
-            <a href="#" className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
+            <a href="#" className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-gray-900">
               <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
               Home
             </a>
@@ -24,7 +24,7 @@ const Product = ({ product }) => {
           <li>
             <div className="flex items-center">
               <svg className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg>
-              <span className="ml-1 text-sm font-medium text-gray-700 hover:text-gray-900 md:ml-2 dark:text-gray-400 dark:hover:text-white">
+              <span className="ml-1 text-sm font-medium text-gray-700 hover:text-gray-900 md:ml-2">
                 Products
               </span>
             </div>
@@ -32,14 +32,14 @@ const Product = ({ product }) => {
           <li aria-current="page">
             <div className="flex items-center">
               <svg className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg>
-              <span className="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">
+              <span className="ml-1 text-sm font-medium text-gray-500 md:ml-2">
                 {product && product.name}
               </span>
             </div>
           </li>
         </ol>
       </nav>
-      <hr className="my-8 h-px bg-gray-200 border-0 dark:bg-gray-700" />
+      <hr className="my-8 h-px bg-gray-200 border-0" />
       <div className="product grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="images">
           <img src={product.img ? product.img : "https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg"} alt="" />
@@ -65,7 +65,7 @@ const Product = ({ product }) => {
           </div>
         </div>
       </div>
-      <hr className="my-8 h-px bg-gray-200 border-0 dark:bg-gray-700" />
+      <hr className="my-8 h-px bg-gray-200 border-0" />
       <div className="mb-8">
         <h2 className='font-bold text-3xl mb-8'>Related Products</h2>
         <div className="grid gird-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
