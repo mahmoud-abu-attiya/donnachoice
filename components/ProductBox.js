@@ -89,18 +89,18 @@ const handleCompareLocalStorage = (compareElement, itemSlug, changed) => {
       if (changed) {
          storedCompare.splice(storedCompare.indexOf(itemSlug), 1)
          compareElement.current.classList.remove("fa-check-circle")
-         compareElement.current.classList.add("fa-balance-scale")
+         compareElement.current.classList.add("fa-random")
       } else {
          compareElement.current.classList.add("fa-check-circle")
-         compareElement.current.classList.remove("fa-balance-scale")
+         compareElement.current.classList.remove("fa-random")
       }
    } else {
       if (changed) {
          storedCompare.push(itemSlug)
-         compareElement.current.classList.remove("fa-balance-scale")
+         compareElement.current.classList.remove("fa-random")
          compareElement.current.classList.add("fa-check-circle")
       } else {
-         compareElement.current.classList.add("fa-balance-scale")
+         compareElement.current.classList.add("fa-random")
          compareElement.current.classList.remove("fa-check-circle")
       }
    }
@@ -273,7 +273,7 @@ const ProductBox = (props) => {
          </div>
          <div className="wish absolute top-[1rem] text-blue-500 text-xl left-[1rem]">
             <button className='z-10' onClick={() => handleCompare(props.product.slug)} title="Add to compare list">
-               <i ref={compareIcon} className="fad fa-random"></i>
+               <i ref={compareIcon} className="fas fad fa-random"></i>
                {/* <i class="fad fa-random"></i> */}
             </button>
          </div>
