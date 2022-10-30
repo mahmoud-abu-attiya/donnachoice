@@ -269,7 +269,7 @@ const ProductBox = (props) => {
       <div className="w-full relative border bg-gray-100 rounded-lg shadow-md">
          <div className="wish absolute top-[1rem] text-red-500 text-xl right-[1rem]">
             {authState ? <button className='z-10' onClick={() => handleWishList(props.product.slug, props.product.is_wishlist)} title="Add to wishlist">
-               {props.product.is_wishlist ? <i ref={heartIcon} className="fas fa-heart">0</i> : <i ref={heartIcon} className="far fa-heart">0</i>}
+               {props.product.is_wishlist ? <i ref={heartIcon} className="fas fa-heart"></i> : <i ref={heartIcon} className="far fa-heart"></i>}
             </button> : <button className='z-10' onClick={() => handleWishList(props.product.slug, props.product.is_wishlist)} title="Add to wishlist">
                <i ref={heartIcon} className="far fa-heart"></i>
             </button>}
