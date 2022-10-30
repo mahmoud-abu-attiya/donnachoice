@@ -11,7 +11,7 @@ const Product = ({ product }) => {
       .then(res => setRelatedPro(res.data))
     console.log(product);
   }, [product])
-  return (
+  return ( product &&
     <div className='container'>
       <nav className="flex" aria-label="Breadcrumb">
         <ol className="inline-flex items-center space-x-1 md:space-x-3">
