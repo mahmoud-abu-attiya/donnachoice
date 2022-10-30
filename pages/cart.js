@@ -1,11 +1,12 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import React, { useState } from 'react'
-import { useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 import CartItem from '../components/CartItem';
 import Image from 'next/image';
 import img from "../public/images/empty-cart.png"
 import Link from 'next/link';
+import { useDispatch } from 'react-redux'
+import { setCartCount } from "../slices/cartIndicatorSlice"
 
 // export const getStaticProps = async () => {
 //    const res = await fetch('https://backends.donnachoice.com/api/products/?slug__in=product,item-2');
@@ -18,9 +19,44 @@ import Link from 'next/link';
 //    }
 // }
 
+const getNumberOfProductsInCart = () => {
+   const storedCart = JSON.parse(localStorage.getItem("stored-cart")) || []
+   return storedCart.length
+}
+
+const handleCartLocalStorage = (itemId) => {
+   const storedCart = JSON.parse(localStorage.getItem("stored-cart")) || []
+   const storedCartIds = storedCart.map(cartId => cartId.id)
+   if (storedCartIds.includes(itemId)) {
+      for (let i = 0; i < storedCart.length; i++) {
+         if (storedCart[i].id === itemId) {
+               storedCart.splice(i, 1)
+               break
+         }
+      }
+   }
+   localStorage.setItem("stored-cart", JSON.stringify(storedCart))
+}
+
 const Cart = () => {
    const [products, setProducts] = useState([])
    const [loading, setLoading] = useState(true)
+   const [totalAmount, setTotalAmount] = useState(0)
+   const [totalPrice, setTotalPrice] = useState(0)
+   const dispatch = useDispatch()
+
+   useEffect(() => {
+      const amounts = document.querySelectorAll(".product-amount")
+      const prices = document.querySelectorAll(".product-total-price")
+      setTotalAmount(0)
+      setTotalPrice(0)
+      for(let i=0; i<amounts.length; i++){
+         setTotalAmount(x => x + parseInt(amounts[i].textContent))
+      }
+      for(let i=0; i<prices.length; i++){
+         setTotalPrice(x => x + parseInt(prices[i].textContent))
+      }
+   }, [loading])
 
    useEffect(() => {
       const auth = Cookies.get("auth")
@@ -28,6 +64,9 @@ const Cart = () => {
          const storedCart = JSON.parse(localStorage.getItem("stored-cart")) || []
          if (storedCart.length < 1) {
             storedCart.push("---")
+            setProducts([])
+            setLoading(false)
+            return
          }
          console.log(storedCart)
          const storedCartIds = storedCart.map(item => item.id)
@@ -46,7 +85,17 @@ const Cart = () => {
             setLoading(false)
          })
       }
-   }, []);
+   }, [loading]);
+
+   const removeProductFromCart = (itemId) => {
+      setLoading(true)
+      const auth = Cookies.get("auth")
+      if (!auth) {
+         handleCartLocalStorage(itemId)
+         dispatch(setCartCount(getNumberOfProductsInCart()))
+         return
+      }
+   }
 
    if (loading) {
       return <>
@@ -164,36 +213,44 @@ const Cart = () => {
                         </tr>
                      </thead>
                      <tbody>
-                        <tr className="bg-white border-b">
-                           <td className="p-4 w-4">
-                              1
-                           </td>
-                           <th className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                              Apple MacBook Pro 17
-                           </th>
-                           <td className="py-4 px-6">
-                              Sliver
-                           </td>
-                           <td className="py-4 px-6">
-                              Laptop
-                           </td>
-                           <td className="py-4 px-6">
-                              $2999
-                           </td>
-                           <td className="py-4 px-6">
-                              <button className='px-4 py-2 rounded text-xl text-white bg-red-700'>
-                                 <i className="fad fa-trash-alt"></i>
-                              </button>
-                           </td>
-                        </tr>
+                     {products.length == 0 ? "there is no products in cart yet."
+                     : (
+                        products.map((product, index) => {
+                           return (
+                              <tr key={product.id} className="bg-white border-b">
+                                 <td className="p-4 w-4">
+                                    {index + 1}
+                                 </td>
+                                 <th className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {`${product.product.name} (${product.name})`} 
+                                 </th>
+                                 <td className="py-4 px-6">
+                                    {product.price}
+                                 </td>
+                                 <td className="py-4 px-6 product-amount">
+                                    {product.amount || 1}
+                                 </td>
+                                 <td className="py-4 px-6 product-total-price">
+                                    {product.amount || 1 * product.price}
+                                 </td>
+                                 <td className="py-4 px-6">
+                                    <button onClick={() => removeProductFromCart(product.id)} className='px-4 py-2 rounded text-xl text-white bg-red-700'>
+                                       <i className="fad fa-trash-alt"></i>
+                                    </button>
+                                 </td>
+                              </tr>
+                           )
+                        })
+                     )}
+                        
                      </tbody>
                   </table>
                </div>
                <div className="col-span-8 lg:col-span-2 flex flex-col gap-4">
                   <div className="bg-gray-50 p-4 border rounded-md">
                      <h4 className='text-2xl mb-4'>SUMMARY</h4>
-                     <div className='capitalize'>total items: <span className='text-xl font-bold'>2</span></div>
-                     <div className='capitalize'>total price (QR) : <span className='text-xl font-bold'>2000</span></div>
+                     <div className='capitalize'>total items: <span className='text-xl font-bold'>{totalAmount}</span></div>
+                     <div className='capitalize'>total price (QR) : <span className='text-xl font-bold'>{totalPrice}</span></div>
                   </div>
                   <button className='w-full bg-primary-100 text-white rounded-md py-4'>Next <i class="fas fa-arrow-right"></i> Delivery</button>
                </div>
