@@ -116,8 +116,6 @@ export default function Index({ blogs, category_blogs }) {
                         <span className="text-gray-500 text-sm">{blog.created_at.slice(0, 10)}</span>
                         <h5 className="mb-2 text-xl font-bold tracking-tight">{blog.name.length > 20 ? blog.name.slice(0,21) + "..." : blog.name}</h5>
                         <p className="mb-3 font-normal text-gray-700" dangerouslySetInnerHTML={{ __html: blog.description.slice(0, 150) + "..." }}>
-                           {/* {strip_tags(blog.description.slice(0, 150) + "...", []) } */}
-                           {/* {blog.description} */}
                         </p>
                         <Link href={`/blog/${blog.slug}`}>
                            <a className="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-primary-200 rounded-lg hover:bg-primary-300 focus:ring-4 focus:outline-none focus:ring-blue-300">

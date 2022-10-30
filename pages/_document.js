@@ -16,7 +16,7 @@ export default function Document() {
          <body>
             <Main />
             <NextScript />
-            {/* <Script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></Script> */}
+            <Script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></Script>
          </body>
       </Html>
    );
