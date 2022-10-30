@@ -19,7 +19,7 @@ module.exports = {
           },
         ],
         permanent: false,
-        destination: '/',
+        destination: '/profile',
       },
     ]
   }

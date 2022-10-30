@@ -2,9 +2,13 @@ import React, { useEffect } from 'react'
 import Axios from 'axios';
 import Image from 'next/image';
 import ProductBox from '../../components/ProductBox';
+import { useState } from 'react';
 
 const Product = ({ product }) => {
+  const [relatedPro, setRelatedPro] = useState([]);
   useEffect(() => {
+    Axios.get(`https://backends.donnachoice.com/api/products/?parents__slug=${product.slug}`)
+      .then(res => setRelatedPro(res.data))
     console.log(product);
   }, [product])
   return (
@@ -43,7 +47,7 @@ const Product = ({ product }) => {
         <div className="flex flex-col gap-4">
           <h2 className='text-2xl'>{product.name}</h2>
           <p className='text-gray-600'>{product.description ? product.description : "no descrioption"}</p>
-          <span className='text-xl text-gray-700'>$ {product.price}</span>
+          <span className='text-xl text-gray-700'>$ {product.options[0].price}</span>
           <div className='flex gap-4'>
             <button
               className="text-white w-full bg-primary hover:bg-primary/75 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
@@ -51,9 +55,12 @@ const Product = ({ product }) => {
             >
               Add to cart
             </button>
-            <button className='z-10 text-red-600' onClick={() => handleWishList(props.product.slug, props.product.is_wishlist)}>
+            <button className='z-10 text-xl border rounded px-4 bg-gray-100 hover:shadow transition hover:scale-105 text-red-600' title='Add product to wishlist' onClick={() => handleWishList(props.product.slug, props.product.is_wishlist)}>
               {/* <button className='z-10' onClick={() => handleWishList(props.product.slug, props.product.is_wishlist)}> */}
               <i className="far fa-heart"></i>
+            </button>
+            <button className='z-10 text-xl border rounded px-4 bg-gray-100 hover:shadow transition hover:scale-105 text-blue-600' title='Add product to comper list' >
+              <i className="fas fa-balance-scale"></i>
             </button>
           </div>
         </div>
@@ -62,10 +69,7 @@ const Product = ({ product }) => {
       <div className="mb-8">
         <h2 className='font-bold text-3xl mb-8'>Related Products</h2>
         <div className="grid gird-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-          <ProductBox product={product} />
-          <ProductBox product={product} />
-          <ProductBox product={product} />
-          <ProductBox product={product} />
+          {relatedPro.map(pro => <ProductBox key={pro.id} product={pro} />)}
         </div>
       </div>
     </div>

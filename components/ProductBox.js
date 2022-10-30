@@ -215,7 +215,7 @@ const ProductBox = (props) => {
    }, []);
 
    return (
-      <div className="w-full relative border max-w-sm bg-gray-100 rounded-lg shadow-md">
+      <div className="w-full relative border bg-gray-100 rounded-lg shadow-md">
          <div className="wish absolute top-[1rem] text-red-500 text-xl right-[1rem]">
             <button className='z-10' onClick={() => handleWishList(props.product.slug, props.product.is_wishlist)}>
                {props.product.is_wishlist ? <i ref={heartIcon} className="fas fa-heart"></i> : <i ref={heartIcon} className="far fa-heart"></i>}
@@ -245,7 +245,7 @@ const ProductBox = (props) => {
             </a>
          </Link>
          <div className="flex flex-wrap justify-between items-center px-5 pb-5">
-            <span className="text-3xl font-bold text-gray-900">${props.product.price}</span>
+            <span className="text-3xl font-bold text-gray-900">${props.product.options[0].price}</span>
             <div className='relative'>
                <button
                   className="text-white bg-primary hover:bg-primary/75 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"

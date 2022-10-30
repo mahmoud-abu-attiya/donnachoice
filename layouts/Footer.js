@@ -17,10 +17,10 @@ const Footer = () => {
                   <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase">Resources</h2>
                   <ul className="text-gray-600">
                      <li className="mb-4">
-                        <a href="https://flowbite.com/" className="hover:underline">Flowbite</a>
+                        <a href="#" className="hover:underline">Flowbite</a>
                      </li>
                      <li>
-                        <a href="https://tailwindcss.com/" className="hover:underline">Tailwind CSS</a>
+                        <a href="#" className="hover:underline">Tailwind CSS</a>
                      </li>
                   </ul>
                </div>
@@ -28,10 +28,10 @@ const Footer = () => {
                   <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase">Follow us</h2>
                   <ul className="text-gray-600">
                      <li className="mb-4">
-                        <a href="https://github.com/themesberg/flowbite" className="hover:underline ">Github</a>
+                        <a href="#" className="hover:underline ">Github</a>
                      </li>
                      <li>
-                        <a href="https://discord.gg/4eeurUVvTy" className="hover:underline">Discord</a>
+                        <a href="#" className="hover:underline">Discord</a>
                      </li>
                   </ul>
                </div>
@@ -50,7 +50,7 @@ const Footer = () => {
          </div>
          <div className=" bg-primary text-gray-100 p-4 sm:p-6">
             <div className="container sm:flex sm:items-center sm:justify-between">
-               <span className="text-sm sm:text-center capitalize inline-block">developed by <a href="orizon.qa" className='font-bold hover:underline hover:text-black'>Orizon Qatar</a></span>
+               <span className="text-sm sm:text-center capitalize inline-block">developed by <a href="https://orizon.qa" className='font-bold hover:underline hover:text-black'>Orizon Qatar</a></span>
                <span className="text-sm sm:text-center capitalize inline-block">© 2022 All Copy right reserved to <strong>DONNA CHOICE</strong></span>
                <div className="flex mt-4 space-x-6 sm:justify-center sm:mt-0">
                   <a href="#" className="hover:text-gray-900">
