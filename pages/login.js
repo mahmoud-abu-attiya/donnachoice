@@ -203,7 +203,7 @@ export default function Login() {
                            </div>
                            <button
                               type="submit"
-                              className="w-full text-white bg-primary hover:bg-primary/75 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                              className="w-full text-white bg-primary-200 hover:bg-primary-300 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                            >
                               {!loading ? "Create an account" : (
                                  <div role="status" className="text-center mx-auto w-fit">
@@ -294,7 +294,7 @@ export default function Login() {
                            </div>
                            <button
                               type="submit"
-                              className="w-full text-white bg-primary hover:bg-primary/75 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                              className="w-full text-white bg-primary-200 hover:bg-primary-300 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                            >
                               {/* Log in */}
                               {!loading ? "Log in" : (

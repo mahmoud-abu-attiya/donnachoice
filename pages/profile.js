@@ -74,7 +74,7 @@ export default function Profile() {
                      >
                         <i class="fad fa-heart text-gray-500 text-xl"></i>
                         <span className="flex-1 ml-3 whitespace-nowrap">Wish list</span>
-                        <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-primary bg-primary/25 rounded-full">
+                        <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-primary-200 bg-primary/25 rounded-full">
                            3
                         </span>
                      </a>
@@ -87,7 +87,7 @@ export default function Profile() {
                         {/* <i class="fad fa-shopping-cart"></i> */}
                         <i class="fad fa-shopping-cart text-gray-500 text-xl"></i>
                         <span className="flex-1 ml-3 whitespace-nowrap">Cart</span>
-                        <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-primary bg-primary/25 rounded-full">
+                        <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-primary-200 bg-primary/25 rounded-full">
                            3
                         </span>
                      </a>
@@ -100,7 +100,7 @@ export default function Profile() {
                         {/* <i class="fad fa-balance-scale"></i> */}
                         <i class="fad fa-balance-scale text-gray-500 text-xl"></i>
                         <span className="flex-1 ml-3 whitespace-nowrap">Compare</span>
-                        <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-primary bg-primary/25 rounded-full">
+                        <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-primary-200 bg-primary/25 rounded-full">
                            3
                         </span>
                      </a>

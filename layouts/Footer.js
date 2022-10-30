@@ -48,7 +48,7 @@ const Footer = () => {
                </div>
             </div>
          </div>
-         <div className=" bg-primary text-gray-100 p-4 sm:p-6">
+         <div className=" bg-primary-200 text-gray-100 p-4 sm:p-6">
             <div className="container sm:flex sm:items-center sm:justify-between">
                <span className="text-sm sm:text-center capitalize inline-block">developed by <a href="https://orizon.qa" className='font-bold hover:underline hover:text-black'>Orizon Qatar</a></span>
                <span className="text-sm sm:text-center capitalize inline-block">© 2022 All Copy right reserved to <strong>DONNA CHOICE</strong></span>

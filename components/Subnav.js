@@ -64,7 +64,7 @@ const Subnav = () => {
    //    })
    // }, [wishListCount]);
    return (
-      <div className='bg-primary px-2 sm:px-4 py-2.5 text-white'>
+      <div className='bg-primary-200 px-2 sm:px-4 py-2.5 text-white'>
          <div className="container flex justify-between items-center flex-wrap">
             <div className="hidden md:flex gap-4">
                <a href="#">

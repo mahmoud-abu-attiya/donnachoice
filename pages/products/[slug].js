@@ -50,7 +50,7 @@ const Product = ({ product }) => {
           <span className='text-xl text-gray-700'>$ {product.options[0].price}</span>
           <div className='flex gap-4'>
             <button
-              className="text-white w-full bg-primary hover:bg-primary/75 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+              className="text-white w-full bg-primary-200 hover:bg-primary-300 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
             // onClick={() => dispatch(increment(props.product.slug))}
             >
               Add to cart

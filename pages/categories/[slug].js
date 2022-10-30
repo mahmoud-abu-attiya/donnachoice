@@ -13,7 +13,7 @@ const Cat = ({ brands }) => {
       <div>
          <Hero title="brands" />
          <div className="container pt-6">
-            <div className='bg-gray-700 text-primary border px-5 py-3 w-fit capitalize text-2xl rounded-md flex items-center gap-4'>
+            <div className='bg-gray-700 text-primary-200 border px-5 py-3 w-fit capitalize text-2xl rounded-md flex items-center gap-4'>
                <span className="text-sm">category:</span>
                {slug}
             </div>

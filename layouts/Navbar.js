@@ -29,35 +29,35 @@ const Nav = () => {
           <ul className="flex flex-col p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-transparent">
             <li>
               <Link href={"/"}>
-                <a className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:text-primary md:p-0">
+                <a className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:text-primary-200 md:p-0">
                   Home
                   </a>
               </Link>
             </li>
             <li>
               <Link href={"/categories"}>
-                <a className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:text-primary md:p-0">
+                <a className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:text-primary-200 md:p-0">
                   Categories
                   </a>
               </Link>
             </li>
             <li>
               <Link href={"/brands"}>
-                <a className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:text-primary md:p-0">
+                <a className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:text-primary-200 md:p-0">
                   Brands
                   </a>
               </Link>
             </li>
             {/* <li>
               <Link href={"/products"}>
-                <a className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:text-primary md:p-0">
+                <a className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:text-primary-200 md:p-0">
                   Products
                   </a>
               </Link>
             </li> */}
             <li>
               <Link href={"/blog"}>
-                <a className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:text-primary md:p-0">
+                <a className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:text-primary-200 md:p-0">
                   Blog
                   </a>
               </Link>

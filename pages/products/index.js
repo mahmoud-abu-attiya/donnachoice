@@ -86,7 +86,7 @@ export default function Products({ brands, categorys }) {
                            <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
                               <svg aria-hidden="true" className="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" /></svg>
                            </div>
-                           <input name="q" type="text" id="simple-search" className="bg-gray-50 outline-none border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full pl-10 p-2.5" placeholder="Search" required />
+                           <input name="q" type="text" id="simple-search" className="bg-gray-50 outline-none border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-200 focus:border-primary-200 block w-full pl-10 p-2.5" placeholder="Search" required />
                         </div>
                      </div>
                      <div>
@@ -100,7 +100,7 @@ export default function Products({ brands, categorys }) {
                                  type="number"
                                  id="lt"
                                  name="options__price__gte"
-                                 className="rounded-none outline-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-primary focus:border-primary block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
+                                 className="rounded-none outline-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-primary-200 focus:border-primary-200 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
                                  placeholder="10"
                                  min={1}
                               />
@@ -113,7 +113,7 @@ export default function Products({ brands, categorys }) {
                                  type="number"
                                  id="gt"
                                  name="options__price__lte"
-                                 className="rounded-none outline-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-primary focus:border-primary block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
+                                 className="rounded-none outline-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-primary-200 focus:border-primary-200 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
                                  placeholder="100"
                                  min={1}
                               />
@@ -122,8 +122,8 @@ export default function Products({ brands, categorys }) {
                      </div>
                      <div>
                         <h5 className="mb-2">Brand</h5>
-                        <select id="countries" name="brand__slug" className="bg-gray-50 outline-none border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5">
-                           <option value={""}>Choose a brand</option>
+                        <select id="countries" name="brand__slug" className="bg-gray-50 outline-none border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-200 focus:border-primary-200 block w-full p-2.5">
+                           <option value={""}>None</option>
                            {brands.map((brand) => {
                               return (
                                  <option selected={searchQuery.includes(`brand__slug=${brand.slug}`) ? true : false} value={brand.slug} key={brand.id}>{brand.name}</option>
@@ -133,8 +133,8 @@ export default function Products({ brands, categorys }) {
                      </div>
                      <div>
                         <h5 className="mb-2">Categorys</h5>
-                        <select id="countries" name="category__slug" className="bg-gray-50 outline-none border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5">
-                           <option value={""}>Choose a categoreis</option>
+                        <select id="countries" name="category__slug" className="bg-gray-50 outline-none border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-200 focus:border-primary-200 block w-full p-2.5">
+                           <option value={""}>None</option>
                            {categorys.map((cat) => {
                               return (
                                  <option selected={searchQuery.includes(`category__slug=${cat.slug}`) ? true : false} value={cat.slug} key={cat.id}>{cat.name}</option>
@@ -143,7 +143,7 @@ export default function Products({ brands, categorys }) {
                         </select>
                      </div>
                      <div className="py-2">
-                        <button type="button" id="filter_btn" className="text-white w-full bg-gradient-to-r from-primary via-primary to-pink-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                        <button type="button" id="filter_btn" className="text-white w-full bg-gradient-to-r from-primary-200 via-primary-200 to-pink-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
 
                            {!Floading ? "Filter" : (
                               <div role="status" className="w-fit mx-auto">
@@ -168,14 +168,14 @@ export default function Products({ brands, categorys }) {
                   </div>
 
                </aside>
-                  <button onClick={() => setFilterPopup(true)} className="filter_btn col-span-8 max-w-[10rem] px-5 py-3 bg-gray-100 shadow hidden gap-4 items-center text-xl text-primary border rounded">
+                  <button onClick={() => setFilterPopup(true)} className="filter_btn col-span-8 max-w-[10rem] px-5 py-3 bg-gray-100 shadow hidden gap-4 items-center text-xl text-primary-200 border rounded">
                      <i className="fas fa-filter"></i>
                      Fillter
                   </button>
                   <hr className="block lg:hidden my-4 h-px bg-gray-200 border-0 col-span-8" />
                <div className="col-span-8 lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                   {/* {categorySlug && (
-                  <div className='col-span-3 bg-gray-700 text-primary border px-5 py-3 w-fit capitalize text-2xl rounded-md flex items-center gap-4'>
+                  <div className='col-span-3 bg-gray-700 text-primary-200 border px-5 py-3 w-fit capitalize text-2xl rounded-md flex items-center gap-4'>
                   <span className="text-sm">category:</span>
                   {categorySlug}
                   <button onClick={() => setCategorySlug("")}><i className="fas fa-times text-red-700   "></i></button>

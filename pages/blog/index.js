@@ -2,9 +2,10 @@ import Link from 'next/link';
 import React from 'react'
 import { useEffect } from 'react';
 
-export default function Index({ blogs }) {
+export default function Index({ blogs, category_blogs }) {
    useEffect(() => {
-     console.log(blogs);
+      
+      console.log(blogs);
    }, [blogs]);
 
    function strip_tags(input, allowed) {
@@ -58,7 +59,16 @@ export default function Index({ blogs }) {
             <h3 className='text-2xl mb-4'>Blog</h3>
             <div className="bg-gray-50 p-4 rounded shadow border">
                <h4 className="text-xl mb-2">Top Blogs</h4>
-               <a href="#" className='hover:underline'>
+               {blogs.sort((a, b) => (a.views > b.views)).map(blog => {
+                  return(
+                     <a href="#" key={blog.id} className='hover:underline'>
+                     <p className='mb-4 ml-4 text-gray-500'>
+                        {blog.name}
+                     </p>
+                  </a>
+                  )
+               })}
+               {/* <a href="#" className='hover:underline'>
                   <p className='mb-4 ml-4 text-gray-500'>
                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio rerum ad aliquid dicta
                   </p>
@@ -77,57 +87,61 @@ export default function Index({ blogs }) {
                   <p className='mb-4 ml-4 text-gray-500'>
                      Lorem ipsum dolor
                   </p>
-               </a>
+               </a> */}
             </div>
             <div className="bg-gray-50 p-4 rounded shadow border mt-6">
                <h4 className="text-xl mb-2">Categories</h4>
                <a href="#" className='hover:underline'>
                   <p className='mb-4 ml-4 text-gray-500'>
-                     School
+                     All
                   </p>
                </a>
-               <a href="#" className='hover:underline'>
-                  <p className='mb-4 ml-4 text-gray-500'>
-                     Outdoor
-                  </p>
-               </a>
-               <a href="#" className='hover:underline'>
-                  <p className='mb-4 ml-4 text-gray-500'>
-                     Fashon
-                  </p>
-               </a>
+               {category_blogs.map(cat => {
+                  return (
+                     <a href="#" className='hover:underline' key={cat.id}>
+                        <p className='mb-4 ml-4 text-gray-500'>
+                           {cat.name}
+                        </p>
+                     </a>
+                  )
+               })}
             </div>
          </aside>
-         {blogs.map((blog) => {
-            return (
-               <div key={blog.id} className="col-span-8 md:col-span-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:px-6 gap-4">
-                  <div className="max-w-sm bg-gray-50 rounded-lg border shadow-md">
-                     <img className="rounded-t-lg" src={blog.img} alt={blog.name} />
+         <div className="col-span-8 md:col-span-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:px-6 gap-4">
+            {blogs.reverse().map((blog) => {
+               return (
+                  <div key={blog.id} className="max-w-sm bg-gray-50 rounded-lg border shadow-md">
+                     <img className="rounded-t-lg aspect-video object-cover" src={blog.img} alt={blog.name} />
                      <div className="p-5">
-                        <span className="text-gray-500 text-sm">Sep 15,2022</span>
-                        <h5 className="mb-2 text-xl font-bold tracking-tight">{blog.name}</h5>
-                        <p className="mb-3 font-normal text-gray-700">
-                           {strip_tags(blog.description.slice(0, 150) + "...", []) }
+                        <span className="text-gray-500 text-sm">{blog.created_at.slice(0, 10)}</span>
+                        <h5 className="mb-2 text-xl font-bold tracking-tight">{blog.name.length > 20 ? blog.name.slice(0,21) + "..." : blog.name}</h5>
+                        <p className="mb-3 font-normal text-gray-700" dangerouslySetInnerHTML={{ __html: blog.description.slice(0, 150) + "..." }}>
+                           {/* {strip_tags(blog.description.slice(0, 150) + "...", []) } */}
+                           {/* {blog.description} */}
                         </p>
                         <Link href={`/blog/${blog.slug}`}>
-                           <a className="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-primary rounded-lg hover:bg-primary/75 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                           <a className="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-primary-200 rounded-lg hover:bg-primary-300 focus:ring-4 focus:outline-none focus:ring-blue-300">
                               Read more
                            </a>
                         </Link>
                      </div>
                   </div>
-               </div>
-            )
-         })}
+               )
+            })}
+         </div>
       </div>
    )
 }
 export const getStaticProps = async () => {
-   const res = await fetch('https://backends.donnachoice.com/api/blog/');
-   let blogs = await res.json();
+   const blogsres = await fetch('https://backends.donnachoice.com/api/blog/');
+   let blogs = await blogsres.json();
+
+   const categoryres = await fetch('https://backends.donnachoice.com/api/blog_category/');
+   let category_blogs = await categoryres.json();
    return {
       props: {
          blogs,
+         category_blogs
       }
    }
 }

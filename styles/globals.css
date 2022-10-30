@@ -53,7 +53,7 @@
    border-radius: 10px;
    height: auto;
    aspect-ratio: 1/1;
-   @apply shadow bg-gray-100 border border-gray-300 hover:bg-primary/25 transition
+   @apply shadow bg-gray-100 border border-gray-300 hover:bg-primary-100/25 transition
 }
 
 .caregories-slider .swiper-button-prev::after {
