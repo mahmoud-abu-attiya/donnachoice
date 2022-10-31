@@ -61,7 +61,7 @@ const Brand = ({ blog }) => {
          <div className="bg-gray-50 p-4 mt-8 rounded-lg  shadow-lg">
             <div className="head flex justify-between items-center text-gray-600">
                <div className="cat text-xl font-bold">
-                  <span className="text-sm font-light">Category:</span> {blog.category}
+                  <span className="text-sm font-light">Category:</span> {blog.category.name}
                </div>
                <div className='flex gap-4 text-sm'>
                   <div>{blog.created_at.slice(0, 10)}</div>
