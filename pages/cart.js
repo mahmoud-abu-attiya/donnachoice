@@ -90,10 +90,27 @@ const Cart = () => {
    const removeProductFromCart = (itemId) => {
       setLoading(true)
       const auth = Cookies.get("auth")
-      if (!auth) {
+      if (auth) {
+         axios.post(`https://backends.donnachoice.com/api/products/remove_from_cart/`, {
+               "options": [itemId]
+            }, {
+            headers: {
+               Authorization: `Bearer ${Cookies.get("token")}`,
+            },
+         })
+         .then(res => {
+            axios.get(`https://backends.donnachoice.com/api/counts`, {
+               headers: {
+                  Authorization: `Bearer ${Cookies.get("token")}`,
+               },
+            })
+            .then(res => {
+               dispatch(setCartCount(res.data.cart))
+            })
+         })
+      }else{
          handleCartLocalStorage(itemId)
          dispatch(setCartCount(getNumberOfProductsInCart()))
-         return
       }
    }
 
