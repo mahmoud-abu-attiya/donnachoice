@@ -276,7 +276,7 @@ const ProductBox = (props) => {
          </div>
          <div className="wish absolute top-[1rem] text-blue-500 text-xl left-[1rem]">
             <button className='z-10' onClick={() => handleCompare(props.product.slug)} title="Add to compare list">
-               <i ref={compareIcon} className="fas fad fa-random"></i>
+               <i ref={compareIcon} className="fas fa-random"></i>
                {/* <i class="fad fa-random"></i> */}
             </button>
          </div>
