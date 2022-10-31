@@ -30,7 +30,8 @@ const Brand = ({ blog }) => {
       setAuth(Cookies.get("auth"))
    }, []);
    return (
-      <div className='container mb-8 space-y-8'>
+      (
+         <div className='container mb-8 space-y-8'>
          <nav className="flex col-span-9 bg-gray-50 py-3 px-5 rounded " aria-label="Breadcrumb">
             <ol className="inline-flex items-center space-x-1 md:space-x-3">
                <li className="inline-flex items-center">
@@ -51,7 +52,7 @@ const Brand = ({ blog }) => {
                   <div className="flex items-center">
                      <svg className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg>
                      <span className="ml-1 capitalize text-sm font-medium text-gray-500 md:ml-2">
-                        {blog && blog.name}
+                        {blog.name}
                      </span>
                   </div>
                </li>
@@ -60,18 +61,18 @@ const Brand = ({ blog }) => {
          <div className="bg-gray-50 p-4 mt-8 rounded-lg  shadow-lg">
             <div className="head flex justify-between items-center text-gray-600">
                <div className="cat text-xl font-bold">
-                  <span className="text-sm font-light">Category:</span> {blog && blog.category}
+                  <span className="text-sm font-light">Category:</span> {blog.category}
                </div>
                <div className='flex gap-4 text-sm'>
-                  <div>{blog && blog.created_at.slice(0, 10)}</div>
-                  <div> <i className="fas fa-eye"></i> {blog && blog.views}</div>
+                  <div>{blog.created_at.slice(0, 10)}</div>
+                  <div> <i className="fas fa-eye"></i> {blog.views}</div>
                </div>
             </div>
             <hr className="my-8 h-px bg-gray-200 border-0" />
             <div className="sm:px-8 pb-8">
-               <img src={blog && blog.img} className="w-full rounded mb-8" alt={blog && blog.name} />
-               <h3 className='text-3xl mb-4 font-bold'>{blog && blog.name}</h3>
-               {blog && <div className='break-words' dangerouslySetInnerHTML={{ __html: blog.description }}></div>}
+               <img src={blog.img} className="w-full rounded mb-8" alt={blog.name} />
+               <h3 className='text-3xl mb-4 font-bold'>{blog.name}</h3>
+               {<div className='break-words' dangerouslySetInnerHTML={{ __html: blog.description }}></div>}
             </div>
          </div>
          <div className='grid grid-cols-1 md:grid-cols-6 gap-8'>
@@ -103,6 +104,7 @@ const Brand = ({ blog }) => {
             )}
          </div>
       </div>
+      )
    )
 }
 
