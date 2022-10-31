@@ -9,6 +9,7 @@ const Brand = () => {
    const [auth, setAuth] = useState()
    const [commentErr, setCommentErr] = useState(false)
    const [blog, setBlog] = useState()
+   const [RE, setRE] = useState(false)
    const handleComment = () => {
       let comment = document.getElementById("comment");
       const myStatus = {
@@ -23,7 +24,7 @@ const Brand = () => {
             },
          }).then(res => {
             console.log(res.data);
-            location.reload()
+            setRE(!RE)
          })
       }
    }
@@ -37,7 +38,7 @@ const Brand = () => {
       })
       console.log(blog);
       setAuth(Cookies.get("auth"))
-   }, []);
+   }, [RE]);
    return (
       blog && (
          <div className='container mb-8 space-y-8'>

@@ -41,7 +41,7 @@ export default function Index({ brands }) {
                      item.name.toLowerCase().includes(query.toLowerCase())
                   ).map((brand) => {
                      return (
-                        <BrandSection key={brand.id} name={brand.name} slug={brand.slug} />
+                        <BrandSection key={brand.id} name={brand.name} img={brand.img} slug={brand.slug} />
                      )
                   })}
             </div>

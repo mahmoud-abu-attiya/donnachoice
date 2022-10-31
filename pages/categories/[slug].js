@@ -5,10 +5,14 @@ import BrandSection from '../../components/BrandSection';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import img from "../../public/images/no-result.png"
+import { useEffect } from 'react';
 
 const Cat = ({ brands }) => {
    const router = useRouter()
    const { slug } = router.query
+   useEffect(() => {
+      console.log(brands);
+   }, []);
    return (
       <div>
          <Hero title="brands" />
@@ -21,7 +25,7 @@ const Cat = ({ brands }) => {
                {brands && brands.length != 0 ?
                   brands.map((brand) => {
                      return (
-                        <BrandSection key={brand.id} name={brand.name} slug={brand.slug} category_slug={slug} />
+                        <BrandSection key={brand.id} name={brand.name} img={brand.img} slug={brand.slug} category_slug={slug} />
                      )
                   }) : (
                      <div className='text-2xl capitalize text-center col-span-4'>

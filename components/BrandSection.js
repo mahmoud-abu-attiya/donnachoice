@@ -10,7 +10,7 @@ const BrandSection = (props) => {
             <div className='grid grid-cols-5 items-center bg-gray-100 px-3 sm:px-4 py-4 gap-2 border border-gray-300 shadow rounded transition hover:shadow-md hover:scale-105'>
                <div className="col-span-2">
                   {/* <Image src={logo} alt="brand logo" /> */}
-                  <img className='rounded aspect-square object-cover' src={props.img ? `https://backends.donnachoice.com/${props.img}` : "https://dieselpunkcore.com/wp-content/uploads/2014/06/logo-placeholder.png"} alt="" />
+                  <img className='rounded aspect-square object-contain  ' src={props.img ? `${props.img}` : "https://dieselpunkcore.com/wp-content/uploads/2014/06/logo-placeholder.png"} alt="" />
                </div>
                <div className='col-span-3'>
                   <p className='capitalize'>{props.name}</p>

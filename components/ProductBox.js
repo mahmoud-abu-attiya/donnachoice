@@ -119,9 +119,9 @@ const ProductBox = (props) => {
    useEffect(() => {
       storedCart = JSON.parse(localStorage.getItem("stored-cart")) || []
       const tempStoredCartIds = storedCart.map(cartId => cartId.id)
-      console.log(tempStoredCartIds)
+      // console.log(tempStoredCartIds)
       auth = Cookies.get("auth")
-      console.log(auth)
+      // console.log(auth)
       if (auth) {
          setAuthState(true)
       }else{
@@ -145,7 +145,7 @@ const ProductBox = (props) => {
          return
       }
       isWish = heartIcon.current.classList.contains("fas")
-      console.log(isWish);
+      // console.log(isWish);
       if (isWish) {
          axios.post(`https://backends.donnachoice.com/api/products/remove_from_wishlist/`, {
             products: [
@@ -261,9 +261,9 @@ const ProductBox = (props) => {
       dispatch(setCompareCount(getNumberOfProductsInCompare()))
    }
 
-   useEffect(() => {
-      console.log(props.product);
-   }, []);
+   // useEffect(() => {
+   //    console.log(props.product);
+   // }, []);
 
    return (
       <div className="w-full relative border bg-gray-50 rounded-lg shadow-md">
@@ -282,7 +282,7 @@ const ProductBox = (props) => {
          </div>
          <Link href={`/products/${props.product.slug}`}>
             <a>
-               <img className="mb-4 w-full rounded-t-lg aspect-square object-cover" src={props.product.images != 0 ? props.product.images[0].img : "https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg"} alt={`${props.product.name} img`} />
+               <img className="mb-4 w-full rounded-t-lg aspect-square object-contain" src={props.product.images != 0 ? props.product.images[0].img : "https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg"} alt={`${props.product.name} img`} />
                <div className="px-5 pb-5">
                   <h5 className="text-xl font-semibold tracking-tight text-gray-900">
                      {props.product.name}
