@@ -15,11 +15,13 @@ export default function Index({ blogs, category_blogs }) {
                <h4 className="text-xl mb-2">Top Blogs</h4>
                {blogs.sort((a, b) => (a.views > b.views)).map(blog => {
                   return (
-                     <a href="#" key={blog.id} className='hover:underline'>
+                     <Link key={blog.id} href={`/blog/${blog.slug}`}>
+                     <a href="#"  className='hover:underline'>
                         <p className='mb-4 ml-4 text-gray-500'>
                            {blog.name}
                         </p>
                      </a>
+                     </Link>
                   )
                })}
             </div>
