@@ -105,7 +105,8 @@ const handleCompareLocalStorage = (compareElement, itemSlug, changed) => {
 
 const Product = ({ product }) => {
   let storedCart, storedCartIds = []
-  const [tab, setTab] = useState(false);
+  const [tab, setTab] = useState(true);
+  const [imgIndex, setImgIndex] = useState(0);
   const auth = Cookies.get("auth")
   const heartIcon = useRef()
   const compareIcon = useRef()
@@ -237,8 +238,22 @@ const Product = ({ product }) => {
       </nav>
       <hr className="my-8 h-px bg-gray-200 border-0" />
       <div className="product grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="images">
-          <img src={product.img ? product.img : "https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg"} alt="" />
+        <div className="">
+          <div className="flex items-center justify-center mb-8">
+          <img className='max-w-full max-h-[300px] object-cover' src={product.images.length != 0 ? product.images[imgIndex].img : "https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg"} alt="" />
+          </div>
+            {product.images.length != 0 && (
+              <div className='flex justify-center items-center gap-8'>
+              {product.images.map(image => {
+                return(
+                    <button key={image.id} onClick={() => setImgIndex(product.images.indexOf(image))}>
+                      <img className='h-10'  src={image.img} alt="broduct img" />
+                    </button>
+                  )
+                })}
+                </div>
+            )}
+          
         </div>
         {/* ///////////////////////////////////////////////// */}
 
@@ -265,7 +280,7 @@ const Product = ({ product }) => {
             <div className={tab == false && "hidden"}>
               <div className="flex flex-col gap-4">
                 <h2 className='text-2xl'>{product && product.name}</h2>
-                <p className='text-gray-600'>{product.description ? product.description : "no descrioption"}</p>
+                <p className='text-gray-600'>{product.describtion ? product.describtion : "no descrioption"}</p>
                 <span className='text-xl text-gray-700'>$ {product.options[0].price}</span>
                 <div className='flex gap-4'>
                   <div className='relative'>
@@ -287,14 +302,7 @@ const Product = ({ product }) => {
                       })}
                     </div> : null}
                   </div>
-                  {/* <button
-              className="text-white w-full bg-primary-200 hover:bg-primary-300 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-            // onClick={() => dispatch(increment(product.slug))}
-            >
-              Add to cart
-            </button> */}
                   <button className='z-10 text-xl border rounded px-4 bg-gray-100 hover:shadow transition hover:scale-105 text-red-600' title='Add product to wishlist' onClick={() => handleWishList(product.slug, product.is_wishlist)}>
-                    {/* <button className='z-10' onClick={() => handleWishList(product.slug, product.is_wishlist)}> */}
                     <i ref={heartIcon} className="far fa-heart"></i>
                   </button>
                   <button className='z-10 text-xl border rounded px-4 bg-gray-100 hover:shadow transition hover:scale-105 text-blue-600' title='Add product to comper list' onClick={() => handleCompare(product.slug)}>

@@ -111,7 +111,7 @@ const Compare = () => {
                                             <th className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
                                                 <img
                                                     className='h-12 aspect-square object-cover'
-                                                    src={product.images.length == 0 ? "https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg" : product.product.images[0].img}
+                                                    src={product.images.length == 0 ? "https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg" : product.images[0].img}
                                                     alt={product.name}
                                                 />
                                                 {`${product.name} (${product.name})`}

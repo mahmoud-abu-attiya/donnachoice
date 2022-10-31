@@ -266,7 +266,7 @@ const ProductBox = (props) => {
    }, []);
 
    return (
-      <div className="w-full relative border bg-gray-100 rounded-lg shadow-md">
+      <div className="w-full relative border bg-gray-50 rounded-lg shadow-md">
          <div className="wish absolute top-[1rem] text-red-500 text-xl right-[1rem]">
             {authState ? <button className='z-10' onClick={() => handleWishList(props.product.slug, props.product.is_wishlist)} title="Add to wishlist">
                {props.product.is_wishlist ? <i ref={heartIcon} className="fas fa-heart"></i> : <i ref={heartIcon} className="far fa-heart"></i>}
@@ -282,7 +282,7 @@ const ProductBox = (props) => {
          </div>
          <Link href={`/products/${props.product.slug}`}>
             <a>
-               <img className="mb-4 rounded-t-lg aspect-square object-cover" src={props.product.img ? props.product.img : "https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg"} alt={`${props.product.name} img`} />
+               <img className="mb-4 rounded-t-lg aspect-square object-cover" src={props.product.images != 0 ? props.product.images[0].img : "https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg"} alt={`${props.product.name} img`} />
                <div className="px-5 pb-5">
                   <h5 className="text-xl font-semibold tracking-tight text-gray-900">
                      {props.product.name}
