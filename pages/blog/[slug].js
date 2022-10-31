@@ -30,7 +30,7 @@ const Brand = ({ blog }) => {
       setAuth(Cookies.get("auth"))
    }, []);
    return (
-      (
+      blog && (
          <div className='container mb-8 space-y-8'>
          <nav className="flex col-span-9 bg-gray-50 py-3 px-5 rounded " aria-label="Breadcrumb">
             <ol className="inline-flex items-center space-x-1 md:space-x-3">
