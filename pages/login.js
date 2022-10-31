@@ -104,9 +104,34 @@ export default function Login() {
                // console.log(res.data);
                Cookies.set("token", res.data.access)
                Cookies.set("auth", true)
-               localStorage.setItem("stored-cart", JSON.stringify([]))
-               localStorage.setItem("stored-wishlist", JSON.stringify([]))
-               location.reload();
+               const storedCart = JSON.parse(localStorage.getItem("stored-cart")) || []
+               const modifiedStoredCart = []
+               for(let i=0; i<storedCart.length; i++){
+                  modifiedStoredCart.push({
+                     option: storedCart[i].id,
+                     quantity: storedCart[i].amount
+                  })
+               }
+               axios.post(`https://backends.donnachoice.com/api/products/cart/`, modifiedStoredCart, {
+                  headers: {
+                     Authorization: `Bearer ${Cookies.get("token")}`,
+                  },
+               })
+               .then(res => {
+                  axios.get(`https://backends.donnachoice.com/api/counts`, {
+                     headers: {
+                        Authorization: `Bearer ${Cookies.get("token")}`,
+                     },
+                  })
+                  .then(res => {
+                     dispatch(setAmount(res.data.wishlist))
+                     dispatch(setCartCount(res.data.cart))
+                     localStorage.setItem("stored-cart", JSON.stringify([]))
+                     localStorage.setItem("stored-wishlist", JSON.stringify([]))
+                     location.reload();
+                  })
+               })
+
             }).catch(err => {
                setLoading(false)
                let res = err.response.data
