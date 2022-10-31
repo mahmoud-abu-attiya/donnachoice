@@ -6,7 +6,7 @@ const Footer = () => {
          <div className="container md:flex md:justify-between p-4 sm:p-6">
             <div className="mb-6 md:mb-0 grow">
                <a href="#" className="flex items-center">
-                  <img src="https://donnachoice.com/wp-content/uploads/2022/06/donnachoice-4.png" className="mr-5 h-10 drop-shadow" alt="FlowBite Logo" />
+                  <img src="https://i.postimg.cc/nrsTJywx/donna-logo.png" className="mr-5 h-28 drop-shadow" alt="FlowBite Logo" />
                </a>
                <p className='max-w-sm'>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora tenetur iure amet a. Consequatur, eos optio deleniti atque delectus facilis in ut accusantium nulla! Ullam minima possimus rem ex quae.

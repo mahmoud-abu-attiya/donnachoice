@@ -286,17 +286,17 @@ const Product = ({ product }) => {
 							</div>
 						</div>
 						<div className={tab == true && "hidden"}>
-							<div className="flex flex-col gap-4">
-								<p>mahmoud</p>
-								<p>mahmoud</p>
-								<p>mahmoud</p>
-								<p>mahmoud</p>
+							<div className="flex flex-col gap-2 mb-2">
+								<p className='text-gray-600'><span className="font-light">brand:</span> {product.brand.name}</p>
+								<p className='text-gray-600'><span className="font-light">category:</span> {product.category.name}</p>
+								<p className='text-gray-600'><span className="font-light">product_code:</span> {product.product_code}</p>
+								<p className='text-gray-600'><span className="font-light">SKU:</span> {product.sku}</p>
 							</div>
 						</div>
 						<div className='flex gap-4'>
 							<div className='relative'>
 								<button
-									className="text-white bg-primary-200 hover:bg-primary-300 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+									className="text-white bg-primary-100 hover:bg-primary-200 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
 									onClick={(e) => {product.options.length == 1 ? handleCart(e.target, product.options[0].id) : toggleOptionsMenu(product.slug)}}
 								>
 									Add to cart

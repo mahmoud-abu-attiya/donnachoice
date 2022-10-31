@@ -19,6 +19,7 @@ import { Pagination, Navigation } from "swiper";
 const Category = (props) => {
    const [smScreen, setSmScreen] = useState(6);
    useEffect(() => {
+      console.log(props.brands)
       const handleMediaScreen = () => {
          if (window.innerWidth < 767) {
             setSmScreen(2);
@@ -118,7 +119,7 @@ const Category = (props) => {
                   {props.brands.brands.map(brand => {
                      return (
                         <SwiperSlide key={brand.id} className="h-full">
-                           <BrandSection slug={brand.slug} name={brand.name} />
+                           <BrandSection slug={brand.slug} name={brand.name} img={brand.img}/>
                         </SwiperSlide>
                      )
                   })}

@@ -170,7 +170,7 @@ export default function Login() {
                   >
                      <img
                         className="h-20 mr-2"
-                        src="https://donnachoice.com/wp-content/uploads/2022/06/donnachoice-4.png"
+                        src="https://i.postimg.cc/nrsTJywx/donna-logo.png"
                         alt="logo"
                      />
                   </a>
@@ -300,7 +300,7 @@ export default function Login() {
                   >
                      <img
                         className="h-20 mr-2"
-                        src="https://donnachoice.com/wp-content/uploads/2022/06/donnachoice-4.png"
+                        src="https://i.postimg.cc/nrsTJywx/donna-logo.png"
                         alt="logo"
                      />
                   </a>

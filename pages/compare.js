@@ -45,7 +45,7 @@ const Compare = () => {
 
     return (
         <div className='container p-5 flex flex-col items-center sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
-            <nav className="flex col-span-9 bg-gray-50 py-3 px-5 rounded " aria-label="Breadcrumb">
+            <nav className="flex w-full col-span-9 bg-gray-50 py-3 px-5 rounded " aria-label="Breadcrumb">
                 <ol className="inline-flex items-center space-x-1 md:space-x-3">
                     <li className="inline-flex items-center">
                         <a href="#" className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-gray-900">
