@@ -3,10 +3,12 @@ import Axios from "axios";
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
-const Brand = ({ blog }) => {
+const Brand = () => {
    const [auth, setAuth] = useState()
    const [commentErr, setCommentErr] = useState(false)
+   const [blog, setBlog] = useState()
    const handleComment = () => {
       let comment = document.getElementById("comment");
       const myStatus = {
@@ -26,6 +28,13 @@ const Brand = ({ blog }) => {
       }
    }
    useEffect(() => {
+      const slug = window.location.pathname.split("/")[2]
+      console.log(slug)
+      axios.get(`https://backends.donnachoice.com/api/blog/${slug}/`)
+      .then(res => {
+         console.log(res.data)
+         setBlog(res.data)
+      })
       console.log(blog);
       setAuth(Cookies.get("auth"))
    }, []);
@@ -110,21 +119,21 @@ const Brand = ({ blog }) => {
 
 export default Brand
 
-export const getStaticProps = async ({ params }) => {
-   const { data } = await Axios.get(`https://backends.donnachoice.com/api/blog/${params.slug}`);
-   const blog = data;
-   return {
-      props: {
-         blog,
-      },
-   };
-};
+// export const getStaticProps = async ({ params }) => {
+//    const { data } = await Axios.get(`https://backends.donnachoice.com/api/blog/${params.slug}`);
+//    const blog = data;
+//    return {
+//       props: {
+//          blog,
+//       },
+//    };
+// };
 
-export const getStaticPaths = async () => {
-   const { data } = await Axios.get("https://backends.donnachoice.com/api/blog/");
-   const paths = data.map((blogs) => ({ params: { slug: blogs.slug.toString() } }));
-   return {
-      paths,
-      fallback: true,
-   };
-};
+// export const getStaticPaths = async () => {
+//    const { data } = await Axios.get("https://backends.donnachoice.com/api/blog/");
+//    const paths = data.map((blogs) => ({ params: { slug: blogs.slug.toString() } }));
+//    return {
+//       paths,
+//       fallback: true,
+//    };
+// };
