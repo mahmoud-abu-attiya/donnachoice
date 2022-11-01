@@ -77,9 +77,6 @@ const Subnav = () => {
                   <i className="fab fa-instagram"></i>
                </a>
                <a href="#">
-                  <i className="fas fa-envelope"></i>
-               </a>
-               <a href="#">
                   <i className="fab fa-whatsapp"></i>
                </a>
             </div>
@@ -110,7 +107,7 @@ const Subnav = () => {
                   <a className="wish_list relative">
                      <i className="fas fa-heart"></i>
                      <span
-                        className="top-0 left-full absolute w-5 h-5 bg-red-500 border-2 border-white rounded-full text-sm flex items-center justify-center"
+                        className="top-0 left-[115%] absolute w-5 h-5 bg-red-500 border-2 border-white rounded-full text-sm flex items-center justify-center"
                         style={{ transform: "translate(-50%,-50%)" }}
                      >
                         {wishlistIndicator}
@@ -121,7 +118,7 @@ const Subnav = () => {
                   <a className="cart relative">
                      <i className="fas fa-shopping-cart"></i>
                      <span
-                        className="top-0 left-full absolute w-5 h-5 bg-red-500 border-2 border-white rounded-full text-sm flex items-center justify-center"
+                        className="top-0 left-[115%] absolute w-5 h-5 bg-red-500 border-2 border-white rounded-full text-sm flex items-center justify-center"
                         style={{ transform: "translate(-50%,-50%)" }}
                      >
                         {cartIndicator}
@@ -130,9 +127,9 @@ const Subnav = () => {
                </Link>
                <Link href={"/compare"}>
                   <a className="compare relative">
-                     <i className="fas fa-balance-scale"></i>
+                     <i className="fas fa-random"></i>
                      <span
-                        className="top-0 left-full absolute w-5 h-5 bg-red-500 border-2 border-white rounded-full text-sm flex items-center justify-center"
+                        className="top-0 left-[115%] absolute w-5 h-5 bg-red-500 border-2 border-white rounded-full text-sm flex items-center justify-center"
                         style={{ transform: "translate(-50%,-50%)" }}
                      >
                         {compareIndicator}

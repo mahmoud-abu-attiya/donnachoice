@@ -36,10 +36,12 @@ export default function Profile() {
          <nav className="flex col-span-9 bg-gray-50 py-3 px-5 rounded " aria-label="Breadcrumb">
             <ol className="inline-flex items-center space-x-1 md:space-x-3">
                <li className="inline-flex items-center">
-                  <a href="#" className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                     <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
-                     Home
-                  </a>
+                  <Link href="/">
+                     <a className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                        <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
+                        Home
+                     </a>
+                  </Link>
                </li>
                <li>
                   <div className="flex items-center">
@@ -75,43 +77,43 @@ export default function Profile() {
                   </li>
                   <li>
                      <Link href="/wish-list">
-                     <a
-                        className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100"
-                     >
-                        <i className="fad fa-heart text-gray-500 text-xl hidden sm:block"></i>
-                        <span className="flex-1 sm:ml-3 whitespace-nowrap">Wish list</span>
-                        <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-primary-100 bg-primary-300 rounded-full">
-                           3
-                        </span>
-                     </a>
+                        <a
+                           className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100"
+                        >
+                           <i className="fad fa-heart text-gray-500 text-xl hidden sm:block"></i>
+                           <span className="flex-1 sm:ml-3 whitespace-nowrap">Wish list</span>
+                           <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-primary-100 bg-primary-300 rounded-full">
+                              3
+                           </span>
+                        </a>
                      </Link>
                   </li>
                   <li>
                      <Link href={"/cart"}>
-                     <a
-                        href="#"
-                        className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100"
-                     >
-                        <i className="fad fa-shopping-cart text-gray-500 text-xl hidden sm:block"></i>
-                        <span className="flex-1 sm:ml-3 whitespace-nowrap">Cart</span>
-                        <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-primary-100 bg-primary-300 rounded-full">
-                           3
-                        </span>
-                     </a>
+                        <a
+                           href="#"
+                           className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100"
+                        >
+                           <i className="fad fa-shopping-cart text-gray-500 text-xl hidden sm:block"></i>
+                           <span className="flex-1 sm:ml-3 whitespace-nowrap">Cart</span>
+                           <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-primary-100 bg-primary-300 rounded-full">
+                              3
+                           </span>
+                        </a>
                      </Link>
                   </li>
                   <li>
                      <Link href={"/compare"}>
-                     <a
-                        href="#"
-                        className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100"
-                     >
-                        <i className="fad fa-balance-scale text-gray-500 text-xl hidden sm:block"></i>
-                        <span className="flex-1 sm:ml-3 whitespace-nowrap">Compare</span>
-                        <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-primary-100 bg-primary-300 rounded-full">
-                           3
-                        </span>
-                     </a>
+                        <a
+                           href="#"
+                           className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100"
+                        >
+                           <i className="fad fa-balance-scale text-gray-500 text-xl hidden sm:block"></i>
+                           <span className="flex-1 sm:ml-3 whitespace-nowrap">Compare</span>
+                           <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-primary-100 bg-primary-300 rounded-full">
+                              3
+                           </span>
+                        </a>
                      </Link>
                   </li>
 
@@ -199,7 +201,7 @@ export default function Profile() {
                               White
                            </td>
                            <td className="py-4 px-6">
-                           2022-20-02
+                              2022-20-02
                            </td>
                            <td className="py-4 px-6">
                               $1999
@@ -216,7 +218,7 @@ export default function Profile() {
                               Black
                            </td>
                            <td className="py-4 px-6">
-                           2022-20-02
+                              2022-20-02
                            </td>
                            <td className="py-4 px-6">
                               $99

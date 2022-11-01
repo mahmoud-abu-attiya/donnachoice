@@ -60,9 +60,6 @@ const Footer = () => {
                   <i className="fab fa-instagram"></i>
                   </a>
                   <a href="#" className="hover:text-gray-900">
-                     <i className="fab fa-twitter"></i>
-                  </a>
-                  <a href="#" className="hover:text-gray-900">
                   <i className="fab fa-whatsapp"></i>
                   </a>
                   <a href="#" className="hover:text-gray-900">

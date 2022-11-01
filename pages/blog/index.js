@@ -61,6 +61,7 @@ export default function Index({ blogs, category_blogs }) {
                      </div>
                   </div>
                )
+               
             })}
          </div>
       </div>

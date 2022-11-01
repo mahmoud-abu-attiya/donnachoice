@@ -175,7 +175,7 @@ export default function Products({ brands, categorys }) {
                      Fillter
                   </button>
                   <hr className="block lg:hidden my-4 h-px bg-gray-200 border-0 col-span-8" />
-               <div className="h-fit col-span-8 lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+               <div className="h-fit col-span-8 lg:col-span-6 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4">
                   {/* {categorySlug && (
                   <div className='col-span-3 bg-gray-700 text-primary-200 border px-5 py-3 w-fit capitalize text-2xl rounded-md flex items-center gap-4'>
                   <span className="text-sm">category:</span>
