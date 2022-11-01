@@ -291,7 +291,7 @@ const Product = ({ product }) => {
 								<h2 className='text-2xl'>{product && product.name}</h2>
 								<p className='text-gray-600'>{product.describtion ? product.describtion : "no descrioption"}</p>
 
-								<span className='text-xl text-gray-700'>$ {product.options[0].price}</span>
+								
 							</div>
 						</div>
 						<div className={tab == true && "hidden"}>
@@ -301,6 +301,14 @@ const Product = ({ product }) => {
 								<p className='text-gray-600'><span className="font-light">product_code:</span> {product.product_code}</p>
 								<p className='text-gray-600'><span className="font-light">SKU:</span> {product.sku}</p>
 							</div>
+						</div>
+						<div className='text-xl text-gray-700 mt-8'>QR {product.options[0].price}</div>
+						<div className='flex gap-2 flex-wrap my-4'>
+							{product.options.map(option => {
+								return(
+									<p key={option.id} className="px-4 py-2 rounded border">{option.name}</p>
+								)
+							})}
 						</div>
 						<div className='flex gap-4'>
 							<div className='relative'>
