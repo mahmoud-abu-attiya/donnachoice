@@ -15,7 +15,7 @@
 }
 
 .swiper-pagination-bullet {
-   background-color: #e681e4 !important;
+   background-color: #ab5266 !important;
 }
 
 .homehero {
@@ -26,7 +26,7 @@
 
 .homehero .swiper-button-next,
 .homehero .swiper-button-prev {
-   color: #e681e4;
+   color: #ab5266;
 }
 
 .catigory_box div {
@@ -42,33 +42,15 @@
    padding-bottom: 3rem !important;
 }
 
-.caregories-slider .swiper-button-prev,
-.caregories-slider .swiper-button-next {
-   bottom: 0;
+.caregories-slider .prev,
+.caregories-slider .next {
    width: 2.5rem;
-   top: auto;
-   display: flex;
    justify-content: center;
    align-items: center;
    border-radius: 10px;
    height: auto;
    aspect-ratio: 1/1;
-   @apply shadow bg-gray-100 border border-gray-300 hover:bg-primary-100/25 transition
-}
-
-.caregories-slider .swiper-button-prev::after {
-   content: "<";
-}
-
-.caregories-slider .swiper-button-next::after {
-   content: ">";
-}
-
-.caregories-slider .swiper-button-prev::after,
-.caregories-slider .swiper-button-next::after {
-   font-weight: bold;
-   font-size: inherit;
-   color: #e681e4;
+   @apply hidden sm:flex shadow bg-gray-100 border border-gray-300 hover:bg-primary-100/25 transition text-primary-100
 }
 
 .hero {
@@ -92,6 +74,8 @@
    }
 
 }
+
+
 @media (max-width: 1023px) {
    aside.filter {
       /* display: none; */
@@ -113,7 +97,25 @@
       padding: 1rem;
       border-radius: 10px;
    }
-   .filter_btn{
+
+   .filter_btn {
       display: flex;
+   }
+}
+
+.square {
+   aspect-ratio: 1/1;
+}
+@supports not (aspect-ratio: 1 / 1) {
+   .square::before {
+      float: left;
+      padding-top: 100%;
+      content: "";
+   }
+
+   .square::after {
+      display: block;
+      content: "";
+      clear: both;
    }
 }

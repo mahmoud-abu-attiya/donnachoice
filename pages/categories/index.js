@@ -14,27 +14,18 @@ export const getStaticProps = async () => {
 
 export default function Categories({ categories }) {
 	useEffect(()=>{
-		console.log(categories.brands_sections);
-		console.log(categories.products_sections);
+		console.log(categories);
 	},[categories])
 	return (
 		<div>
 			<Hero title="categories" />
 			<div className="container">
-				<div className="grid grid-cols-1 gap-6 md:gap-10 py-8">
-					{categories.products_sections.map((products, index) => {
+				<div className="grid grid-cols-1 gap-8 md:gap-10 py-8">
+					{categories && categories.map((products, index) => {
 						return(
 							<Category key={index} products={products} />
 						)
 					})}
-					{categories.brands_sections.map((brand, index) => {
-						return(
-							<Category key={index} brands={brand} />
-						)
-					})}
-					{/* <Category title="Our Shop" data={categories.brands_sections} />
-					<Category title="Our Shop" />
-					<Category title="Our Shop" /> */}
 				</div>
 			</div>
 		</div>

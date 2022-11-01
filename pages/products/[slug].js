@@ -115,6 +115,7 @@ const Product = ({ product }) => {
 	const optionsMenu = useRef()
 	const dispatch = useDispatch()
 	useEffect(() => {
+		console.log(product);
 		storedCart = JSON.parse(localStorage.getItem("stored-cart")) || []
 		storedCartIds = storedCart.map(cartId => cartId.id)
 		if (!auth) {

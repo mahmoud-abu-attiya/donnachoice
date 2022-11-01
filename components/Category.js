@@ -1,8 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 import React from "react";
 import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Link from "next/link";
 import BrandSection from "./BrandSection";
+import { useSwiper } from 'swiper/react';
 
 // import React, { useRef, useState } from "react";
 // Import Swiper React components
@@ -11,53 +13,40 @@ import BrandSection from "./BrandSection";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
-import "swiper/css/navigation";
 
-// import required modules
-import { Pagination, Navigation } from "swiper";
+import { Pagination } from "swiper";
+
+export const SwiperButtonNext = ({ children }) => {
+   const swiper = useSwiper();
+   return <button onClick={() => swiper.slideNext()} className="next">{children}</button>;
+};
+
+export const SwiperButtonPrev = ({ children }) => {
+   const swiper = useSwiper();
+   return <button onClick={() => swiper.slidePrev()} className="prev">{children}</button>;
+};
 
 const Category = (props) => {
-   const [smScreen, setSmScreen] = useState(6);
    useEffect(() => {
-      console.log(props.brands)
-      const handleMediaScreen = () => {
-         if (window.innerWidth < 767) {
-            setSmScreen(2);
-         }
-      }
-      handleMediaScreen()
-      window.onresize = () => {
-         handleMediaScreen()
-      }
+      console.log(props.product)
       console.log(props.products);
-   }, [smScreen]);
+   }, []);
    return (
       <>
+
          {props.products &&
             <div>
                <div className="head flex justify-between items-center">
                   <h4 className="text-xl md:text-2xl font-bold">{props.products.name}</h4>
                   <Link href={props.products.url}>
                      <a
-                        className="text-white bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 transition hover:shadow-md hover:scale-105">
+                        className="text-white  bg-primary-100  focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 transition hover:shadow-md hover:scale-105">
                         View more
                      </a>
                   </Link>
                </div>
-               {/* <Swiper
-                  slidesPerView={6}
-                  spaceBetween={10}
-                  freeMode={true}
-                  cssMode={true}
-                  navigation={true}
-                  pagination={true}
-                  mousewheel={true}
-                  keyboard={true}
-                  modules={[Navigation, Pagination, Mousewheel, Keyboard]}
-                  className="mySwiper caregories-slider"
-               > */}
                <Swiper
-                  slidesPerView={smScreen}
+                  slidesPerView={2}
                   spaceBetween={10}
                   slidesPerGroup={1}
                   loop={true}
@@ -65,22 +54,31 @@ const Category = (props) => {
                   pagination={{
                      clickable: true,
                   }}
-                  navigation={true}
-                  modules={[Pagination, Navigation]}
+                  breakpoints={{
+                     768: {
+                        slidesPerView: 4,
+                        spaceBetween: 15,
+                     },
+                     1024: {
+                        slidesPerView: 6,
+                        spaceBetween: 20,
+                     },
+                  }}
+                  modules={[Pagination]}
                   className="mySwiper caregories-slider"
                >
-                  {props.products.products.map(product => {
+                  {props.products.items.map((item, index) => {
                      return (
-                        <SwiperSlide key={product.id} className="h-full">
-                           <Link href={"/products/" + product.slug}>
+                        <SwiperSlide key={index} className="h-full">
+                           <Link href={item.url}>
                               <a className="h-full">
                                  <div className="max-w-sm h-full bg-gray-100 rounded-lg border border-gray-200 shadow-md">
                                     <img
-                                       className="rounded-t-lg aspect-square object-cover"
-                                       src={product.images.length > 0 ? `https://backends.donnachoice.com${product.images[0].img}` : "https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg"} alt="img" />
-                                    <div className="p-4">
+                                       className="rounded-t-lg square object-contain"
+                                       src={item.img ? `https://backends.donnachoice.com${item.img}` : "https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg"} alt="img" />
+                                    <div className="py-4">
                                        <h5 className="text-center font-bold text-gray-900">
-                                          {product.name}
+                                          {item.name}
                                        </h5>
                                     </div>
                                  </div>
@@ -89,10 +87,18 @@ const Category = (props) => {
                         </SwiperSlide>
                      )
                   })}
+                  <div className="flex justify-between w-full absolute bottom-0 z-10">
+                  <SwiperButtonPrev>
+                     <i className="fas fa-arrow-left"></i>
+                  </SwiperButtonPrev>
+                  <SwiperButtonNext>
+                     <i className="fas fa-arrow-right"></i>
+                  </SwiperButtonNext>
+                  </div>
                </Swiper>
             </div>
          }
-         {props.brands &&
+         {/* {props.brands &&
             <div>
                <div className="head flex justify-between items-center">
                   <h4 className="text-xl md:text-2xl font-bold">{props.brands.name}</h4>
@@ -119,13 +125,13 @@ const Category = (props) => {
                   {props.brands.brands.map(brand => {
                      return (
                         <SwiperSlide key={brand.id} className="h-full">
-                           <BrandSection slug={brand.slug} name={brand.name} img={brand.img}/>
+                           <BrandSection slug={brand.slug} name={brand.name} img={brand.img} />
                         </SwiperSlide>
                      )
                   })}
                </Swiper>
             </div>
-         }
+         } */}
       </>
    )
 }

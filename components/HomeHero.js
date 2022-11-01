@@ -1,25 +1,28 @@
-import React, { useRef, useState } from "react";
-// Import Swiper React components
+/* eslint-disable @next/next/no-img-element */
+import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import "swiper/css/autoplay"
+import { Autoplay, Pagination, Navigation } from "swiper";
 
-// import required modules
-import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper";
 
 export default function App() {
    return (
       <>
          <Swiper
-            cssMode={true}
+            spaceBetween={30}
+            centeredSlides={true}
+            autoplay={{
+               delay: 3500,
+               disableOnInteraction: false,
+            }}
+            pagination={{
+               clickable: true,
+            }}
             navigation={true}
-            pagination={true}
-            mousewheel={true}
-            keyboard={true}
-            modules={[Navigation, Pagination, Mousewheel, Keyboard]}
+            modules={[Autoplay, Pagination, Navigation]}
             className="mySwiper homehero"
          >
             <SwiperSlide>
