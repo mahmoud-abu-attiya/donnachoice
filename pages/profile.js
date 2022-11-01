@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import Cookies from "js-cookie";
 import { useEffect } from "react";

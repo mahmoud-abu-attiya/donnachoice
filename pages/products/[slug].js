@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useRef, useState } from 'react'
 import ProductBox from '../../components/ProductBox';
 import { useDispatch } from 'react-redux'
