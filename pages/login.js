@@ -348,14 +348,14 @@ export default function Login() {
                                  required
                               />
                            </div>
-                           <div className="flex items-center justify-between">
+                           {/* <div className="flex items-center justify-between">
                               <a
                                  href="#"
                                  className="text-sm font-medium text-blue-600 hover:underline"
                               >
                                  Forgot password?
                               </a>
-                           </div>
+                           </div> */}
                            <button
                               type="submit"
                               className="w-full text-white bg-primary-200 hover:bg-primary-300 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
