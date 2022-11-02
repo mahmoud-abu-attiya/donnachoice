@@ -19,6 +19,7 @@
     "swiper": "^8.4.4"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.2",
     "autoprefixer": "^10.4.12",
     "eslint": "8.25.0",
     "eslint-config-next": "12.3.1",
