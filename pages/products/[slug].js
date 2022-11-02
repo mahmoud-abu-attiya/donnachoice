@@ -5,6 +5,8 @@ import { useDispatch } from 'react-redux'
 import { setAmount } from "../../slices/wishlistIndicatorSlice"
 import { setCartCount } from "../../slices/cartIndicatorSlice"
 import { setCompareCount } from "../../slices/compareIndicatorSlice"
+import { APICart } from '../cart/api';
+import { LocalStorageCart } from '../cart/localstorage';
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import Link from 'next/link';
@@ -49,39 +51,6 @@ const handleWishlistLocalStorage = (heartElement, itemSlug, changed) => {
 	localStorage.setItem("stored-wishlist", JSON.stringify(storedWishlist))
 }
 
-const handleCartLocalStorage = (addToCartButton, itemId, changed) => {
-	const storedCart = JSON.parse(localStorage.getItem("stored-cart")) || []
-	const storedCartIds = storedCart.map(cartId => cartId.id)
-	if (storedCartIds.includes(itemId)) {
-		if (changed) {
-			console.log(storedCart)
-			console.log(itemId)
-			for (let i = 0; i < storedCart.length; i++) {
-				console.log("LOOP")
-				if (storedCart[i].id === itemId) {
-					console.log("IF", storedCart[i].id, itemId, i)
-					storedCart.splice(i, 1)
-					break
-				}
-			}
-			addToCartButton.textContent = "add"
-		} else {
-			addToCartButton.textContent = "remove"
-		}
-	} else {
-		if (changed) {
-			storedCart.push({
-				id: itemId,
-				amount: 1
-			})
-			addToCartButton.textContent = "remove"
-		} else {
-			addToCartButton.textContent = "add"
-		}
-	}
-	localStorage.setItem("stored-cart", JSON.stringify(storedCart))
-}
-
 const handleCompareLocalStorage = (compareElement, itemSlug, changed) => {
 	const storedCompare = JSON.parse(localStorage.getItem("stored-compare")) || []
 	if (storedCompare.includes(itemSlug)) {
@@ -113,12 +82,20 @@ const Product = ({ product }) => {
 	const auth = Cookies.get("auth")
 	const heartIcon = useRef()
 	const compareIcon = useRef()
-	const optionsMenu = useRef()
+	const [selectedOption, setselectedOption] = useState(product.options[0]?.id);
 	const dispatch = useDispatch()
+	let cart
+	if (auth){
+		cart = new APICart(Cookies.get("token"))
+	}else{
+		cart = new LocalStorageCart()
+	}
+
 	useEffect(() => {
 		console.log(product);
-		storedCart = JSON.parse(localStorage.getItem("stored-cart")) || []
-		storedCartIds = storedCart.map(cartId => cartId.id)
+		cart.load()
+		storedCart = cart.storedCart
+		storedCartIds = cart.storedCartIds
 		if (!auth) {
 			handleWishlistLocalStorage(heartIcon, product.slug, false)
 			handleCompareLocalStorage(compareIcon, product.slug, false)
@@ -183,35 +160,34 @@ const Product = ({ product }) => {
 		}
 	}
 
-	const handleCart = (cartBtn, itemId) => {
-		const auth = Cookies.get("auth")
-		if (!auth) {
-			handleCartLocalStorage(cartBtn, itemId, true)
-			dispatch(setCartCount(getNumberOfProductsInCart()))
-			return
-		}
-	}
-
-	const toggleOptionsMenu = () => {
-		if (optionsMenu.current) {
-			if (optionsMenu.current.classList.contains("hidden")) {
-				optionsMenu.current.classList.remove("hidden")
-			} else {
-				optionsMenu.current.classList.add("hidden")
-			}
-		}
-	}
-
 	const handleCompare = (item) => {
 		handleCompareLocalStorage(compareIcon, item, true)
 		dispatch(setCompareCount(getNumberOfProductsInCompare()))
 	}
+
+	const addSelectedOptionToCart = (quantity=1) => {
+		cart.load()
+		cart.add(selectedOption, quantity)
+		cart.save()
+		dispatch(setCartCount(cart.getItemsCount()))
+	}
+
 
 	useEffect(() => {
 		axios.get(`https://backends.donnachoice.com/api/products/?parents__slug=${product.slug}`)
 			.then(res => setRelatedPro(res.data))
 		console.log(product);
 	}, [product])
+
+	const selectOption = (e, optionId) => {
+		setselectedOption(optionId)
+		let currentOption = document.querySelector(".active-option")
+		if (currentOption) {
+			currentOption.classList.remove("active-option", "border-primary-100")
+		}
+		e.target.classList.add("active-option", "border-primary-100")
+	}
+
 	return (product &&
 		<>
 		<div className='container'>
@@ -227,7 +203,7 @@ const Product = ({ product }) => {
 					</li>
 					<li>
 						<div className="flex items-center">
-									<svg className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg>
+							<svg className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg>
 							<Link href="/products">
 								<a>
 									<span className="ml-1 text-sm font-medium text-gray-700 hover:text-gray-900 md:ml-2">
@@ -296,7 +272,7 @@ const Product = ({ product }) => {
 								<h2 className='text-2xl'>{product && product.name}</h2>
 								<p className='text-gray-600'>{product.describtion ? product.describtion : "no descrioption"}</p>
 
-								
+
 							</div>
 						</div>
 						<div className={tab == true && "hidden"}>
@@ -309,9 +285,9 @@ const Product = ({ product }) => {
 						</div>
 						<div className='text-xl text-gray-700 mt-8'>QR {product.options[0].price}</div>
 						<div className='flex gap-2 flex-wrap my-4'>
-							{product.options.map(option => {
-								return(
-									<p key={option.id} className="px-4 py-2 rounded border">{option.name}</p>
+							{product.options.map((option, index) => {
+								return (
+									<button key={option.id} onClick={(e) => selectOption(e, option.id)} className={index == 0 ? "px-4 py-2 rounded border border-primary-100 active-option" : "px-4 py-2 rounded border"}>{option.name}</button>
 								)
 							})}
 						</div>
@@ -319,23 +295,10 @@ const Product = ({ product }) => {
 							<div className='relative'>
 								<button
 									className="text-white bg-primary-100 hover:bg-primary-200 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-									onClick={(e) => { product.options.length == 1 ? handleCart(e.target, product.options[0].id) : toggleOptionsMenu(product.slug) }}
+									onClick={(e) => addSelectedOptionToCart()}
 								>
 									Add to cart
 								</button>
-								{product.options.length > 0 ? <div ref={optionsMenu} className='absolute right-0 top-full w-48 p-3 bg-white shadow rounded z-10 hidden'>
-									{product.options.map(option => {
-										return (
-											<div key={option.id} className='grid grid-cols-3 option'>
-												<span>{option.name}</span>
-												<span>{option.price}$</span>
-												<button data-slug={product.slug} onClick={(e) => handleCart(e.target, option.id)}>
-													{storedCartIds.includes(option.id) ? "remove" : "add"}
-												</button>
-											</div>
-										)
-									})}
-								</div> : null}
 							</div>
 							<button className='z-10 text-xl border rounded px-4 bg-gray-100 hover:shadow transition hover:scale-105 text-red-600' title='Add product to wishlist' onClick={() => handleWishList(product.slug, product.is_wishlist)}>
 								<i ref={heartIcon} className="far fa-heart"></i>
