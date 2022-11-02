@@ -17,6 +17,10 @@ export class LocalStorageCart {
         return total
     }
 
+    setCartCount(setterFunc, dispatcher) {
+        dispatcher(setterFunc(this.getItemsCount()))
+    }
+
     add(optionId, quantity = 1) {
         const index = this.storedCartIds.indexOf(optionId)
         if (index === -1) {

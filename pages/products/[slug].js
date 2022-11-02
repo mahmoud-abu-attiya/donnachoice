@@ -169,7 +169,7 @@ const Product = ({ product }) => {
 		cart.load()
 		cart.add(selectedOption, quantity)
 		cart.save()
-		dispatch(setCartCount(cart.getItemsCount()))
+		cart.setCartCount(setCartCount, dispatch)
 	}
 
 

@@ -5,6 +5,7 @@ export class APICart {
     storedCartIds = []
     token
     url = "https://backends.donnachoice.com/api/products/cart/"
+    countUrl = "https://backends.donnachoice.com/api/counts"
 
     constructor(token) {
         this.token = token
@@ -22,9 +23,15 @@ export class APICart {
     }
 
     getItemsCount() {
-        this.load()
-        // this should call the backend endpoint to check for the count but now we should wait till this endpoint is updated
-        return this.storedCartIds.length
+        return axios.get(this.countUrl, {
+            headers: {
+                Authorization: `Bearer ${this.token}`,
+            }
+        })
+    }
+
+    setCartCount(setterFunc, dispatcher) {
+        this.getItemsCount().then((res) => dispatcher(setterFunc(res.data.cart)))
     }
 
     add(optionId, quantity = 1) {
