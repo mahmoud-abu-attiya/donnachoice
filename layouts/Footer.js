@@ -6,7 +6,7 @@ const Footer = () => {
    return (
       <footer className=" bg-gray-100 ">
          <div className="container md:flex md:justify-between p-4 sm:p-6">
-            <div className="mb-6 md:mb-0 grow">
+            <div className="mb-6 md:mb-0">
                <a href="#" className="flex items-center">
                   <img
                      src="https://i.postimg.cc/nrsTJywx/donna-logo.png"

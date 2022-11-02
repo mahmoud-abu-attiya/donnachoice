@@ -326,15 +326,17 @@ const ProductBox = (props) => {
          </div>
          <Link href={`/products/${props.product.slug}`}>
             <a>
-               <img
-                  className="mb-4 w-full rounded-t-lg square object-contain"
-                  src={
-                     props.product.images != 0
-                        ? props.product.images[0].img
-                        : "https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg"
-                  }
-                  alt={`${props.product.name} img`}
-               />
+               <div className="w-full img-container">
+                  <img
+                     className="mb-4 w-full rounded-t-lg square object-contain"
+                     src={
+                        props.product.images != 0
+                           ? props.product.images[0].img
+                           : "https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg"
+                     }
+                     alt={`${props.product.name} img`}
+                  />
+               </div>
                <div className="px-2 sm:px-5 sm:pb-5">
                   <h5 className="text-xl font-semibold tracking-tight text-gray-900">
                      {props.product.name}

@@ -6,7 +6,7 @@ import Loading from './Loading'
 const Layout = ({ children }) => {
    return (
       <>
-         <Loading />
+         {/* <Loading /> */}
          <Navbar />
             {children}
          <Footer />

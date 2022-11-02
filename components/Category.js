@@ -73,9 +73,11 @@ const Category = (props) => {
                            <Link href={item.url}>
                               <a className="h-full">
                                  <div className="max-w-sm h-full bg-gray-100 rounded-lg border border-gray-200 shadow-md">
+                                    <div className="img-container">
                                     <img
-                                       className="rounded-t-lg square object-contain"
+                                       className="square object-contain"
                                        src={item.img ? `https://backends.donnachoice.com${item.img}` : "https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg"} alt="img" />
+                                    </div>
                                     <div className="py-4">
                                        <h5 className="text-center font-bold text-gray-900">
                                           {item.name}
