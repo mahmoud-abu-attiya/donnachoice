@@ -215,7 +215,7 @@ const Cart = () => {
                            </tr>
                         </thead>
                         <tbody>
-                           {/* {products.length == 0 ? "there is no products in cart yet."
+                           {products.length == 0 ? "there is no products in cart yet."
                               : (
                                  products.map((product, index) => {
                                     return (
@@ -248,8 +248,8 @@ const Cart = () => {
                                        </tr>
                                     )
                                  })
-                              )} */}
-                           <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                              )}
+                           {/* <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                               <td className="p-4 w-32">
                                  <img src="/docs/images/products/apple-watch.png" alt="Apple Watch" />
                               </td>
@@ -277,7 +277,7 @@ const Cart = () => {
                               <td className="py-4 px-6">
                                  <a href="#" className="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</a>
                               </td>
-                           </tr>
+                           </tr> */}
 
                         </tbody>
                      </table>

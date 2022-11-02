@@ -5,6 +5,33 @@ import React from "react";
 const Footer = () => {
    return (
       <footer className=" bg-gray-100 ">
+         <div className=" bg-gray-50">
+            <div className="container">
+               <div className="grid grid-cols-1 md:grid-cols-3">
+                  <div className="flex gap-4 py-8 items-center">
+                     <i class="fad fa-truck col-span-2 text-6xl"></i>
+                     <div className="col-span-5">
+                        <h6 className="text-xl font-bold">GREAT VALUE</h6>
+                        <p className="font-light text-gray-600">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta, aliquid.</p>
+                     </div>
+                  </div>
+                  <div className="flex gap-4 py-8 items-center">
+                     <i class="fad fa-credit-card col-span-2 text-6xl"></i>
+                     <div className="col-span-5">
+                        <h6 className="text-xl font-bold">SAFE PAYMENT</h6>
+                        <p className="font-light text-gray-600">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta, aliquid.</p>
+                     </div>
+                  </div>
+                  <div className="flex gap-4 py-8 items-center">
+                     <i class="fad fa-clock col-span-2 text-6xl"></i>
+                     <div className="col-span-5">
+                        <h6 className="text-xl font-bold">HELP CENTER</h6>
+                        <p className="font-light text-gray-600">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta, aliquid.</p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
          <div className="container md:flex md:justify-between p-4 sm:p-6">
             <div className="mb-6 md:mb-0">
                <a href="#" className="flex items-center">
@@ -104,7 +131,7 @@ const Footer = () => {
                </div>
             </div>
          </div>
-         <div className=" bg-primary-200 text-gray-100 p-4 sm:p-6">
+         <div className=" bg-primary-100 text-gray-100 p-4 sm:p-6">
             <div className="container sm:flex sm:items-center sm:justify-between">
                <span className="text-sm sm:text-center capitalize inline-block">
                   developed by{" "}

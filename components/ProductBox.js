@@ -413,7 +413,7 @@ const ProductBox = (props) => {
                {props.product.options.length > 0 ? (
                   <div
                      ref={optionsMenu}
-                     className="absolute right-0 top-full w-48 p-3 bg-white shadow rounded z-10 hidden"
+                     className="absolute right-0 top-full w-48 p-3 bg-white shadow rounded z-20 hidden"
                   >
                      {props.product.options.map((option) => {
                         return (
