@@ -8,6 +8,7 @@ import { setCompareCount } from "../../slices/compareIndicatorSlice"
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import Link from 'next/link';
+import ProductSwiper from "../../components/ProductSwiper"
 
 const getNumberOfProductsInWishlist = () => {
 	const storedWishlist = JSON.parse(localStorage.getItem("stored-wishlist")) || []
@@ -212,6 +213,7 @@ const Product = ({ product }) => {
 		console.log(product);
 	}, [product])
 	return (product &&
+		<>
 		<div className='container'>
 			<nav className="flex" aria-label="Breadcrumb">
 				<ol className="inline-flex items-center space-x-1 md:space-x-3">
@@ -247,7 +249,7 @@ const Product = ({ product }) => {
 			</nav>
 			<hr className="my-8 h-px bg-gray-200 border-0" />
 			<div className="product grid grid-cols-1 md:grid-cols-2 gap-8">
-				<div className="">
+				{/* <div className="">
 					<div className="flex items-center justify-center mb-8">
 						<img className='max-w-full max-h-[300px] object-cover' src={product.images.length != 0 ? product.images[imgIndex].img : "https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg"} alt="" />
 					</div>
@@ -263,7 +265,10 @@ const Product = ({ product }) => {
 						</div>
 					)}
 
-				</div>
+				</div> */}
+				<div className="p-s">
+		<ProductSwiper images={product.images} />
+		</div>
 				{/* ///////////////////////////////////////////////// */}
 
 				<div>
@@ -354,6 +359,7 @@ const Product = ({ product }) => {
 				</div>
 			</div>
 		</div>
+		</>
 	)
 }
 

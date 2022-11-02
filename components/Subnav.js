@@ -108,7 +108,7 @@ const Subnav = () => {
                   <a className="wish_list relative">
                      <i className="fas fa-heart"></i>
                      <span
-                        className="top-0 left-[115%] absolute w-5 h-5 bg-red-500 border-2 border-white rounded-full text-sm flex items-center justify-center"
+                        className="top-0 left-[115%] absolute w-4 h-4 border border-white bg-red-500 rounded-full text-xs flex items-center justify-center"
                         style={{ transform: "translate(-50%,-50%)" }}
                      >
                         {wishlistIndicator}
@@ -119,7 +119,7 @@ const Subnav = () => {
                   <a className="cart relative">
                      <i className="fas fa-shopping-cart"></i>
                      <span
-                        className="top-0 left-[115%] absolute w-5 h-5 bg-red-500 border-2 border-white rounded-full text-sm flex items-center justify-center"
+                        className="top-0 left-[115%] absolute w-4 h-4 border border-white bg-red-500 rounded-full text-xs flex items-center justify-center"
                         style={{ transform: "translate(-50%,-50%)" }}
                      >
                         {cartIndicator}
@@ -130,7 +130,7 @@ const Subnav = () => {
                   <a className="compare relative">
                      <i className="fas fa-random"></i>
                      <span
-                        className="top-0 left-[115%] absolute w-5 h-5 bg-red-500 border-2 border-white rounded-full text-sm flex items-center justify-center"
+                        className="top-0 left-[115%] absolute w-4 h-4 border border-white bg-red-500 rounded-full text-xs flex items-center justify-center"
                         style={{ transform: "translate(-50%,-50%)" }}
                      >
                         {compareIndicator}

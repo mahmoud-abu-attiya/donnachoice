@@ -288,7 +288,7 @@ const ProductBox = (props) => {
 
    return (
       <div className="w-full relative border bg-gray-50 rounded-lg shadow-md">
-         <div className="wish absolute top-[1rem] text-red-500 text-xl right-[1rem]">
+         <div className="wish z-10 absolute top-[1rem] text-red-500 text-xl right-[1rem]">
             {authState ? (
                <button
                   className="z-10"
@@ -315,9 +315,9 @@ const ProductBox = (props) => {
                </button>
             )}
          </div>
-         <div className="wish absolute top-[1rem] text-blue-500 text-xl left-[1rem]">
+         <div className="wish z-10 absolute top-[1rem] text-blue-500 text-xl left-[1rem]">
             <button
-               className="z-10"
+               className=""
                onClick={() => handleCompare(props.product.slug)}
                title="Add to compare list"
             >
@@ -326,9 +326,9 @@ const ProductBox = (props) => {
          </div>
          <Link href={`/products/${props.product.slug}`}>
             <a>
-               <div className="w-full img-container">
+               <div className="w-full mb-4 img-container">
                   <img
-                     className="mb-4 w-full rounded-t-lg square object-contain"
+                     className="w-full rounded-t-lg square object-contain"
                      src={
                         props.product.images != 0
                            ? props.product.images[0].img

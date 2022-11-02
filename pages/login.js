@@ -29,6 +29,7 @@ export default function Login() {
          }
          axios.post("https://backends.donnachoice.com/api/users/login/", myStatus)
             .then(res => {
+               // console.log(res.data);
                Cookies.set("token", res.data.access)
                Cookies.set("auth" , true)
                const storedCart = JSON.parse(localStorage.getItem("stored-cart")) || []

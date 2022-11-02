@@ -6,10 +6,14 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { useState } from "react";
 import Link from "next/link";
+import { useSelector } from "react-redux";
 
 export default function Profile() {
    const router = useRouter();
    const [user, setUser] = useState("");
+   const wishlistIndicator = useSelector(state => state.wishlistIndicator.count)
+   const cartIndicator = useSelector(state => state.cartIndicator.count)
+   const compareIndicator = useSelector(state => state.compareIndicator.count)
    const handleLogout = () => {
       Cookies.remove("token")
       Cookies.remove("auth")
@@ -64,7 +68,7 @@ export default function Profile() {
          </nav>
          <aside className="col-span-9 lg:col-span-2" aria-label="Sidebar">
             <div className="overflow-y-auto py-4 px-3 bg-gray-50 rounded-lg border">
-               <ul className="lg:space-y-2 flex items-center lg:items-stretch lg:flex-col">
+               <ul className="lg:space-y-2 flex justify-between items-center lg:items-stretch lg:flex-col">
                   <li className="hidden sm:block">
                      <a
                         href="#"
@@ -84,7 +88,7 @@ export default function Profile() {
                            <i className="fad fa-heart text-gray-500 text-xl hidden sm:block"></i>
                            <span className="flex-1 sm:ml-3 whitespace-nowrap">Wish list</span>
                            <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-primary-100 bg-primary-300 rounded-full">
-                              3
+                              {wishlistIndicator}
                            </span>
                         </a>
                      </Link>
@@ -98,7 +102,7 @@ export default function Profile() {
                            <i className="fad fa-shopping-cart text-gray-500 text-xl hidden sm:block"></i>
                            <span className="flex-1 sm:ml-3 whitespace-nowrap">Cart</span>
                            <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-primary-100 bg-primary-300 rounded-full">
-                              3
+                              {cartIndicator}
                            </span>
                         </a>
                      </Link>
@@ -109,10 +113,11 @@ export default function Profile() {
                            href="#"
                            className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100"
                         >
-                           <i className="fad fa-balance-scale text-gray-500 text-xl hidden sm:block"></i>
+                           {/* <i class="fad fa-random"></i> */}
+                           <i className="fad fa-random text-gray-500 text-xl hidden sm:block"></i>
                            <span className="flex-1 sm:ml-3 whitespace-nowrap">Compare</span>
                            <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-primary-100 bg-primary-300 rounded-full">
-                              3
+                              {compareIndicator}
                            </span>
                         </a>
                      </Link>
@@ -155,7 +160,15 @@ export default function Profile() {
             </div>
             <div className="space-y-4">
                <h4 className="text-xl font-bold">Order history</h4>
-               <div className="overflow-x-auto relative shadow-md sm:rounded-lg border">
+               <div className="bg-gray-50 rounded-md border p-8">
+                  <p className="text-2xl font-bold text-center">There is no orders yet.</p>
+                  <Link href={"/products"}>
+                     <div className="w-full grow max-w-[200px] transition hover:shadow-lg hover:bg-primary-100/75 text-center bg-primary-100 text-white rounded py-3 px-5 mx-auto cursor-pointer my-8">
+                        Start Shopping
+                     </div>
+                  </Link>
+               </div>
+               {/* <div className="overflow-x-auto relative shadow-md sm:rounded-lg border">
                   <table className="w-full text-sm text-left text-gray-500">
                      <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b">
                         <tr>
@@ -191,7 +204,7 @@ export default function Profile() {
                               $2999
                            </td>
                            <td className="py-4 px-6">
-                              <a href="#" className="font-medium text-blue-600 hover:underline">Edit</a>
+                              <a href="#" className="font-medium text-blue-600 hover:underline">View</a>
                            </td>
                         </tr>
                         <tr className="bg-white border-b">
@@ -208,7 +221,7 @@ export default function Profile() {
                               $1999
                            </td>
                            <td className="py-4 px-6">
-                              <a href="#" className="font-medium text-blue-600 hover:underline">Edit</a>
+                              <a href="#" className="font-medium text-blue-600 hover:underline">View</a>
                            </td>
                         </tr>
                         <tr className="bg-white">
@@ -225,12 +238,12 @@ export default function Profile() {
                               $99
                            </td>
                            <td className="py-4 px-6">
-                              <a href="#" className="font-medium text-blue-600 hover:underline">Edit</a>
+                              <a href="#" className="font-medium text-blue-600 hover:underline">View</a>
                            </td>
                         </tr>
                      </tbody>
                   </table>
-               </div>
+               </div> */}
             </div>
          </div>
       </div>
