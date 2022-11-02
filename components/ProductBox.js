@@ -400,7 +400,7 @@ const ProductBox = (props) => {
             </a>
          </Link>
          <div className="flex flex-wrap justify-between items-center px-2 sm:px-5 pb-2 sm:pb-5">
-            <span className="sm:text-3xl font-bold text-gray-900">
+            <span className="text-xl sm:text-3xl mb-4 sm:mb-0 font-bold text-gray-900">
                ${props.product.options[0].price}
             </span>
             <div className="relative w-full sm:w-fit">
@@ -412,8 +412,9 @@ const ProductBox = (props) => {
                </button>
                {props.product.options.length > 0 ? (
                   <div
+                  onMouseLeave={() => toggleOptionsMenu()}
                      ref={optionsMenu}
-                     className="absolute right-0 top-full w-48 p-3 bg-white shadow rounded z-20 hidden"
+                     className="absolute right-1/2 translate-x-1/2 top-full w-48 p-3 bg-white shadow rounded z-20 hidden"
                   >
                      {props.product.options.map((option) => {
                         return (
