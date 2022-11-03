@@ -69,9 +69,9 @@ const handleCartLocalStorage = (addToCartButton, itemId, changed) => {
                break;
             }
          }
-         addToCartButton.textContent = "add";
+         addToCartButton.textContent = "Add";
       } else {
-         addToCartButton.textContent = "remove";
+         addToCartButton.textContent = "Remove";
       }
    } else {
       if (changed) {
@@ -79,9 +79,9 @@ const handleCartLocalStorage = (addToCartButton, itemId, changed) => {
             id: itemId,
             amount: 1,
          });
-         addToCartButton.textContent = "remove";
+         addToCartButton.textContent = "Remove";
       } else {
-         addToCartButton.textContent = "add";
+         addToCartButton.textContent = "Add";
       }
    }
    localStorage.setItem("stored-cart", JSON.stringify(storedCart));
@@ -211,7 +211,7 @@ const ProductBox = (props) => {
    const handleCart = (cartBtn, itemId) => {
       const auth = Cookies.get("auth");
       if (auth) {
-         if (cartBtn.textContent == "add") {
+         if (cartBtn.textContent == "Add") {
             axios
                .post(
                   `https://backends.donnachoice.com/api/products/cart/`,
@@ -228,7 +228,7 @@ const ProductBox = (props) => {
                   }
                )
                .then((res) => {
-                  cartBtn.textContent = "remove";
+                  cartBtn.textContent = "Remove";
                   axios
                      .get(`https://backends.donnachoice.com/api/counts`, {
                         headers: {
@@ -253,7 +253,7 @@ const ProductBox = (props) => {
                   }
                )
                .then((res) => {
-                  cartBtn.textContent = "add";
+                  cartBtn.textContent = "Add";
                   axios
                      .get(`https://backends.donnachoice.com/api/counts`, {
                         headers: {
@@ -288,6 +288,18 @@ const ProductBox = (props) => {
       handleCompareLocalStorage(compareIcon, item, true);
       dispatch(setCompareCount(getNumberOfProductsInCompare()));
    };
+
+   const addedOne = (element, productId) => {
+      // element.textContent = "Done";
+      if(element.textContent == "Add to cart"){
+         if(authState && productId){
+
+         }
+         element.textContent = "Remove"
+      } else {
+         element.textContent = "Add to cart"
+      }
+   }
 
    return (
       <div className="w-full relative border bg-gray-50 rounded-lg shadow-md">
@@ -409,33 +421,36 @@ const ProductBox = (props) => {
             <div className="relative w-full sm:w-fit">
                <button
                   className="text-white w-full bg-primary-100 hover:bg-primary-200 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                  onClick={ props.product.options.length > 1 ? () => toggleOptionsMenu(props.product.slug) :  ()=>{ handleCart({textContent:"add"}, props.product.options[0].id)}}
+                  onClick={ props.product.options.length > 1 ? () => toggleOptionsMenu(props.product.slug) :  (e) => { handleCart({textContent:"Add"}, props.product.options[0].id); addedOne(e.target, props.product.options[0].id) }}
                >
                   Add to cart
                </button>
                {props.product.options.length > 0 ? (
                   <div
+                  onMouseLeave={() => toggleOptionsMenu()}
                      ref={optionsMenu}
-                     className="absolute right-1/2 translate-x-1/2 top-full w-48 p-3 bg-white shadow rounded z-20 hidden"
+                     className="absolute right-1/2 translate-x-1/2 top-full space-y-2 w-48 p-3 bg-white shadow rounded z-20 hidden"
                   >
                      {props.product.options.map((option) => {
                         return (
-                           <div key={option.id} className="grid grid-cols-3 option">
+                           <div key={option.id} className="text-xs items-center grid grid-cols-3 option">
                               <span>{option.name}</span>
                               <span>{option.price}QR</span>
                               {authState ? (
                                  <button
+                                 className="bg-primary-100 text-white rounded p-2"
                                     data-slug={props.product.slug}
                                     onClick={(e) => handleCart(e.target, option.id)}
                                  >
-                                    {option.is_added_to_cart ? "remove" : "add"}
+                                    {option.is_added_to_cart ? "Remove" : "Add"}
                                  </button>
                               ) : (
                                  <button
+                                 className="bg-primary-100 text-white rounded p-2"
                                     data-slug={props.product.slug}
                                     onClick={(e) => handleCart(e.target, option.id)}
                                  >
-                                    {storedCartIds.includes(option.id) ? "remove" : "add"}
+                                    {storedCartIds.includes(option.id) ? "Remove" : "Add"}
                                  </button>
                               )}
                            </div>
