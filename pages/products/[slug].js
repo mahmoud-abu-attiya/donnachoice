@@ -5,8 +5,8 @@ import { useDispatch } from 'react-redux'
 import { setAmount } from "../../slices/wishlistIndicatorSlice"
 import { setCartCount } from "../../slices/cartIndicatorSlice"
 import { setCompareCount } from "../../slices/compareIndicatorSlice"
-import { APICart } from '../cart/api';
-import { LocalStorageCart } from '../cart/localstorage';
+import { APICart } from '../../components/cart/api';
+import { LocalStorageCart } from '../../components/cart/localstorage';
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import Link from 'next/link';
