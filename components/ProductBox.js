@@ -269,6 +269,9 @@ const ProductBox = (props) => {
          handleCartLocalStorage(cartBtn, itemId, true);
          dispatch(setCartCount(getNumberOfProductsInCart()));
       }
+      if (cartBtn.parentElement){
+         toggleOptionsMenu()
+      }
    };
 
    const toggleOptionsMenu = () => {
@@ -401,18 +404,17 @@ const ProductBox = (props) => {
          </Link>
          <div className="flex flex-wrap justify-between items-center px-2 sm:px-5 pb-2 sm:pb-5">
             <span className="text-xl sm:text-3xl mb-4 sm:mb-0 font-bold text-gray-900">
-               ${props.product.options[0].price}
+               QR{props.product.options[0].price}
             </span>
             <div className="relative w-full sm:w-fit">
                <button
                   className="text-white w-full bg-primary-100 hover:bg-primary-200 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                  onClick={() => toggleOptionsMenu(props.product.slug)}
+                  onClick={ props.product.options.length > 1 ? () => toggleOptionsMenu(props.product.slug) :  ()=>{ handleCart({textContent:"add"}, props.product.options[0].id)}}
                >
                   Add to cart
                </button>
                {props.product.options.length > 0 ? (
                   <div
-                  onMouseLeave={() => toggleOptionsMenu()}
                      ref={optionsMenu}
                      className="absolute right-1/2 translate-x-1/2 top-full w-48 p-3 bg-white shadow rounded z-20 hidden"
                   >
@@ -420,7 +422,7 @@ const ProductBox = (props) => {
                         return (
                            <div key={option.id} className="grid grid-cols-3 option">
                               <span>{option.name}</span>
-                              <span>{option.price}$</span>
+                              <span>{option.price}QR</span>
                               {authState ? (
                                  <button
                                     data-slug={props.product.slug}

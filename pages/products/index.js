@@ -20,6 +20,7 @@ export const getStaticProps = async () => {
    }
 }
 
+let request = null;
 export default function Products({ brands, categorys }) {
    const [query, setQuery] = useState("");
    const [products, setProducts] = useState([]);
@@ -28,6 +29,7 @@ export default function Products({ brands, categorys }) {
    const [Floading, setFloading] = useState(false);
    const [smScreen, setSmScreen] = useState(false);
    const [filterPopup, setFilterPopup] = useState(false);
+
    useEffect(() => {
       if (window.innerWidth < 1023) {
          setSmScreen(true);
@@ -36,7 +38,7 @@ export default function Products({ brands, categorys }) {
       setSearchQuery(urlparam)
       let filter_btn = document.getElementById("filter_btn")
       filter_btn.onclick = () => {
-         
+
          let fields = document.querySelectorAll("aside [name]")
          let q = "?"
          fields.forEach(field => {
@@ -47,28 +49,48 @@ export default function Products({ brands, categorys }) {
          setSearchQuery(q);
       }
    }, [])
+
    useEffect(() => {
+      if (request) {
+         request.cancel()
+      }
+      request = axios.CancelToken.source()
       setFloading(true)
-      const brandSlug = window.location.search.split("&")[0].split("=")[1]
       const URL = `https://backends.donnachoice.com/api/products/${searchQuery}`
+      console.log("the url", URL)
       const auth = Cookies.get("auth")
       if (!auth) {
-         axios.get(URL).then(res => {
+         axios.get(URL, { cancelToken: request.token }).then(res => {
             setFloading(false)
             setFilterPopup(false)
             console.log(res.data);
             setProducts(res.data)
+         }).catch(err => {
+            if (axios.isCancel(err)) {
+               console.log("we cancelled previous request")
+            } else {
+               console.log("unkonw error")
+               console.log(err)
+            }
          })
       } else {
          axios.get(URL, {
             headers: {
                Authorization: `Bearer ${Cookies.get("token")}`
-            }
+            },
+            cancelToken: request.token
          }).then(res => {
             setFloading(false)
             setFilterPopup(false)
             console.log(res.data);
             setProducts(res.data)
+         }).catch(err => {
+            if (axios.isCancel(err)) {
+               console.log("we cancelled previous request")
+            } else {
+               console.log("unkonw error")
+               console.log(err)
+            }
          })
       }
    }, [searchQuery]);
@@ -157,24 +179,24 @@ export default function Products({ brands, categorys }) {
                            )}
                         </button>
                         <button
-                        type="button"
-                        id="reset_filter"
-                        // className="text-white w-full bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-                        className="border border-primary-100 w-full bg-gradient-to-r bg-primary-300 text-primary-100 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-                        onClick={() => setSearchQuery("")}
+                           type="button"
+                           id="reset_filter"
+                           // className="text-white w-full bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                           className="border border-primary-100 w-full bg-gradient-to-r bg-primary-300 text-primary-100 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                           onClick={() => setSearchQuery("")}
                         >
 
                            Reset
-                           </button>
+                        </button>
                      </div>
                   </div>
 
                </aside>
-                  <button onClick={() => setFilterPopup(true)} className="filter_btn col-span-8 max-w-[10rem] px-5 py-3 bg-gray-100 shadow hidden gap-4 items-center text-xl text-primary-200 border rounded">
-                     <i className="fas fa-filter"></i>
-                     Fillter
-                  </button>
-                  <hr className="block lg:hidden my-4 h-px bg-gray-200 border-0 col-span-8" />
+               <button onClick={() => setFilterPopup(true)} className="filter_btn col-span-8 max-w-[10rem] px-5 py-3 bg-gray-100 shadow hidden gap-4 items-center text-xl text-primary-200 border rounded">
+                  <i className="fas fa-filter"></i>
+                  Fillter
+               </button>
+               <hr className="block lg:hidden my-4 h-px bg-gray-200 border-0 col-span-8" />
                <div className="h-fit col-span-8 lg:col-span-6 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4">
                   {/* {categorySlug && (
                   <div className='col-span-3 bg-gray-700 text-primary-200 border px-5 py-3 w-fit capitalize text-2xl rounded-md flex items-center gap-4'>

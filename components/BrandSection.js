@@ -15,7 +15,6 @@ const BrandSection = (props) => {
                </div>
                <div className='col-span-3'>
                   <p className='capitalize'>{props.name}</p>
-                  <p className='text-sm text-gray-500'>about brand</p>
                </div>
             </div>
          </a>

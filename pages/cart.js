@@ -235,10 +235,10 @@ const Cart = () => {
                                              {product.price}
                                           </td>
                                           <td className="py-4 px-6 product-amount">
-                                             {product.amount || 1}
+                                             {product.amount || product.quantity || 1}
                                           </td>
                                           <td className="py-4 px-6 product-total-price">
-                                             {product.amount || 1 * product.price}
+                                             {(product.amount || product.quantity || 1) * product.price}
                                           </td>
                                           <td className="py-4 px-6">
                                              <button onClick={() => removeProductFromCart(product.id)} className='px-4 py-2 rounded text-xl text-white bg-red-700'>

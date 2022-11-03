@@ -37,6 +37,7 @@ const Brand = () => {
             .then((res) => {
                console.log(res.data);
                setRE(!RE);
+               comment.value = ""
             });
       }
    };
