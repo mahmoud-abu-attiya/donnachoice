@@ -85,7 +85,7 @@ const Subnav = () => {
                <a href="#"><i className="fas fa-phone-alt"></i> +123 456 7890</a>
             </div>
             {/* <Currencies /> */}
-            <Langs />
+            {/* <Langs /> */}
             <div className="links capitalize">
                <Link href={"/about"}>
                   <a className='border-r px-2 md:px-4 border-gray-900/25'>
