@@ -8,25 +8,31 @@ const Footer = () => {
          <div className=" bg-gray-50">
             <div className="container">
                <div className="grid grid-cols-1 md:grid-cols-3">
-                  <div className="flex gap-4 py-8 items-center">
-                     <i class="fad fa-truck col-span-2 text-6xl"></i>
+                  <div className="grid grid-cols-7 gap-4 py-8 items-center">
+                     <div className="flex justify-center items-center col-span-2">
+                        <i class="fad fa-truck col-span-2 text-6xl"></i>
+                     </div>
                      <div className="col-span-5">
                         <h6 className="text-xl font-bold">GREAT VALUE</h6>
-                        <p className="font-light text-gray-600">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta, aliquid.</p>
+                        <p className="font-light text-gray-600 text-sm">Lorem ipsum, dolor sit amet consectetur</p>
                      </div>
                   </div>
-                  <div className="flex gap-4 py-8 items-center">
-                     <i class="fad fa-credit-card col-span-2 text-6xl"></i>
+                  <div className="grid grid-cols-7 gap-4 py-8 items-center">
+                     <div className="flex justify-center items-center col-span-2">
+                        <i class="fad fa-credit-card col-span-2 text-6xl"></i>
+                     </div>
                      <div className="col-span-5">
                         <h6 className="text-xl font-bold">SAFE PAYMENT</h6>
-                        <p className="font-light text-gray-600">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta, aliquid.</p>
+                        <p className="font-light text-gray-600 text-sm">Lorem ipsum, dolor sit amet consectetur</p>
                      </div>
                   </div>
-                  <div className="flex gap-4 py-8 items-center">
-                     <i class="fad fa-clock col-span-2 text-6xl"></i>
+                  <div className="grid grid-cols-7 gap-4 py-8 items-center">
+                     <div className="flex justify-center items-center col-span-2">
+                        <i class="fad fa-clock col-span-2 text-6xl"></i>
+                     </div>
                      <div className="col-span-5">
                         <h6 className="text-xl font-bold">HELP CENTER</h6>
-                        <p className="font-light text-gray-600">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta, aliquid.</p>
+                        <p className="font-light text-gray-600 text-sm">Lorem ipsum, dolor sit amet consectetur</p>
                      </div>
                   </div>
                </div>

@@ -55,11 +55,13 @@ export default function Index() {
                      key={blog.id}
                      className="bg-gray-50 rounded-lg border shadow-md"
                   >
+                     <div className="i_a_r_v">
                      <img
-                        className="rounded-t-lg aspect-video object-cover"
+                        className="rounded-t-lg object-cover"
                         src={blog.img}
                         alt={blog.name}
                      />
+                     </div>
                      <div className="p-5">
                         <span className="text-gray-500 text-sm">
                            {blog.created_at.slice(0, 10)}
