@@ -82,7 +82,7 @@ const Product = ({ product }) => {
 	const auth = Cookies.get("auth")
 	const heartIcon = useRef()
 	const compareIcon = useRef()
-	const [selectedOption, setselectedOption] = useState(product.options[0]?.id);
+	const [selectedOption, setselectedOption] = useState(product?.options[0]?.id);
 	const dispatch = useDispatch()
 	let cart
 	if (auth){
@@ -271,8 +271,6 @@ const Product = ({ product }) => {
 							<div className="flex flex-col gap-4">
 								<h2 className='text-2xl'>{product && product.name}</h2>
 								<p className='text-gray-600'>{product.describtion ? product.describtion : "no descrioption"}</p>
-
-
 							</div>
 						</div>
 						<div className={tab == true && "hidden"}>
