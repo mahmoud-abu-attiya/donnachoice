@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import Link from "next/link";
 import BrandSection from "./BrandSection";
 import { useSwiper } from 'swiper/react';
+import { useSelector } from "react-redux";
 
 // import React, { useRef, useState } from "react";
 // Import Swiper React components
@@ -27,21 +28,22 @@ export const SwiperButtonPrev = ({ children }) => {
 };
 
 const Category = (props) => {
-   useEffect(() => {
-      console.log(props.product)
-      console.log(props.products);
-   }, []);
+   const ar = useSelector(state => state.langs.value)
+   // useEffect(() => {
+   //    console.log(props.product)
+   //    console.log(props.products);
+   // }, []);
    return (
       <>
 
          {props.products &&
             <div>
                <div className="head flex justify-between items-center">
-                  <h4 className="text-xl md:text-2xl font-bold">{props.products.name}</h4>
+                  <h4 className="text-xl md:text-2xl font-bold">{ar ? props.products.name_ar : props.products.name}</h4>
                   <Link href={props.products.url}>
                      <a
                         className="text-white  bg-primary-100  focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 transition hover:shadow-md hover:scale-105">
-                        View more
+                        {ar ? "المذيد" : "View more"}
                      </a>
                   </Link>
                </div>
@@ -80,7 +82,7 @@ const Category = (props) => {
                                     </div>
                                     <div className="py-4">
                                        <h5 className="text-center font-bold text-gray-900">
-                                          {item.name}
+                                          {ar ? item.name_ar : item.name}
                                        </h5>
                                     </div>
                                  </div>

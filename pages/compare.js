@@ -6,6 +6,7 @@ import ProductBox from '../components/ProductBox';
 import Link from 'next/link';
 import Image from 'next/image';
 import img from "../public/images/no-result.png"
+import { useSelector } from 'react-redux';
 
 // export const getStaticProps = async () => {
 //    const res = await fetch('https://backends.donnachoice.com/api/products/?slug__in=product,item-2');
@@ -19,6 +20,7 @@ import img from "../public/images/no-result.png"
 // }
 
 const Compare = () => {
+    const ar = useSelector((state) => state.langs.value);
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(true)
 
@@ -45,36 +47,40 @@ const Compare = () => {
     }
 
     return (
-        <div className='container p-5 flex flex-col items-center sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
-            <nav className="flex w-full col-span-9 bg-gray-50 py-3 px-5 rounded " aria-label="Breadcrumb">
-                <ol className="inline-flex items-center space-x-1 md:space-x-3">
+        <div dir={ar ? "rtl" : "ltr"} className='container p-5 flex flex-col items-center sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
+            <nav className="flex bg-gray-50 py-3 px-5 rounded mb-8 w-full col-span-9" aria-label="Breadcrumb">
+                <ol className="inline-flex items-center w-full">
                     <li className="inline-flex items-center">
                         <Link href="/">
-                            <a className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                            <a className="inline-flex gap-2 items-center text-sm font-medium text-gray-700 hover:text-gray-900">
                                 <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
-                                Home
+                                {ar ? "الرئيسية" : "Home"}
                             </a>
                         </Link>
                     </li>
-                    <li>
-                        <div className="flex items-center">
-                            <svg className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg>
-                            <span className="ml-1 text-sm font-medium text-gray-700 hover:text-gray-900 md:ml-2">
-                                Compare
+                    <li aria-current="page">
+                        <div className="flex items-center gap-2">
+                            {/* <svg className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg> */}
+                            <i
+                                className={`text-gray-400 mx-2 fas ${ar ? "fa-chevron-left" : "fa-chevron-right"
+                                    }`}
+                            ></i>
+                            <span className="capitalize text-sm font-medium text-gray-500">
+                                {ar ? "المقارنة" : "Conpare"}
                             </span>
                         </div>
                     </li>
                 </ol>
             </nav>
             {products.length == 0 ? (
-                <div className='text-2xl capitalize text-center col-span-4'>
+                <div className='text-xl sm:text-2xl capitalize text-center col-span-4'>
                     <div className="max-w-[300px] mx-auto">
                         <Image src={img} alt="no result" />
                     </div>
-                    There no products in compare list. <br />
+                    {ar ? "لا توجد منتجات في قائمة المقارنة." : "There no products in compare list."} <br />
                     <Link href={"/products"}>
                         <div className='w-full max-w-[500px] text-center bg-primary-100 text-white rounded py-3 px-5 mx-auto cursor-pointer my-8'>
-                            Explor products and add to compare
+                            {ar ? "استكشف المنتجات وأضفها للمقارنة" : "Explor products and add to compare"}
                         </div>
                     </Link>
                 </div>

@@ -28,6 +28,8 @@ const getNumberOfProductsInCompare = () => {
 }
 
 const Subnav = () => {
+   // const lang = useSelector(state => state.langs.value)
+   const ar = useSelector(state => state.langs.value)
    const auth = Cookies.get("auth")
    const wishlistIndicator = useSelector(state => state.wishlistIndicator.count)
    const cartIndicator = useSelector(state => state.cartIndicator.count)
@@ -65,7 +67,7 @@ const Subnav = () => {
    //    })
    // }, [wishListCount]);
    return (
-      <div className='bg-primary-200 px-2 sm:px-4 py-2.5 text-white'>
+      <div className='bg-primary-200 px-0 sm:px-4 py-2.5 text-white'>
          <div className="container flex justify-between items-center flex-wrap">
             <div className="hidden md:flex gap-4">
                <a href="#">
@@ -85,21 +87,25 @@ const Subnav = () => {
                <a href="#"><i className="fas fa-phone-alt"></i> +123 456 7890</a>
             </div>
             {/* <Currencies /> */}
-            {/* <Langs /> */}
-            <div className="links capitalize">
+            <Langs />
+            <div className="flex capitalize text-sm">
                <Link href={"/about"}>
-                  <a className='border-r px-2 md:px-4 border-gray-900/25'>
-                     about us
+                  <a className='border-r px-1 md:px-2 border-primary-100'>
+                     {ar ? "من نحن" : "about us"}
+                     {/* about us */}
                   </a>
                </Link>
                <Link href={"/profile"}>
-                  <a className='border-r px-2 md:px-4 border-gray-900/25'>
-                     Account
+                  <a className='border-r px-1 md:px-2 border-primary-100'>
+                     
+                     {ar ? "الحساب" : "Account"}
+                     {/* Account */}
                   </a>
                </Link>
                <Link href={"/help"}>
-                  <a className='px-4'>
-                     Help
+                  <a className='px-1 md:px-2'>   
+                     {ar ? "مساعدة" : "Help"}
+                     {/* Help */}
                   </a>
                </Link>
             </div>

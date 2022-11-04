@@ -4,6 +4,7 @@ import wishListSlice from './slices/wishListSlice'
 import wishlistIndicatorSlice from './slices/wishlistIndicatorSlice'
 import cartIndicatorSlice from './slices/cartIndicatorSlice'
 import compareIndicatorSlice from './slices/compareIndicatorSlice'
+import langsSlice from './slices/langsSlice'
 
 export const store = configureStore({
    reducer: {
@@ -12,5 +13,6 @@ export const store = configureStore({
       wishlistIndicator: wishlistIndicatorSlice,
       cartIndicator: cartIndicatorSlice,
       compareIndicator: compareIndicatorSlice,
+      langs: langsSlice,
    },
 })

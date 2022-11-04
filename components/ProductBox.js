@@ -7,7 +7,7 @@ import { setAmount } from "../slices/wishlistIndicatorSlice";
 import { setCartCount } from "../slices/cartIndicatorSlice";
 import { setCompareCount } from "../slices/compareIndicatorSlice";
 // import { addToWishList, removeFromWishList } from "../slices/wishListSlice"
-// import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -113,6 +113,7 @@ const handleCompareLocalStorage = (compareElement, itemSlug, changed) => {
 };
 
 const ProductBox = (props) => {
+   const ar = useSelector(state => state.langs.value)
    const [storedCartIds, setStoredCartIds] = useState([]);
    const [authState, setAuthState] = useState(false);
    let storedCart = [];
@@ -291,13 +292,10 @@ const ProductBox = (props) => {
 
    const addedOne = (element, productId) => {
       // element.textContent = "Done";
-      if(element.textContent == "Add to cart"){
-         if(authState && productId){
-
-         }
-         element.textContent = "Remove"
+      if(element.textContent == "Add to cart" || element.textContent == "أضف إلى العربة"){
+         element.textContent = ar ? "ازالة" : "Remove"
       } else {
-         element.textContent = "Add to cart"
+         element.textContent = ar ? "أضف إلى العربة" : "Add to cart"
       }
    }
 
@@ -354,7 +352,7 @@ const ProductBox = (props) => {
                </div>
                <div className="px-2 sm:px-5 sm:pb-5">
                   <h5 className="text-xl font-semibold tracking-tight text-gray-900">
-                     {props.product.name}
+                     {ar ? props.product.name_ar : props.product.name}
                   </h5>
                   <div className="flex items-center my-2.5">
                      <svg
@@ -414,16 +412,16 @@ const ProductBox = (props) => {
                </div>
             </a>
          </Link>
-         <div className="flex flex-wrap justify-between items-center px-2 sm:px-5 pb-2 sm:pb-5">
-            <span className="text-xl sm:text-3xl mb-4 sm:mb-0 font-bold text-gray-900">
-               QR{props.product.options[0].price}
+         <div className="space-y-4 px-2 sm:px-5 pb-2 sm:pb-5">
+            <span className="text-xl sm:text-2xl mb-4 sm:mb-0 font-bold text-gray-900">
+               <span className="text-sm">{ar ? "ريال" : "QR"}</span>{props.product.options[0].price}
             </span>
             <div className="relative w-full sm:w-fit">
                <button
-                  className="text-white w-full bg-primary-100 hover:bg-primary-200 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                  className="text-white w-full bg-primary-100 hover:bg-primary-200 focus:outline-none font-medium rounded-lg text-sm px-4 py-2.5 text-center"
                   onClick={ props.product.options.length > 1 ? () => toggleOptionsMenu(props.product.slug) :  (e) => { handleCart({textContent:"Add"}, props.product.options[0].id); addedOne(e.target, props.product.options[0].id) }}
                >
-                  Add to cart
+                  {ar ? "أضف إلى العربة" : "Add to cart"}
                </button>
                {props.product.options.length > 0 ? (
                   <div

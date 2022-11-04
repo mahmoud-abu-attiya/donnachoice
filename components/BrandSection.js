@@ -3,8 +3,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import logo from "../public/images/logo-placeholder.png"
+import { useSelector } from 'react-redux'
 
 const BrandSection = (props) => {
+   const ar = useSelector(state => state.langs.value)
    return (
       <Link href={`/products?brand__slug=${props.slug}${props.category_slug ? "&category__slug=" + props.category_slug : ""} `}>
          <a>
@@ -16,7 +18,7 @@ const BrandSection = (props) => {
                   </div>
                </div>
                <div className='col-span-3'>
-                  <p className='capitalize'>{props.name}</p>
+                  <p className='capitalize'>{ar ? props.name_ar : props.name}</p>
                </div>
             </div>
          </a>

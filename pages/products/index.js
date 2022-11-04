@@ -5,6 +5,7 @@ import axios from "axios";
 import Cookies from 'js-cookie'
 import Image from "next/image";
 import img from "../../public/images/no-result.png"
+import { useSelector } from "react-redux";
 
 export const getStaticProps = async () => {
    const brandRes = await fetch('https://backends.donnachoice.com/api/brand/');
@@ -22,6 +23,7 @@ export const getStaticProps = async () => {
 
 let request = null;
 export default function Products({ brands, categorys }) {
+   const ar = useSelector(state => state.langs.value)
    const [query, setQuery] = useState("");
    const [products, setProducts] = useState([]);
    const [categorySlug, setCategorySlug] = useState();
@@ -95,47 +97,50 @@ export default function Products({ brands, categorys }) {
       }
    }, [searchQuery]);
    return (
-      <div>
-         <Hero title="products" />
+      <div dir={ar ? "rtl" : "ltr"}>
+         <Hero title={ar ? "المنتجات" : "Products"} />
          <div className="container">
             <div className="grid grid-cols-8 gap-4 py-8">
-               <aside className={`filter col-span-2 border-r md:pr-4 ${filterPopup ? "flex" : "hidden"} `}>
+               <aside className={`filter col-span-2 ${ar ? "border-l md:pl-4" : "border-r md:pr-4"} ${filterPopup ? "flex" : "hidden"} `}>
                   <div className="max-w-[400px] space-y-4">
-                     <h3 className="text-2xl">Filter</h3>
+                     <h3 className="text-2xl">
+                        {ar ? "الفلاتر" : "Filter"}
+                     </h3>
                      <div className="flex items-center mb-4">
-                        <label htmlFor="simple-search" className="sr-only">Search</label>
                         <div className="relative w-full">
                            <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
                               <svg aria-hidden="true" className="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" /></svg>
                            </div>
-                           <input name="q" type="text" id="simple-search" className="bg-gray-50 outline-none border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-200 focus:border-primary-200 block w-full pl-10 p-2.5" placeholder="Search" required />
+                           <input name="q" type="text" id="simple-search" className="bg-gray-50 outline-none border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-200 focus:border-primary-200 block w-full pl-10 p-2.5" placeholder={ar ? "بحث" : "Search"} required />
                         </div>
                      </div>
                      <div>
-                        <h5 className="mb-2">Price Range</h5>
+                        <h5 className="mb-2">
+                           {ar ? "نطاق السعر" : "Price Range"}
+                        </h5>
                         <div className="flex gap-4 mb-4">
                            <div className="flex">
-                              <span className="inline-flex items-center px-2 text-sm text-gray-900 bg-gray-200 rounded-l-md border border-r-0 border-gray-300">
+                              <span className={`inline-flex items-center px-2 text-sm text-gray-900 bg-gray-200 ${ar ? "rounded-r-lg" : "rounded-l-md"} border border-r-0 border-gray-300`}>
                                  Min
                               </span>
                               <input
                                  type="number"
                                  id="lt"
                                  name="options__price__gte"
-                                 className="rounded-none outline-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-primary-200 focus:border-primary-200 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
+                                 className={`rounded-none outline-none ${ar ? "rounded-l-lg" : "rounded-r-lg"} bg-gray-50 border text-gray-900 focus:ring-primary-200 focus:border-primary-200 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5`}
                                  placeholder="10"
                                  min={1}
                               />
                            </div>
                            <div className="flex">
-                              <span className="inline-flex items-center px-2 text-sm text-gray-900 bg-gray-200 rounded-l-md border border-r-0 border-gray-300">
+                              <span className={`inline-flex items-center px-2 text-sm text-gray-900 bg-gray-200 ${ar ? "rounded-r-lg" : "rounded-l-md"} border border-r-0 border-gray-300`}>
                                  Max
                               </span>
                               <input
                                  type="number"
                                  id="gt"
                                  name="options__price__lte"
-                                 className="rounded-none outline-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-primary-200 focus:border-primary-200 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
+                                 className={`rounded-none outline-none ${ar ? "rounded-l-lg" : "rounded-r-lg"} bg-gray-50 border text-gray-900 focus:ring-primary-200 focus:border-primary-200 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5`}
                                  placeholder="100"
                                  min={1}
                               />
@@ -143,38 +148,47 @@ export default function Products({ brands, categorys }) {
                         </div>
                      </div>
                      <div>
-                        <h5 className="mb-2">Brand</h5>
+                        <h5 className="mb-2">
+                           {ar ? "ماركة" : "Brand"}
+                        </h5>
                         <select id="countries" name="brand__slug" className="bg-gray-50 outline-none border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-200 focus:border-primary-200 block w-full p-2.5">
-                           <option value={""}>All</option>
+                           <option value={""}>{ar ? "الكل" : "All"}</option>
                            {brands.map((brand) => {
                               return (
-                                 <option selected={searchQuery.includes(`brand__slug=${brand.slug}`) ? true : false} value={brand.slug} key={brand.id}>{brand.name}</option>
+                                 <option selected={searchQuery.includes(`brand__slug=${brand.slug}`) ? true : false} value={brand.slug} key={brand.id}>
+                                    {ar ? brand.name_ar : brand.name}
+                                 </option>
                               )
                            })}
                         </select>
                      </div>
                      <div>
-                        <h5 className="mb-2">Categorys</h5>
+                        <h5 className="mb-2">
+                           {ar ? "الفئات" : "Categories"}
+                        </h5>
                         <select id="countries" name="category__slug" className="bg-gray-50 outline-none border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-200 focus:border-primary-200 block w-full p-2.5">
-                           <option value={""}>All</option>
+                           <option value={""}>{ar ? "الكل" : "All"}</option>
                            {categorys.map((cat) => {
                               return (
-                                 <option selected={searchQuery.includes(`category__slug=${cat.slug}`) ? true : false} value={cat.slug} key={cat.id}>{cat.name}</option>
+                                 <option selected={searchQuery.includes(`category__slug=${cat.slug}`) ? true : false} value={cat.slug} key={cat.id}>
+                                    {ar ? cat.name_ar : cat.name}
+                                 </option>
                               )
                            })}
                         </select>
                      </div>
                      <div className="py-2">
                         {/* <button type="button" id="filter_btn" className="text-white w-full bg-gradient-to-r from-primary-200 via-primary-200 to-pink-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"> */}
-                        <button type="button" id="filter_btn" className="text-white w-full bg-primary-100 focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
-
-                           {!Floading ? "Filter" : (
+                        <button
+                           type="button"
+                           id="filter_btn"
+                           className="text-white w-full bg-primary-100 focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">
+                           {!Floading ? ar ? "تصفية" : "Filter" : (
                               <div role="status" className="w-fit mx-auto">
                                  <svg aria-hidden="true" className="mr-2 w-8 h-8 text-gray-200 animate-spin fill-primary-200" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
                                     <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" />
                                  </svg>
-                                 <span className="sr-only">Loading...</span>
                               </div>
                            )}
                         </button>
@@ -182,11 +196,11 @@ export default function Products({ brands, categorys }) {
                            type="button"
                            id="reset_filter"
                            // className="text-white w-full bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-                           className="border border-primary-100 w-full bg-gradient-to-r bg-primary-300 text-primary-100 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                           className="border border-primary-100 w-full bg-gradient-to-r bg-primary-300 text-primary-100 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2"
                            onClick={() => setSearchQuery("")}
                         >
 
-                           Reset
+                           {ar ? "إعادة ضبط" : "Reset"}
                         </button>
                      </div>
                   </div>
@@ -194,7 +208,7 @@ export default function Products({ brands, categorys }) {
                </aside>
                <button onClick={() => setFilterPopup(true)} className="filter_btn col-span-8 max-w-[10rem] px-5 py-3 bg-gray-100 shadow hidden gap-4 items-center text-xl text-primary-200 border rounded">
                   <i className="fas fa-filter"></i>
-                  Fillter
+                  {ar ? "الفلاتر" : "Fillter"}
                </button>
                <hr className="block lg:hidden my-4 h-px bg-gray-200 border-0 col-span-8" />
                <div className="h-fit col-span-8 lg:col-span-6 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4">

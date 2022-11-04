@@ -7,6 +7,7 @@ import ProductBox from '../components/ProductBox';
 import Image from 'next/image';
 import img from "../public/images/no-result.png";
 import Link from 'next/link';
+import { useSelector } from 'react-redux';
 
 // export const getStaticProps = async () => {
 //    const res = await fetch('https://backends.donnachoice.com/api/products/?slug__in=product,item-2');
@@ -20,6 +21,7 @@ import Link from 'next/link';
 // }
 
 const WishList = () => {
+   const ar = useSelector((state) => state.langs.value);
    const [products, setProducts] = useState([])
    const [loading, setLoading] = useState(true)
    useEffect(() => {
@@ -54,22 +56,26 @@ const WishList = () => {
    }
 
    return (
-      <div className='container p-5'>
+      <div dir={ar ? "rtl" : "ltr"} className='container p-5'>
          <nav className="flex bg-gray-50 py-3 px-5 rounded mb-8 " aria-label="Breadcrumb">
-            <ol className="inline-flex items-center space-x-1 md:space-x-3">
+            <ol className="inline-flex items-center">
                <li className="inline-flex items-center">
                   <Link href="/">
-                     <a className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                     <a className="inline-flex gap-2 items-center text-sm font-medium text-gray-700 hover:text-gray-900">
                         <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
-                        Home
+                        {ar ? "الرئيسية" :"Home"}
                      </a>
                   </Link>
                </li>
                <li aria-current="page">
-                  <div className="flex items-center">
-                     <svg className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg>
-                     <span className="ml-1 capitalize text-sm font-medium text-gray-500 md:ml-2">
-                        Wishlist
+                  <div className="flex items-center gap-2">
+                     {/* <svg className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg> */}
+                     <i
+                        className={`text-gray-400 mx-2 fas ${ar ? "fa-chevron-left" : "fa-chevron-right"
+                           }`}
+                     ></i>
+                     <span className="capitalize text-sm font-medium text-gray-500">
+                        {ar ? "قائمة الرغبات" :"Wishlist"}
                      </span>
                   </div>
                </li>
@@ -80,10 +86,10 @@ const WishList = () => {
                <div className="max-w-[400px] mx-auto">
                   <Image src={img} alt="no result" />
                </div>
-               there no products in your wishlist <br />
+               {ar ? "لا توجد منتجات في قائمة الرغبات الخاصة بك" : "there no products in your wishlist"} <br />
                <Link href={"/products"}>
                   <div className='w-full max-w-[300px] text-center bg-primary-100 text-white rounded-xl shadow hover:bg-primary-200 py-3 px-5 mx-auto cursor-pointer my-8'>
-                     Explore our products
+                     {ar ? "اكتشف منتجاتنا" : "Explore our products"}
                   </div>
                </Link>
             </div>
@@ -96,16 +102,16 @@ const WishList = () => {
                                  <span className="sr-only">Image</span>
                               </th>
                               <th scope="col" className="py-3 px-6">
-                                 Product
+                                 {ar ? "المنتج" : "Product"}
                               </th>
                               <th scope="col" className="py-3 px-6">
-                                 Stock
+                                 {ar ? "المخزون" : "Stock"}
                               </th>
                               <th scope="col" className="py-3 px-6">
-                                 Price
+                                 {ar ? "السعر" : "Price"}
                               </th>
                               <th scope="col" className="py-3 px-6">
-                                 Action
+                                 {/* {ar ? "" : "Action"} */}
                               </th>
                            </tr>
                         </thead>
@@ -119,7 +125,7 @@ const WishList = () => {
                                  <img src={product.images.length > 0 ? product.images[0].img : "https://dieselpunkcore.com/wp-content/uploads/2014/06/logo-placeholder.png"} alt="Apple Watch" />
                               </td>
                               <td className="py-4 px-6 font-semibold text-gray-900 dark:text-white">
-                                 {product.name}
+                                 {ar ? product.name_ar :product.name}
                               </td>
                               <td className="py-4 px-6">
                                  {/* <div className="flex items-center space-x-3">
@@ -141,12 +147,9 @@ const WishList = () => {
                                  $599
                               </td>
                               <td className="py-4 px-6">
-                                 <a href="#" className="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</a>
+                                 <button className="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</button>
                               </td>
                            </tr>
-
-
-
                )
             })}
                         </tbody>

@@ -1,6 +1,7 @@
 // import { Cookies } from "next/dist/server/web/spec-extension/cookies";
 import { Html, Head, Main, NextScript } from "next/document";
-import Script from "next/script";
+// import Script from "next/script";
+import { useSelector } from "react-redux";
 
 export default function Document() {
    return (
@@ -27,7 +28,7 @@ export default function Document() {
          <body>
             <Main />
             <NextScript />
-            <Script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></Script>
+            {/* <Script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></Script> */}
          </body>
       </Html>
    );

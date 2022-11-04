@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Image from "next/image";
 import React from "react";
 import logo from "../public/images/logo.png";
@@ -7,8 +8,10 @@ import Cookies from "js-cookie";
 import { useDispatch } from 'react-redux'
 import { setAmount } from "../slices/wishlistIndicatorSlice"
 import { setCartCount } from "../slices/cartIndicatorSlice"
+import { useSelector } from "react-redux";
 
 export default function Login() {
+   const ar = useSelector(state => state.langs.value)
    const [log, setLog] = useState(false)
    const [loading, setLoading] = useState(false)
    const [emailError, setEmailError] = useState([])
@@ -162,7 +165,7 @@ export default function Login() {
       }
    }, [log]);
    return (
-      <div>
+      <div dir={ar ? "rtl" : "ltr"}>
          {log ? (
             <section className="bg-gray-50">
                <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto">
@@ -178,7 +181,7 @@ export default function Login() {
                   <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-lg xl:p-0">
                      <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
-                           Create an account
+                           {ar ? "انشئ حساب" : "Create an account"}
                         </h1>
 
                         {emailError.length !== 0 && (
@@ -206,14 +209,14 @@ export default function Login() {
                                  htmlFor="first_name"
                                  className="block mb-2 text-sm font-medium text-gray-900"
                               >
-                                 First name
+                                 {ar ? "الاسم الاول" : "First name"}
                               </label>
                               <input
                                  type="text"
                                  name="first_name"
                                  id="first_name"
                                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                 placeholder="your first name"
+                                 placeholder={ar ? "الاسم الاول" :"your first name"}
                                  required
                               />
                            </div>
@@ -222,14 +225,14 @@ export default function Login() {
                                  htmlFor="last_name"
                                  className="block mb-2 text-sm font-medium text-gray-900"
                               >
-                                 Last Name
+                                 {ar ? "الكنية" : "Last Name"}
                               </label>
                               <input
                                  type="text"
                                  name="last_name"
                                  id="last_name"
                                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                 placeholder="your last name"
+                                 placeholder={ar ? "الكنية" : "your last name"}
                                  required
                               />
                            </div>
@@ -238,7 +241,7 @@ export default function Login() {
                                  htmlFor="Semail"
                                  className="block mb-2 text-sm font-medium text-gray-900"
                               >
-                                 Your email
+                                 {ar ? "بريدك الالكتروني" : "Your email"}
                               </label>
                               <input
                                  type="email"
@@ -254,7 +257,7 @@ export default function Login() {
                                  htmlFor="Spassword"
                                  className="block mb-2 text-sm font-medium text-gray-900"
                               >
-                                 Password
+                                 {ar ? "كلمة المرور" : "Password"}
                               </label>
                               <input
                                  type="password"
@@ -267,9 +270,9 @@ export default function Login() {
                            </div>
                            <button
                               type="submit"
-                              className="w-full text-white bg-primary-200 hover:bg-primary-300 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                              className="w-full text-white bg-primary-100 hover:bg-primary-200 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                            >
-                              {!loading ? "Create an account" : (
+                              {!loading ? ar ? "انشاء الحساب" : "Create an account" : (
                                  <div role="status" className="text-center mx-auto w-fit">
                                     <svg aria-hidden="true" className="mr-2 w-8 h-8 text-gray-200 animate-spin fill-blue-700" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                                        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
@@ -280,12 +283,12 @@ export default function Login() {
                               )}
                            </button>
                            <p className="text-sm font-light text-gray-500">
-                              Already have an account?{" "}
+                              {ar ? "لديك حساب بالفعل؟" : "Already have an account?"}{" "}
                               <a
                                  onClick={() => setLog(!log)}
                                  className="font-medium text-blue-600 hover:underline cursor-pointer"
                               >
-                                 Login here
+                                 {ar ? "تسجيل الدخول" : "Login here"}
                               </a>
                            </p>
                         </form>
@@ -308,7 +311,7 @@ export default function Login() {
                   <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
                      <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
-                           Log in to your account
+                           {ar ? "تسجيل الدخول إلى حسابك" :"Log in to your account"}
                         </h1>
                         {logError && (
                            <div className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg" role="alert">
@@ -321,7 +324,7 @@ export default function Login() {
                                  htmlFor="Lemail"
                                  className="block mb-2 text-sm font-medium text-gray-900"
                               >
-                                 Your email
+                                 {ar ? "البريد الالكتروني" : "Your email"}
                               </label>
                               <input
                                  type="email"
@@ -337,7 +340,7 @@ export default function Login() {
                                  htmlFor="Lpassword"
                                  className="block mb-2 text-sm font-medium text-gray-900"
                               >
-                                 Password
+                                 {ar ? "كلمة المرور":"Password"}
                               </label>
                               <input
                                  type="password"
@@ -361,7 +364,7 @@ export default function Login() {
                               className="w-full text-white bg-primary-200 hover:bg-primary-300 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                            >
                               {/* Log in */}
-                              {!loading ? "Log in" : (
+                              {!loading ? ar ? "تسجيل الدخول" :"Log in" : (
                                  <div role="status" className="text-center mx-auto w-fit">
                                     <svg aria-hidden="true" className="mr-2 w-8 h-8 text-gray-200 animate-spin fill-blue-700" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                                        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
@@ -372,12 +375,12 @@ export default function Login() {
                               )}
                            </button>
                            <p className="text-sm font-light text-gray-500">
-                              Don’t have an account yet?{" "}
+                              {ar ? "ليس لديك حساب؟" :"Don’t have an account yet?"}{" "}
                               <a
                                  onClick={() => setLog(!log)}
                                  className="font-medium text-blue-600 hover:underline cursor-pointer"
                               >
-                                 Sign up
+                                 {ar ? "انشاء حساب":  "Sign up"}
                               </a>
                            </p>
                         </form>

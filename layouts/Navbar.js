@@ -7,8 +7,10 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import Head from 'next/head'
+import { useSelector } from 'react-redux'
 
 const Nav = () => {
+  const lang = useSelector(state => state.langs.value)
   const router = useRouter();
   const [toggle, setToggle] = useState(false)
   useEffect(() => {
@@ -47,39 +49,35 @@ const Nav = () => {
               <svg className="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" /></svg>
             </button>
             <div className={`${!toggle && "hidden"} w-full md:block md:w-auto`} id="navbar_default">
-              <ul className="flex flex-col p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-transparent">
+              <ul className={`flex flex-col p-4 mt-4 ${lang && "items-end"} bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-transparent`}>
                 <li>
                   <Link href={"/"}>
                     <a className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:text-primary-200 md:p-0">
-                      Home
+                      {lang ? "الرئيسية":"Home"}
                     </a>
                   </Link>
                 </li>
                 <li>
                   <Link href={"/categories"}>
                     <a className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:text-primary-200 md:p-0">
-                      Categories
+                      
+                      {lang ? "الفئات":"Categories"}
                     </a>
                   </Link>
                 </li>
                 <li>
                   <Link href={"/brands"}>
                     <a className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:text-primary-200 md:p-0">
-                      Brands
+                      
+                      {lang ? "العلامات التجارية":"Brands"}
                     </a>
                   </Link>
                 </li>
-                {/* <li>
-              <Link href={"/products"}>
-                <a className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:text-primary-200 md:p-0">
-                  Products
-                  </a>
-              </Link>
-            </li> */}
                 <li>
                   <Link href={"/blog"}>
                     <a className="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:text-primary-200 md:p-0">
-                      Blog
+                      
+                      {lang ? "المدونات":"Blog"}
                     </a>
                   </Link>
                 </li>

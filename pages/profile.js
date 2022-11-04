@@ -9,16 +9,19 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 
 export default function Profile() {
+   const ar = useSelector((state) => state.langs.value);
    const router = useRouter();
    const [user, setUser] = useState("");
-   const wishlistIndicator = useSelector(state => state.wishlistIndicator.count)
-   const cartIndicator = useSelector(state => state.cartIndicator.count)
-   const compareIndicator = useSelector(state => state.compareIndicator.count)
+   const wishlistIndicator = useSelector(
+      (state) => state.wishlistIndicator.count
+   );
+   const cartIndicator = useSelector((state) => state.cartIndicator.count);
+   const compareIndicator = useSelector((state) => state.compareIndicator.count);
    const handleLogout = () => {
-      Cookies.remove("token")
-      Cookies.remove("auth")
-      router.push("/login")
-   }
+      Cookies.remove("token");
+      Cookies.remove("auth");
+      router.push("/login");
+   };
    useEffect(() => {
       if (!Cookies.get("auth")) {
          router.push("/login");
@@ -37,29 +40,51 @@ export default function Profile() {
       }
    }, []);
    return (
-      <div className="container grid grid-cols-9 gap-8 py-8">
-         <nav className="flex col-span-9 bg-gray-50 py-3 px-5 rounded " aria-label="Breadcrumb">
-            <ol className="inline-flex items-center space-x-1 md:space-x-3">
+      <div
+         dir={ar ? "rtl" : "ltr"}
+         className="container grid grid-cols-9 gap-8 py-8"
+      >
+         <nav
+            className="flex col-span-9 bg-gray-50 py-3 px-5 rounded "
+            aria-label="Breadcrumb"
+         >
+            <ol className="inline-flex items-center">
                <li className="inline-flex items-center">
                   <Link href="/">
                      <a className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                        <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
-                        Home
+                        <svg
+                           className={ar ? "w-4 h-4 ml-2" : "w-4 h-4 mr-2"}
+                           fill="currentColor"
+                           viewBox="0 0 20 20"
+                           xmlns="http://www.w3.org/2000/svg"
+                        >
+                           <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                        </svg>
+                        {ar ? "الرئيسية" : "Home"}
                      </a>
                   </Link>
                </li>
                <li>
                   <div className="flex items-center">
-                     <svg className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg>
-                     <span className="ml-1 text-sm font-medium text-gray-700 hover:text-gray-900 md:ml-2">
-                        Profile
+                     {/* <svg className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg> */}
+                     <i
+                        className={`text-gray-400 mx-2 fas ${ar ? "fa-chevron-left" : "fa-chevron-right"
+                           }`}
+                     ></i>
+                     <span className="text-sm font-medium text-gray-700 hover:text-gray-900">
+                        {ar ? "الملف الشخصي" : "Profile"}
                      </span>
                   </div>
                </li>
                <li aria-current="page">
                   <div className="flex items-center">
-                     <svg className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg>
-                     <span className="ml-1 capitalize text-sm font-medium text-gray-500 md:ml-2">
+                     {/* <svg className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg> */}
+                     <i
+                        className={`text-gray-400 mx-2 fas ${ar ? "fa-chevron-left" : "fa-chevron-right"
+                           }`}
+                     ></i>
+
+                     <span className="capitalize text-sm font-medium text-gray-500">
                         {user.first_name}
                      </span>
                   </div>
@@ -72,21 +97,19 @@ export default function Profile() {
                   <li className="hidden sm:block">
                      <a
                         href="#"
-                        className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg bg-gray-100"
+                        className="flex items-center gap-3 p-2 text-base font-normal text-gray-900 rounded-lg bg-gray-100"
                      >
                         <i className="fad fa-user text-gray-500 text-xl hidden sm:block"></i>
-                        <span className="ml-3">
-                           User
-                        </span>
+                        <span>{ar ? "المستخدم" : "User"}</span>
                      </a>
                   </li>
                   <li>
                      <Link href="/wish-list">
-                        <a
-                           className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100"
-                        >
+                        <a className="flex items-center gap-2 p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100">
                            <i className="fad fa-heart text-gray-500 text-xl hidden sm:block"></i>
-                           <span className="flex-1 sm:ml-3 whitespace-nowrap">Wish list</span>
+                           <span className="flex-1 whitespace-nowrap">
+                              {ar ? "الرغبات" : "Wish list"}
+                           </span>
                            <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-primary-100 bg-primary-300 rounded-full">
                               {wishlistIndicator}
                            </span>
@@ -97,10 +120,12 @@ export default function Profile() {
                      <Link href={"/cart"}>
                         <a
                            href="#"
-                           className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100"
+                           className="flex items-center gap-2 p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100"
                         >
                            <i className="fad fa-shopping-cart text-gray-500 text-xl hidden sm:block"></i>
-                           <span className="flex-1 sm:ml-3 whitespace-nowrap">Cart</span>
+                           <span className="flex-1 whitespace-nowrap">
+                              {ar ? "العربة" : "Cart"}
+                           </span>
                            <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-primary-100 bg-primary-300 rounded-full">
                               {cartIndicator}
                            </span>
@@ -111,29 +136,28 @@ export default function Profile() {
                      <Link href={"/compare"}>
                         <a
                            href="#"
-                           className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100"
+                           className="flex items-center gap-2 p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100"
                         >
-                           {/* <i class="fad fa-random"></i> */}
+                           {/* <i className="fad fa-random"></i> */}
                            <i className="fad fa-random text-gray-500 text-xl hidden sm:block"></i>
-                           <span className="flex-1 sm:ml-3 whitespace-nowrap">Compare</span>
+                           <span className="flex-1 whitespace-nowrap">
+                              {ar ? "قارن" : "Compare"}
+                           </span>
                            <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-primary-100 bg-primary-300 rounded-full">
                               {compareIndicator}
                            </span>
                         </a>
                      </Link>
                   </li>
-
                </ul>
                <ul className="pt-4 mt-4 space-y-2 border-t border-gray-200">
                   <li>
                      <button
                         onClick={() => handleLogout()}
-                        className="flex w-full items-center p-2 text-base font-normal text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100"
+                        className="flex w-full gap-2 items-center p-2 text-base font-normal text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100"
                      >
                         <i className="fad fa-door-open text-gray-500 text-xl"></i>
-                        <span className="ml-3">
-                           Logout
-                        </span>
+                        <span>{ar ? "تسجيل الخروج" : "Logout"}</span>
                      </button>
                   </li>
                </ul>
@@ -146,25 +170,51 @@ export default function Profile() {
             </div>
             <div className="info grid grid-cols-8 bg-gray-50 rounded-md border">
                <div className="col-span-3 md:col-span-2">
-                  <div className="py-2 px-4 border-b">First Name</div>
-                  <div className="py-2 px-4 border-b">Last Name</div>
-                  <div className="py-2 px-4 border-b">Email</div>
-                  <div className="py-2 px-4 ">Address</div>
+                  <div className="py-2 px-4 border-b">
+                     {ar ? "الاسم الاول" : "First Name"}
+                  </div>
+                  <div className="py-2 px-4 border-b">
+                     {ar ? "الكنية" :"Last Name"}
+                     </div>
+                  <div className="py-2 px-4 border-b">
+                     {ar ? "البريد الإلكتروني":"Email"}
+                     </div>
+                  <div className="py-2 px-4 ">
+                     {ar ? "العنوان" : "Address"}
+                     </div>
                </div>
                <div className="text-gray-700 col-span-5 md:col-span-6">
-                  <div className="py-2 px-4 capitalize border-l border-b">{user.first_name}</div>
-                  <div className="py-2 px-4 capitalize border-l border-b">{user.last_name}</div>
-                  <div className="py-2 px-4 border-l border-b">{user.email}</div>
-                  <div className="py-2 px-4 border-l">{user.address ? user.address : "no addres yet."}</div>
+                  <div
+                     className={`py-2 px-4 capitalize ${ar ? "border-r" : "border-l"
+                        } border-b`}
+                  >
+                     {user.first_name}
+                  </div>
+                  <div
+                     className={`py-2 px-4 capitalize ${ar ? "border-r" : "border-l"
+                        } border-b`}
+                  >
+                     {user.last_name}
+                  </div>
+                  <div
+                     className={`py-2 px-4 ${ar ? "border-r" : "border-l"} border-b`}
+                  >
+                     {user.email}
+                  </div>
+                  <div className={`py-2 px-4 ${ar ? "border-r" : "border-l"}`}>
+                     {user.address ? user.address : "no addres yet."}
+                  </div>
                </div>
             </div>
             <div className="space-y-4">
-               <h4 className="text-xl font-bold">Order history</h4>
+               <h4 className="text-xl font-bold">{ar ? "تاريخ الطلب" : "Order history"}</h4>
                <div className="bg-gray-50 rounded-md border p-8">
-                  <p className="text-2xl font-bold text-center">There is no orders yet.</p>
+                  <p className="text-2xl font-bold text-center">
+                     {ar ? "لا توجد طلبات بعد." : "There is no orders yet."}
+                  </p>
                   <Link href={"/products"}>
                      <div className="w-full grow max-w-[200px] transition hover:shadow-lg hover:bg-primary-100/75 text-center bg-primary-100 text-white rounded py-3 px-5 mx-auto cursor-pointer my-8">
-                        Start Shopping
+                        {ar ? "ابدأ التسوق":"Start Shopping"}
                      </div>
                   </Link>
                </div>

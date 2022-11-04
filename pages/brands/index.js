@@ -3,6 +3,7 @@ import BrandSection from '../../components/BrandSection'
 import Hero from '../../components/Hero'
 import Axios from 'axios'
 import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 export const getStaticProps = async () => {
    const res = await fetch('https://backends.donnachoice.com/api/brand/');
@@ -15,13 +16,14 @@ export const getStaticProps = async () => {
 }
 
 export default function Index({ brands }) {
+   const ar = useSelector(state => state.langs.value)
    const [query, setQuery] = useState("");
    useEffect(() => {
       console.log(brands);
    }, [brands]);
    return (
       <div>
-         <Hero title="brands" />
+         <Hero title={ar ? "العلامات التجارية" : "brands"} />
          <div className="container pt-6">
             <div className="relative max-w-lg mx-auto">
                <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
@@ -41,7 +43,7 @@ export default function Index({ brands }) {
                      item.name.toLowerCase().includes(query.toLowerCase())
                   ).map((brand) => {
                      return (
-                        <BrandSection key={brand.id} name={brand.name} img={brand.img} slug={brand.slug} />
+                        <BrandSection key={brand.id} name={brand.name} name_ar={brand.name_ar} img={brand.img} slug={brand.slug} />
                      )
                   })}
             </div>

@@ -1,26 +1,32 @@
 import React from 'react'
-// import { Cookies } from 'next/dist/server/web/spec-extension/cookies';
 import { useState, useEffect } from 'react'
 import Cookies from 'js-cookie';
-// import arimg from "../public/images/saudi-arabia-flag-icon.svg"
-// import enimg from "../public/images/united-kingdom-flag-icon.svg"
-// import Image from 'next/image';
+import { useSelector, useDispatch } from 'react-redux';
+import { handelLangs } from '../slices/langsSlice';
 
 const Langs = () => {
-   // const [lang, setlang] = useState(Cookies.get("ar"));
+   // const [lang , setlang] = useState("false")
+   const dispatch = useDispatch()
+   const lang = useSelector(state => state.langs.value)
+
+   // useEffect(()=>{
+   //    setlang(Cookies.get("ar") || "false")
+   // },[])
+
    const setLang = () => {
-      Cookies.set("ar", Cookies.get("ar") == "false" ? true : false)
-      location.reload()
+      // if (lang == "false") {
+      //    console.log(false);
+      //    // Cookies.set("ar", true)
+      // } else {
+      //    console.log(true);
+      //    Cookies.set("ar", false)
+      // }
+      dispatch(handelLangs())
    }
-   useEffect(() => {
-      console.log(Cookies.get("ar"));
-   }, [])
    return (
-      <a className="flex items-center relative cursor-pointer">
-         <button className='lang flex' onClick={() => setLang()}>
-            {Cookies.get("ar") ? "العربيه" : "English"}
+         <button className='bg-primary-100 py-1 px-3 rounded shadow text-sm' onClick={() => setLang()} title={lang ? "Change language to English." : "تغيير اللغة الي العربية"}>
+            {!lang ? "العربية" : "English"}
          </button>
-      </a>
    )
 }
 
