@@ -43,7 +43,7 @@ const Category = (props) => {
                   <Link href={props.products.url}>
                      <a
                         className="text-white  bg-primary-100  focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 transition hover:shadow-md hover:scale-105">
-                        {ar ? "المذيد" : "View more"}
+                        {ar ? "المزيد" : "View more"}
                      </a>
                   </Link>
                </div>
