@@ -153,9 +153,11 @@ const WishList = () => {
                                  <button className="font-medium w-full max-w-[6rem] bg-primary-100 text-white py-1 px-2 rounded">
                                     {ar ? "اضف" : "Add"}
                                  </button>
-                                 <button className="font-medium w-full max-w-[6rem] bg-gray-600 text-white py-1 px-2 rounded">
+                                 <Link href={`/products/${product.slug}`}>
+                                 <a className="font-medium w-full max-w-[6rem] bg-gray-600 text-white py-1 px-2 rounded">
                                     {ar ? "تفاصيل" : "Details"}
-                                 </button>
+                                 </a>
+                                 </Link>
                               </td>
                            </tr>
                )

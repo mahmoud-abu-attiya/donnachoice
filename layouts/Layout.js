@@ -20,7 +20,7 @@ const Layout = ({ children }) => {
 //    }, [ar]);
    return (
       <>
-         <Loading />
+         {/* <Loading /> */}
          <Navbar />
          {children}
          <Footer />
