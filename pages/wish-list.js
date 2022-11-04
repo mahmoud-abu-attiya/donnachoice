@@ -95,8 +95,8 @@ const WishList = () => {
             </div>
          ) : (
                   <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
-                     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                     <table className="w-full text-sm text-left text-gray-500">
+                        <thead className={`text-xs text-gray-700 uppercase bg-gray-50 ${ar ? "text-right" : "text-left"}`}>
                            <tr>
                               <th scope="col" className="py-3 px-6">
                                  <span className="sr-only">Image</span>
@@ -115,7 +115,7 @@ const WishList = () => {
                               </th>
                            </tr>
                         </thead>
-                        <tbody>
+                        <tbody className={ar ? "text-right" : "text-left"}>
             {products.map(product => {
                return (
                   // <ProductBox key={product.id} product={product} />
@@ -124,7 +124,7 @@ const WishList = () => {
                               <td className="p-4 w-32">
                                  <img src={product.images.length > 0 ? product.images[0].img : "https://dieselpunkcore.com/wp-content/uploads/2014/06/logo-placeholder.png"} alt="Apple Watch" />
                               </td>
-                              <td className="py-4 px-6 font-semibold text-gray-900 dark:text-white">
+                              <td className="py-4 px-6 font-semibold text-gray-900">
                                  {ar ? product.name_ar :product.name}
                               </td>
                               <td className="py-4 px-6">
@@ -143,11 +143,19 @@ const WishList = () => {
                                  </div> */}
                                  in stock
                               </td>
-                              <td className="py-4 px-6 font-semibold text-gray-900 dark:text-white">
-                                 $599
+                              <td className="py-4 px-6 font-semibold text-gray-900">
+                                 {ar ? "ريال" : "QR"} 599
                               </td>
-                              <td className="py-4 px-6">
-                                 <button className="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</button>
+                              <td className="py-4 px-6 flex flex-col gap-2 items-center justify-center">
+                                 <button className="font-medium w-full max-w-[6rem] bg-red-600 text-white py-1 px-2 rounded">
+                                    {ar ? "ازالة" : "Remove"}
+                                 </button>
+                                 <button className="font-medium w-full max-w-[6rem] bg-primary-100 text-white py-1 px-2 rounded">
+                                    {ar ? "اضف" : "Add"}
+                                 </button>
+                                 <button className="font-medium w-full max-w-[6rem] bg-gray-600 text-white py-1 px-2 rounded">
+                                    {ar ? "تفاصيل" : "Details"}
+                                 </button>
                               </td>
                            </tr>
                )

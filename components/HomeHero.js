@@ -1,14 +1,20 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/autoplay"
 import { Autoplay, Pagination, Navigation } from "swiper";
+import axios from "axios";
 
 
 export default function App() {
+   const [swiperImgs, setSwiperImgs] = useState([])
+   useEffect(() => {
+      axios.get("https://backends.donnachoice.com/api/swiper/").then(res => console.log(res.data))
+   // console.log(swiperImgs);
+   }, []);
    return (
       <>
          <Swiper

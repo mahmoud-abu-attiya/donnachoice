@@ -119,7 +119,6 @@ export default function Profile() {
                   <li>
                      <Link href={"/cart"}>
                         <a
-                           href="#"
                            className="flex items-center gap-2 p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100"
                         >
                            <i className="fad fa-shopping-cart text-gray-500 text-xl hidden sm:block"></i>
@@ -135,7 +134,6 @@ export default function Profile() {
                   <li>
                      <Link href={"/compare"}>
                         <a
-                           href="#"
                            className="flex items-center gap-2 p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100"
                         >
                            {/* <i className="fad fa-random"></i> */}
