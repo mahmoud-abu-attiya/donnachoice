@@ -7,6 +7,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import img from "../public/images/no-result.png"
 import { useSelector } from 'react-redux';
+import { useDispatch } from "react-redux";
+import { setCompareCount } from "../slices/compareIndicatorSlice";
 
 // export const getStaticProps = async () => {
 //    const res = await fetch('https://backends.donnachoice.com/api/products/?slug__in=product,item-2');
@@ -19,11 +21,25 @@ import { useSelector } from 'react-redux';
 //    }
 // }
 
+const getNumberOfProductsInCompare = () => {
+	const storedCompare = JSON.parse(localStorage.getItem("stored-compare")) || [];
+	return storedCompare.length;
+};
+
+const handleCompareLocalStorage = (e, itemSlug) => {
+	const storedCompare = JSON.parse(localStorage.getItem("stored-compare")) || [];
+	if (storedCompare.includes(itemSlug)) {
+		storedCompare.splice(storedCompare.indexOf(itemSlug), 1);
+		e.target.closest(".product-row").style.display = "none"
+	}
+	localStorage.setItem("stored-compare", JSON.stringify(storedCompare));
+};
+
 const Compare = () => {
 	const ar = useSelector((state) => state.langs.value);
 	const [products, setProducts] = useState([])
 	const [loading, setLoading] = useState(true)
-
+	const dispatch = useDispatch();
 	useEffect(() => {
 
 		const storedCompare = JSON.parse(localStorage.getItem("stored-compare")) || []
@@ -37,6 +53,11 @@ const Compare = () => {
 			setLoading(false)
 		})
 	}, []);
+
+	const removeFromCompare = (e, item) => {
+		handleCompareLocalStorage(e, item);
+		dispatch(setCompareCount(getNumberOfProductsInCompare()));
+	};
 
 	if (loading) {
 		return <>
@@ -117,7 +138,7 @@ const Compare = () => {
 							<tbody className={ar ? "text-right" : "text-left"}>
 								{products.map((product, index) => {
 									return (
-										<tr key={product.id} className="bg-white border-b">
+										<tr key={product.id} className="bg-white border-b product-row">
 											<td className="p-4 w-4">
 												{index + 1}
 											</td>
@@ -157,7 +178,7 @@ const Compare = () => {
 												)}
 											</td>
 											<td className="py-4 px-6 flex flex-col gap-2 items-center justify-center">
-												<button className="font-medium w-full max-w-[6rem] bg-red-600 text-white py-1 px-2 rounded">
+												<button onClick={(e) => removeFromCompare(e, product.slug)} className="font-medium w-full max-w-[6rem] bg-red-600 text-white py-1 px-2 rounded">
 													{ar ? "ازالة" : "Remove"}
 												</button>
 												<button className="font-medium w-full max-w-[6rem] bg-primary-100 text-white py-1 px-2 rounded">
