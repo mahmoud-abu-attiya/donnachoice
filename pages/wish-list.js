@@ -126,7 +126,7 @@ const WishList = () => {
                         <tbody className={ar ? "text-right" : "text-left"}>
             {products.map(product => {
                return (
-                  <ProductWishlistRow product={product}/>
+                  <ProductWishlistRow key={product.id} product={product}/>
                   // <ProductBox key={product.id} product={product} />
                            )
                         })}
