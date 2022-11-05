@@ -8,6 +8,8 @@ import Image from 'next/image';
 import img from "../public/images/no-result.png";
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
+import { setAmount } from "../slices/wishlistIndicatorSlice";
+import { useDispatch } from "react-redux";
 
 // export const getStaticProps = async () => {
 //    const res = await fetch('https://backends.donnachoice.com/api/products/?slug__in=product,item-2');
@@ -20,10 +22,27 @@ import { useSelector } from 'react-redux';
 //    }
 // }
 
+const getNumberOfProductsInWishlist = () => {
+   const storedWishlist =
+      JSON.parse(localStorage.getItem("stored-wishlist")) || [];
+   return storedWishlist.length;
+};
+
+const handleWishlistLocalStorage = (e, itemSlug) => {
+   const storedWishlist = JSON.parse(localStorage.getItem("stored-wishlist")) || [];
+   if (storedWishlist.includes(itemSlug)) {
+      storedWishlist.splice(storedWishlist.indexOf(itemSlug), 1);
+      e.target.closest(".product-row").style.display = "none"
+   }
+   localStorage.setItem("stored-wishlist", JSON.stringify(storedWishlist));
+};
+
 const WishList = () => {
    const ar = useSelector((state) => state.langs.value);
    const [products, setProducts] = useState([])
    const [loading, setLoading] = useState(true)
+   const [authState, setAuthState] = useState(false);
+   const dispatch = useDispatch();
    useEffect(() => {
       const auth = Cookies.get("auth")
       if (!auth) {
@@ -37,6 +56,7 @@ const WishList = () => {
             setLoading(false)
          })
       } else {
+         setAuthState(true);
          axios.get('https://backends.donnachoice.com/api/products/?is_wishlist=1', {
             headers: {
                Authorization: `Bearer ${Cookies.get("token")}`,
@@ -48,6 +68,46 @@ const WishList = () => {
          })
       }
    }, []);
+
+   const removeFromWishlist = (e, item) => {
+      // if (wishList.includes(item)) {
+      //    dispatch(removeFromWishList(item))
+      // } else {
+      //    dispatch(addToWishList(item))
+      // }
+      console.log(authState);
+      if (!authState) {
+         handleWishlistLocalStorage(e, item);
+         dispatch(setAmount(getNumberOfProductsInWishlist()));
+         return;
+      }
+      // console.log(isWish);
+      axios
+         .post(
+            `https://backends.donnachoice.com/api/products/remove_from_wishlist/`,
+            {
+               products: [item],
+            },
+            {
+               headers: {
+                  Authorization: `Bearer ${Cookies.get("token")}`,
+               },
+            }
+         )
+         .then((res) => {
+            console.log(res.data);
+            e.target.closest(".product-row").style.display = "none"
+            axios
+               .get(`https://backends.donnachoice.com/api/counts`, {
+                  headers: {
+                     Authorization: `Bearer ${Cookies.get("token")}`,
+                  },
+               })
+               .then((res) => {
+                  dispatch(setAmount(res.data.wishlist));
+               });
+         });
+   };
 
    if (loading) {
       return <>
@@ -122,7 +182,7 @@ const WishList = () => {
                return (
                   // <ProductBox key={product.id} product={product} />
 
-                           <tr key={product.id} className="bg-white border-b">
+                           <tr key={product.id} className="bg-white border-b product-row">
                               <td className="p-4 w-32">
                                  <img src={product.images.length > 0 ? product.images[0].img : "https://dieselpunkcore.com/wp-content/uploads/2014/06/logo-placeholder.png"} alt="Apple Watch" />
                               </td>
@@ -136,7 +196,7 @@ const WishList = () => {
                                  {ar ? "ريال" : "QR"} 599
                               </td>
                               <td className="py-4 px-6 flex flex-col gap-2 items-center justify-center">
-                                 <button className="font-medium w-full max-w-[6rem] bg-red-600 text-white py-1 px-2 rounded">
+                                 <button onClick={(e) => removeFromWishlist(e, product.slug)} className="font-medium w-full max-w-[6rem] bg-red-600 text-white py-1 px-2 rounded">
                                     {ar ? "ازالة" : "Remove"}
                                  </button>
                                  <button className="font-medium w-full max-w-[6rem] bg-primary-100 text-white py-1 px-2 rounded">
