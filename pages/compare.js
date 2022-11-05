@@ -181,9 +181,6 @@ const Compare = () => {
 												<button onClick={(e) => removeFromCompare(e, product.slug)} className="font-medium w-full max-w-[6rem] bg-red-600 text-white py-1 px-2 rounded">
 													{ar ? "ازالة" : "Remove"}
 												</button>
-												<button className="font-medium w-full max-w-[6rem] bg-primary-100 text-white py-1 px-2 rounded">
-													{ar ? "اضف" : "Add"}
-												</button>
 												<Link href={`/products/${product.slug}`}>
 													<a className="text-center font-medium w-full max-w-[6rem] bg-gray-600 text-white py-1 px-2 rounded">
 														{ar ? "تفاصيل" : "Details"}
