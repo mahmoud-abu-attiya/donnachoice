@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { setCartCount } from "../slices/cartIndicatorSlice";
 import { setAmount } from "../slices/wishlistIndicatorSlice";
+import axios from 'axios';
 
 const handleCartLocalStorage = (addToCartButton, itemId, changed) => {
     const storedCart = JSON.parse(localStorage.getItem("stored-cart")) || [];
@@ -204,14 +205,14 @@ export default function ProductWishlistRow({ product }) {
 
     return (
         <tr key={product.id} className="bg-white border-b product-row">
-            <td className="p-4 w-32">
+            <td className="p-4 md:w-32">
                 <img src={product.images.length > 0 ? product.images[0].img : "https://dieselpunkcore.com/wp-content/uploads/2014/06/logo-placeholder.png"} alt="Apple Watch" />
             </td>
             <td className="py-4 px-6 font-semibold text-gray-900">
                 {ar ? product.name_ar : product.name}
             </td>
             <td className="py-4 px-6">
-                <p className='text-primary-100 bg-primary-300 rounded-full px-4 w-fit'>{product.available ? "in stock" : "out stock"}</p>
+                <p className='text-primary-100 bg-primary-300 rounded-full px-4 w-fit whitespace-nowrap'>{product.available ? "in stock" : "out stock"}</p>
             </td>
             <td className="py-4 px-6 font-semibold text-gray-900">
                 {ar ? "ريال" : "QR"} 599
@@ -223,9 +224,10 @@ export default function ProductWishlistRow({ product }) {
                 {/* <button className="font-medium w-full max-w-[6rem] bg-primary-100 text-white py-1 px-2 rounded">
                 {ar ? "اضف" : "Add"}
                 </button> */}
-                <div className="relative w-full sm:w-fit">
-                    {product.options.length > 1 ? <button
-                        className="text-white w-full bg-primary-100 hover:bg-primary-200 focus:outline-none font-medium rounded-lg text-sm px-4 py-2.5 text-center"
+                <div className="relative w-full max-w-[6rem]">
+                    {product.options.length > 1 ? 
+                    <button
+                        className="font-medium w-full max-w-[6rem] bg-primary-100 text-white py-1 px-2 rounded"
                         onClick={() => toggleOptionsMenu(product.slug)}
                     >
                         {ar ? "أضف إلى العربة" : "Add to cart"}
