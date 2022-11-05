@@ -8,8 +8,8 @@ export const langsSlice = createSlice({
    name: "langs",
    initialState,
    reducers: {
-      handelLangs : (state) => {
-         state.value = !state.value
+      handelLangs : (state, action) => {
+         state.value = action.payload
       }
    }
 })
