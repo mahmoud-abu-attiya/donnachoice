@@ -130,18 +130,23 @@ const Footer = () => {
                   </h2>
                   <ul className="text-gray-600">
                      <li className="mb-4">
-                        <a href="#" className="hover:underline ">
+                        <a href="https://www.facebook.com/donnachoice.qa" className="hover:underline ">
                            {ar ? "فيسبوك" : "Facebook"}
                         </a>
                      </li>
                      <li className="mb-4">
-                        <a href="#" className="hover:underline">
+                        <a href="https://www.instagram.com/donnachoice.qa/" className="hover:underline">
                            {ar ? "انستغرام" : "Instagram"}
                         </a>
                      </li>
-                     <li>
-                        <a href="#" className="hover:underline">
+                     <li className="mb-4">
+                        <a href="https://www.snapchat.com/add/donnachoice.qa" className="hover:underline">
                            {ar ? "سناب شات" : "Snapchat"}
+                        </a>
+                     </li>
+                     <li>
+                        <a href="https://www.tiktok.com/@donnachoice.qa" className="hover:underline">
+                           {ar ? "تيك توك" : "Tiktok"}
                         </a>
                      </li>
                   </ul>
@@ -173,24 +178,27 @@ const Footer = () => {
                      href="https://orizon.qa"
                      className="font-bold hover:underline hover:text-black"
                   >
-                     {ar ? "أورايزون قطر" :"Orizon Qatar"}
+                     <img src="https://orizon.qa/images/logo/nav-logo.png" alt="Orizon Qatar" className="h-4 inline" />
                   </a>
                </span>
                <span className="text-sm sm:text-center capitalize inline-block">
                   {ar ? "© 2022 جميع الحقوق محفوظة" : "© 2022 All Copy right reserved to"} <strong>{ar ? "دوناتشويس" : "DONNA CHOICE"}</strong>
                </span>
                <div className="flex mt-4 gap-6 sm:justify-center sm:mt-0">
-                  <a href="#" className="hover:text-gray-900">
+                  <a href="https://www.facebook.com/donnachoice.qa" className="hover:text-gray-900">
                      <i className="fab fa-facebook-f"></i>
                   </a>
-                  <a href="#" className="hover:text-gray-900">
+                  <a href="https://www.instagram.com/donnachoice.qa/" className="hover:text-gray-900">
                      <i className="fab fa-instagram"></i>
                   </a>
-                  <a href="#" className="hover:text-gray-900">
-                     <i className="fab fa-whatsapp"></i>
-                  </a>
-                  <a href="#" className="hover:text-gray-900">
+                  <a href="https://www.snapchat.com/add/donnachoice.qa" className="hover:text-gray-900">
                      <i className="fab fa-snapchat-ghost"></i>
+                  </a>
+                  <a href="https://www.tiktok.com/@donnachoice.qa" className="hover:text-gray-900">
+                     <i className="fab fa-tiktok"></i>
+                  </a>
+                  <a href="https://wa.me/97433189999" className="hover:text-gray-900">
+                     <i className="fab fa-whatsapp"></i>
                   </a>
                </div>
             </div>

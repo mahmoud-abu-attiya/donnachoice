@@ -35,26 +35,26 @@ const Subnav = () => {
    const cartIndicator = useSelector(state => state.cartIndicator.count)
    const compareIndicator = useSelector(state => state.compareIndicator.count)
    const dispatch = useDispatch()
-   useEffect(()=>{
+   useEffect(() => {
       if (!auth) {
          dispatch(setAmount(getNumberOfProductsInWishlist()))
          dispatch(setCartCount(getNumberOfProductsInCart()))
          dispatch(setCompareCount(getNumberOfProductsInCompare()))
-      }else{
-         axios.get(`https://backends.donnachoice.com/api/counts`,{
+      } else {
+         axios.get(`https://backends.donnachoice.com/api/counts`, {
             headers: {
                Authorization: `Bearer ${Cookies.get("token")}`,
             },
          })
-         .then(res => {
-            dispatch(setAmount(res.data.wishlist))
-            dispatch(setCartCount(res.data.cart))
-         })
+            .then(res => {
+               dispatch(setAmount(res.data.wishlist))
+               dispatch(setCartCount(res.data.cart))
+            })
          dispatch(setCompareCount(getNumberOfProductsInCompare()))
       }
    }, [])
 
-// export default function Subnav () {
+   // export default function Subnav () {
    // const cartCount = useSelector((state) => state.cart.value)
    // const wishCount = useSelector((state) => state.wishList.value)
 
@@ -70,21 +70,24 @@ const Subnav = () => {
       <div className='bg-primary-200 px-0 sm:px-4 py-2.5 text-white'>
          <div className="container flex justify-between items-center flex-wrap">
             <div className="hidden md:flex gap-4">
-               <a href="#">
+               <a href="https://www.facebook.com/donnachoice.qa">
                   <i className="fab fa-facebook-f"></i>
                </a>
-               <a href="#">
-                  <i className="fab fa-snapchat-ghost"></i>
-               </a>
-               <a href="#">
+               <a href="https://www.instagram.com/donnachoice.qa/">
                   <i className="fab fa-instagram"></i>
                </a>
-               <a href="#">
+               <a href="https://www.snapchat.com/add/donnachoice.qa">
+                  <i className="fab fa-snapchat-ghost"></i>
+               </a>
+               <a href="https://www.tiktok.com/@donnachoice.qa">
+                  <i className="fab fa-tiktok"></i>
+               </a>
+               <a href="https://wa.me/97433189999">
                   <i className="fab fa-whatsapp"></i>
                </a>
             </div>
             <div className="hidden md:block">
-               <a href="#"><i className="fas fa-phone-alt"></i> +123 456 7890</a>
+               <a href="tel:+97433189999"><i className="fas fa-phone-alt"></i>+97433189999</a>
             </div>
             {/* <Currencies /> */}
             <Langs />
@@ -97,13 +100,13 @@ const Subnav = () => {
                </Link>
                <Link href={"/profile"}>
                   <a className='border-r px-1 md:px-2 border-primary-100'>
-                     
+
                      {ar ? "الحساب" : "Account"}
                      {/* Account */}
                   </a>
                </Link>
                <Link href={"/help"}>
-                  <a className='px-1 md:px-2'>   
+                  <a className='px-1 md:px-2'>
                      {ar ? "مساعدة" : "Help"}
                      {/* Help */}
                   </a>
