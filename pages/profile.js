@@ -166,7 +166,7 @@ export default function Profile() {
                <i className="fad fa-user-circle text-gray-600 text-5xl"></i>
                {user.first_name + " " + user.last_name}
             </div>
-            <div className="info grid grid-cols-8 bg-gray-50 rounded-md border">
+            <div className="info grid grid-cols-8 bg-gray-50 rounded-md border max-w-full overflow-x-auto">
                <div className="col-span-3 md:col-span-2">
                   <div className="py-2 px-4 border-b">
                      {ar ? "الاسم الاول" : "First Name"}
@@ -206,7 +206,7 @@ export default function Profile() {
             </div>
             <div className="space-y-4">
                <h4 className="text-xl font-bold">{ar ? "تاريخ الطلب" : "Order history"}</h4>
-               <div className="bg-gray-50 rounded-md border p-8">
+               {/* <div className="bg-gray-50 rounded-md border p-8">
                   <p className="text-2xl font-bold text-center">
                      {ar ? "لا توجد طلبات بعد." : "There is no orders yet."}
                   </p>
@@ -215,22 +215,19 @@ export default function Profile() {
                         {ar ? "ابدأ التسوق":"Start Shopping"}
                      </div>
                   </Link>
-               </div>
-               {/* <div className="overflow-x-auto relative shadow-md sm:rounded-lg border">
+               </div> */}
+               <div className="overflow-x-auto relative shadow-md sm:rounded-lg border">
                   <table className="w-full text-sm text-left text-gray-500">
                      <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b">
                         <tr>
                            <th scope="col" className="py-3 px-6">
-                              Product name
-                           </th>
-                           <th scope="col" className="py-3 px-6">
-                              Color
+                              Items
                            </th>
                            <th scope="col" className="py-3 px-6">
                               Date
                            </th>
                            <th scope="col" className="py-3 px-6">
-                              Price
+                              Total Payment
                            </th>
                            <th scope="col" className="py-3 px-6">
                               Action
@@ -240,22 +237,57 @@ export default function Profile() {
                      <tbody>
                         <tr className="bg-white border-b">
                            <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
-                              Apple MacBook Pro 17
+                              <p>Apple MacBook Pro 17</p>
+                              <p>item</p>
+                              <p className="font-bold underline">+3</p>
                            </th>
-                           <td className="py-4 px-6">
-                              Sliver
-                           </td>
-                           <td className="py-4 px-6">
+                           <td className="py-4 px-6 whitespace-nowrap">
                               2022-20-02
                            </td>
                            <td className="py-4 px-6">
-                              $2999
+                              QR 2999
                            </td>
-                           <td className="py-4 px-6">
-                              <a href="#" className="font-medium text-blue-600 hover:underline">View</a>
+                           <td className="py-4 px-6 flex-col flex gap-2">
+                              <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">View</a>
+                              <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Reorder</a>
+                              <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Review</a>
                            </td>
                         </tr>
                         <tr className="bg-white border-b">
+                           <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
+                              <p>item</p>
+                           </th>
+                           <td className="py-4 px-6 whitespace-nowrap">
+                              2022-20-02
+                           </td>
+                           <td className="py-4 px-6">
+                              QR 299
+                           </td>
+                           <td className="py-4 px-6 flex-col flex gap-2">
+                              <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">View</a>
+                              <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Reorder</a>
+                              <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Review</a>
+                           </td>
+                        </tr>
+                        <tr className="bg-white border-b">
+                           <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
+                              <p>product</p>
+                              <p>t-shirt</p>
+                              <p className="font-bold underline">+5</p>
+                           </th>
+                           <td className="py-4 px-6 whitespace-nowrap">
+                              2022-20-02
+                           </td>
+                           <td className="py-4 px-6">
+                              QR 299
+                           </td>
+                           <td className="py-4 px-6 flex-col flex gap-2">
+                              <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">View</a>
+                              <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Reorder</a>
+                              <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Review</a>
+                           </td>
+                        </tr>
+                        {/* <tr className="bg-white border-b">
                            <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
                               Microsoft Surface Pro
                            </th>
@@ -288,10 +320,10 @@ export default function Profile() {
                            <td className="py-4 px-6">
                               <a href="#" className="font-medium text-blue-600 hover:underline">View</a>
                            </td>
-                        </tr>
+                        </tr> */}
                      </tbody>
                   </table>
-               </div> */}
+               </div>
             </div>
          </div>
       </div>
