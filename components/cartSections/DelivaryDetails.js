@@ -51,14 +51,30 @@ const DelivaryDetails = () => {
             </div>
             <div>
                <label
-                  htmlFor="phone"
+                  htmlFor="Mobile"
                   className="block mb-2 text-sm font-medium text-gray-900"
                >
-                  Phone number*
+                  Mobile*
                </label>
                <input
                   type="tel"
-                  id="phone"
+                  id="Mobile"
+                  className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  placeholder="123-45-678"
+                  pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
+                  required
+               />
+            </div>
+            <div>
+               <label
+                  htmlFor="alt_phone"
+                  className="block mb-2 text-sm font-medium text-gray-900"
+               >
+                  Alt Phone*
+               </label>
+               <input
+                  type="tel"
+                  id="alt_phone"
                   className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   placeholder="123-45-678"
                   pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
@@ -114,6 +130,20 @@ const DelivaryDetails = () => {
             </div>
             <div>
                <label
+                  htmlFor="zone"
+                  className="block mb-2 text-sm font-medium text-gray-900"
+               >
+                  Zone*
+               </label>
+               <input
+                  type="text"
+                  id="zone"
+                  className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  required
+               />
+            </div>
+            <div>
+               <label
                   htmlFor="Address"
                   className="block mb-2 text-sm font-medium text-gray-900"
                >
@@ -132,7 +162,13 @@ const DelivaryDetails = () => {
             <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900">
                Notes
             </label>
-            <textarea id="message" rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Your a Note..." defaultValue={""} />
+            <textarea
+            id="message"
+            rows={4}
+            className="block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Leave a note..."
+            defaultValue={""}
+            />
          </div>
       </form>
    );
