@@ -20,13 +20,14 @@ export default function ProductSwiper(props) {
       console.log(props.images);
    }, [])
    return (
-      <>
+      <div dir="ltr">
          <Swiper
             spaceBetween={10}
             navigation={true}
             thumbs={{ swiper: thumbsSwiper }}
             modules={[FreeMode, Thumbs]}
             className="mySwiper2"
+            loop={true}
          >
             {props.images.length != 0 ? props.images.map(img => {
                return (
@@ -60,6 +61,6 @@ export default function ProductSwiper(props) {
                )}
             </Swiper>
          )}
-      </>
+      </div>
    );
 }

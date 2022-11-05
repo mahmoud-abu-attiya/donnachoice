@@ -11,6 +11,7 @@ import axios from 'axios'
 import Cookies from 'js-cookie'
 import Link from 'next/link';
 import ProductSwiper from "../../components/ProductSwiper"
+import ProductReviews from '../../components/ProductReviews';
 
 const getNumberOfProductsInWishlist = () => {
 	const storedWishlist = JSON.parse(localStorage.getItem("stored-wishlist")) || []
@@ -75,10 +76,30 @@ const handleCompareLocalStorage = (compareElement, itemSlug, changed) => {
 	localStorage.setItem("stored-compare", JSON.stringify(storedCompare))
 }
 
+export const getStaticPaths = async () => {
+	const { data } = await axios.get("https://backends.donnachoice.com/api/products/");
+	const paths = data.map((products) => ({ params: { slug: products.slug.toString() } }));
+	return {
+		paths,
+		fallback: true,
+	};
+};
+
+export const getStaticProps = async ({ params }) => {
+	const { data } = await axios.get(`https://backends.donnachoice.com/api/products/${params.slug}`);
+	const product = data;
+	return {
+		props: {
+			product,
+		},
+	};
+};
+
 const Product = ({ product }) => {
+	const [proCount, setproCount] = useState(1)
 	const ar = useSelector(state => state.langs.value)
 	let storedCart, storedCartIds = []
-	const [tab, setTab] = useState(true);
+	const [tab, setTab] = useState(1);
 	const [imgIndex, setImgIndex] = useState(0);
 	const auth = Cookies.get("auth")
 	const heartIcon = useRef()
@@ -93,6 +114,7 @@ const Product = ({ product }) => {
 	}
 
 	useEffect(() => {
+
 		console.log(product);
 		cart.load()
 		storedCart = cart.storedCart
@@ -166,11 +188,19 @@ const Product = ({ product }) => {
 		dispatch(setCompareCount(getNumberOfProductsInCompare()))
 	}
 
-	const addSelectedOptionToCart = (quantity = 1) => {
+	const addSelectedOptionToCart = (btn , quantity = 1) => {
 		cart.load()
 		cart.add(selectedOption, quantity)
 		cart.save()
 		cart.setCartCount(setCartCount, dispatch)
+		if (btn.classList.contains("atbtn")) {
+			btn.querySelector(".done").classList.remove("hidden")
+			btn.querySelector(".done").classList.add("grid")
+			setTimeout(() => {
+				btn.querySelector(".done").classList.remove("grid")
+				btn.querySelector(".done").classList.add("hidden")
+			}, 1000);
+		}
 	}
 
 
@@ -204,16 +234,16 @@ const Product = ({ product }) => {
 						</li>
 						<li aria-current="page">
 							<Link href={"/products"}>
-							<a className="flex items-center gap-2">
-								{/* <svg className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg> */}
-								<i
-									className={`text-gray-400 mx-2 fas ${ar ? "fa-chevron-left" : "fa-chevron-right"
-										}`}
-								></i>
-								<span className="capitalize text-sm font-medium text-gray-500">
-									{ar ? "المنتجات" : "Products"}
-								</span>
-							</a>
+								<a className="flex items-center gap-2">
+									{/* <svg className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg> */}
+									<i
+										className={`text-gray-400 mx-2 fas ${ar ? "fa-chevron-left" : "fa-chevron-right"
+											}`}
+									></i>
+									<span className="capitalize text-sm font-medium text-gray-500">
+										{ar ? "المنتجات" : "Products"}
+									</span>
+								</a>
 							</Link>
 						</li>
 						<li aria-current="page">
@@ -232,23 +262,6 @@ const Product = ({ product }) => {
 				</nav>
 				<hr className="my-8 h-px bg-gray-200 border-0" />
 				<div className="product grid grid-cols-1 md:grid-cols-2 gap-8">
-					{/* <div className="">
-					<div className="flex items-center justify-center mb-8">
-						<img className='max-w-full max-h-[300px] object-cover' src={product.images.length != 0 ? product.images[imgIndex].img : "https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg"} alt="" />
-					</div>
-					{product.images.length != 0 && (
-						<div className='flex justify-center items-center gap-8'>
-							{product.images.map(image => {
-								return (
-									<button key={image.id} onClick={() => setImgIndex(product.images.indexOf(image))}>
-										<img className='h-10' src={image.img} alt="broduct img" />
-									</button>
-								)
-							})}
-						</div>
-					)}
-
-				</div> */}
 					<div className="p-s">
 						<ProductSwiper images={product.images} />
 					</div>
@@ -257,30 +270,37 @@ const Product = ({ product }) => {
 					<div>
 						<div className="mb-4 border-b border-primary-100">
 							<ul className="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
-								<li className={ar ? "ml-2" :"mr-2"}>
+								<li className={ar ? "ml-2" : "mr-2"}>
 									<button
-										onClick={() => { tab == false && setTab(!tab) }}
-										className={`inline-block p-4 rounded-t-lg border-b-0 ${tab == true && "border-2 bg-primary-300 text-primary-100 border-primary-100 "}`}>
+										onClick={() => { tab != 1 && setTab(1) }}
+										className={`inline-block p-4 rounded-t-lg border-b-0 ${tab == 1 && "border-2 bg-primary-300 text-primary-100 border-primary-100 "}`}>
 										{ar ? "الوصف" : "Description"}
 									</button>
 								</li>
-								<li className={ar ? "ml-2" :"mr-2"}>
+								<li className={ar ? "ml-2" : "mr-2"}>
 									<button
-										onClick={() => { tab == true && setTab(!tab) }}
-										className={`inline-block p-4 rounded-t-lg border-b-0 ${tab == false && "border-2 bg-primary-300 text-primary-100 border-primary-100 "}`}>
+										onClick={() => { tab != 2 && setTab(2) }}
+										className={`inline-block p-4 rounded-t-lg border-b-0 ${tab == 2 && "border-2 bg-primary-300 text-primary-100 border-primary-100 "}`}>
 										{ar ? "تفاصيل المنتج" : "Product Details"}
+									</button>
+								</li>
+								<li className={ar ? "ml-2" : "mr-2"}>
+									<button
+										onClick={() => { tab != 3 && setTab(3) }}
+										className={`inline-block p-4 rounded-t-lg border-b-0 ${tab == 3 && "border-2 bg-primary-300 text-primary-100 border-primary-100 "}`}>
+										{ar ? "المراجعات" : "Reviews"}
 									</button>
 								</li>
 							</ul>
 						</div>
 						<div id="myTabContent">
-							<div className={tab == false && "hidden"}>
+							<div className={tab != 1 ? "hidden" : ""}>
 								<div className="flex flex-col gap-4">
 									<h2 className='text-2xl'>{product && ar ? product.name_ar : product.name}</h2>
 									<p className='text-gray-600'>{product.describtion ? ar ? product.describtion_ar : product.describtion : "no descrioption"}</p>
 								</div>
 							</div>
-							<div className={tab == true && "hidden"}>
+							<div className={tab != 2 ? "hidden" : ""}>
 								<div className="flex flex-col gap-2 mb-2">
 									<p className='text-gray-600'><span className="font-light capitalize">{ar ? "ماركة :" : "brand:"}</span> {ar ? product.brand.name_ar : product.brand.name}</p>
 									<p className='text-gray-600'><span className="font-light capitalize">{ar ? "الفئة :" : "category:"}</span> {ar ? product.category.name_ar : product.category.name}</p>
@@ -288,7 +308,20 @@ const Product = ({ product }) => {
 									<p className='text-gray-600'><span className="font-light capitalize">{ar ? "اس ك يو (SKU) :" : "SKU:"}</span> {product.sku}</p>
 								</div>
 							</div>
+							<div className={tab != 3 ? "hidden" : ""}>
+								<ProductReviews />
+							</div>
 							<div className='text-xl text-gray-700 mt-8'>{ar ? "ريال" : "QR"} {product.options[0].price}</div>
+							<div className="start text-xl">
+								<i className="fas fa-star text-yellow-500"></i>
+								<i className="fas fa-star text-yellow-500"></i>
+								<i className="fas fa-star text-yellow-500"></i>
+								<i className="fas fa-star text-yellow-500"></i>
+								<i className="far fa-star text-yellow-500"></i>
+								<span className="bg-blue-100 text-blue-600 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded ml-3">
+									5.0
+								</span>
+							</div>
 							<div className='flex gap-2 flex-wrap my-4'>
 								{product.options.map((option, index) => {
 									return (
@@ -296,19 +329,35 @@ const Product = ({ product }) => {
 									)
 								})}
 							</div>
-							<div className='flex gap-4'>
+							<div className='flex items-center gap-3 mb-4'>
+								<button onClick={() => setproCount(proCount - 1)} className="inline-flex items-center p-2 font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200" type="button">
+									<svg className="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" /></svg>
+								</button>
+								<div>
+									<input readOnly value={proCount > 0 ? proCount : 1} type="number" min={1} id="first_product" className="bg-gray-50 w-16 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-3.5 py-1" placeholder={product.amount || product.quantity || 1} required />
+								</div>
+								<button onClick={() => setproCount(proCount + 1)} className="inline-flex items-center p-2 font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200" type="button">
+									<svg className="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" /></svg>
+								</button>
+							</div>
+							<div className='flex gap-4 items-center'>
+
 								<div className='relative'>
 									<button
-										className="text-white bg-primary-100 hover:bg-primary-200 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-										onClick={(e) => addSelectedOptionToCart()}
+										dataSet="atbtn"
+										className="atbtn text-white bg-primary-100 hover:bg-primary-200 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+										onClick={(e) => addSelectedOptionToCart(e.target, proCount)}
 									>
 										{ar ? "اضف الي العربة" : "Add to cart"}
+										<div className="done absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-green-600 rounded-lg hidden place-content-center text-xl">
+										<i class="far fa-check-circle"></i>
+										</div>
 									</button>
 								</div>
-								<button className='z-10 text-xl border rounded px-4 bg-gray-100 hover:shadow transition hover:scale-105 text-red-600' title='Add product to wishlist' onClick={() => handleWishList(product.slug, product.is_wishlist)}>
+								<button className='text-xl border rounded self-stretch px-4 bg-gray-100 hover:shadow transition hover:scale-105 text-red-600' title='Add product to wishlist' onClick={() => handleWishList(product.slug, product.is_wishlist)}>
 									<i ref={heartIcon} className="far fa-heart"></i>
 								</button>
-								<button className='z-10 text-xl border rounded px-4 bg-gray-100 hover:shadow transition hover:scale-105 text-blue-600' title='Add product to comper list' onClick={() => handleCompare(product.slug)}>
+								<button className='text-xl border rounded self-stretch px-4 bg-gray-100 hover:shadow transition hover:scale-105 text-blue-600' title='Add product to comper list' onClick={() => handleCompare(product.slug)}>
 									<i ref={compareIcon} className="fas fa-random"></i>
 								</button>
 							</div>
@@ -321,7 +370,7 @@ const Product = ({ product }) => {
 				</div>
 				<hr className="my-8 h-px bg-gray-200 border-0" />
 				<div className="mb-8">
-					<h2 className='font-bold text-3xl mb-8'>{ar ? "منتجات ذات صله":"Related Products"}</h2>
+					<h2 className='font-bold text-3xl mb-8'>{ar ? "منتجات ذات صله" : "Related Products"}</h2>
 					<div className="grid grid-cols-2 md:grid-cols-4 gap-4">
 						{relatedPro.map(pro => <ProductBox key={pro.id} product={pro} />)}
 					</div>
@@ -332,22 +381,3 @@ const Product = ({ product }) => {
 }
 
 export default Product;
-
-export const getStaticProps = async ({ params }) => {
-	const { data } = await axios.get(`https://backends.donnachoice.com/api/products/${params.slug}`);
-	const product = data;
-	return {
-		props: {
-			product,
-		},
-	};
-};
-
-export const getStaticPaths = async () => {
-	const { data } = await axios.get("https://backends.donnachoice.com/api/products/");
-	const paths = data.map((products) => ({ params: { slug: products.slug.toString() } }));
-	return {
-		paths,
-		fallback: true,
-	};
-};

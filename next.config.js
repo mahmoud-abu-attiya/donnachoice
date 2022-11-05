@@ -7,6 +7,14 @@ const nextConfig = {
 module.exports = nextConfig
 
 module.exports = {
+  async rewrites() {
+    return [
+      {
+        source: '/api/products/:slug*',
+        destination: 'https://backends.donnachoice.com/api/products/:slug*'
+      },
+    ]
+  },
   async redirects() {
     return [
       {

@@ -231,3 +231,11 @@
    height: 100%;
    object-fit: contain;
 }
+
+.reviews > div:not(:last-child){
+   border-bottom: 1px solid #ccc;
+   padding-bottom: 1rem;
+}
+.active_cart_part{
+   @apply bg-primary-100 text-primary-300
+}

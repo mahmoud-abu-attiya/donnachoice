@@ -10,11 +10,11 @@ const Footer = () => {
          <div className=" bg-gray-50">
             <div className="container">
                <div className="grid grid-cols-1 md:grid-cols-3">
-                  <div className="grid grid-cols-7 gap-4 py-8 items-center">
+                  <div className="grid grid-cols-8 gap-4 py-8 items-center">
                      <div className="flex justify-center items-center col-span-2">
-                        <i className="fad fa-truck col-span-2 text-6xl"></i>
+                        <i className="fad fa-truck col-span-2 text-4xl"></i>
                      </div>
-                     <div className="col-span-5">
+                     <div className="col-span-6">
                         <h6 className="text-xl font-bold">
 
                            {ar ? "قيمة عظيمة" : "GREAT VALUE"}
@@ -25,11 +25,11 @@ const Footer = () => {
                         </p>
                      </div>
                   </div>
-                  <div className="grid grid-cols-7 gap-4 py-8 items-center">
+                  <div className="grid grid-cols-8 gap-4 py-8 items-center">
                      <div className="flex justify-center items-center col-span-2">
-                        <i className="fad fa-credit-card col-span-2 text-6xl"></i>
+                        <i className="fad fa-credit-card col-span-2 text-4xl"></i>
                      </div>
-                     <div className="col-span-5">
+                     <div className="col-span-6">
                         <h6 className="text-xl font-bold">
 
                            {ar ? "دفع آمن" : "SAFE PAYMENT"}
@@ -40,11 +40,11 @@ const Footer = () => {
                         </p>
                      </div>
                   </div>
-                  <div className="grid grid-cols-7 gap-4 py-8 items-center">
+                  <div className="grid grid-cols-8 gap-4 py-8 items-center">
                      <div className="flex justify-center items-center col-span-2">
-                        <i className="fad fa-clock col-span-2 text-6xl"></i>
+                        <i className="fad fa-clock col-span-2 text-4xl"></i>
                      </div>
-                     <div className="col-span-5">
+                     <div className="col-span-6">
                         <h6 className="text-xl font-bold">
 
                            {ar ? "مركز المساعدة" : "HELP CENTER"}
