@@ -249,7 +249,7 @@ export default function Profile() {
                            </td>
                            <td className="py-4 px-6 flex-col flex gap-2">
                               <Link href={"/orders/1"}>
-                              <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">View</a>
+                              <a className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">View</a>
                               </Link>
                               <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Reorder</a>
                               <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Review</a>
