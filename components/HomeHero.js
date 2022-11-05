@@ -16,7 +16,7 @@ export default function App() {
    // console.log(swiperImgs);
    }, []);
    return (
-      <>
+      <div className="homeslider">
          <Swiper
             spaceBetween={30}
             centeredSlides={true}
@@ -59,6 +59,6 @@ export default function App() {
                <img src="https://donnachoice.com/wp-content/uploads/2022/08/WhatsApp-Image-2022-08-25-at-3.34.08-PM.jpeg" className="min-h-full min-w-full object-cover" alt="" />
             </SwiperSlide>
          </Swiper>
-      </>
+      </div>
    );
 }

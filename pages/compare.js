@@ -95,19 +95,22 @@ const Compare = () => {
 										#
 									</th>
 									<th scope="col" className="py-3 px-6">
-										Product
+										{ar ? "منتج" : "Product"}
 									</th>
 									<th scope="col" className="py-3 px-6">
-										Options
+										{ar ? "الفئة" : "Category"}
 									</th>
 									<th scope="col" className="py-3 px-6">
-										Count
+										{ar ? "الخيارات" : "Options"}
+									</th>
+									<th scope="col" className="py-3 px-6">
+										{ar ? "الكمية" : "Quantity"}
 									</th>
 									<th scope="col" className="py-3 px-6 whitespace-nowrap">
-										Total (QA)
+										{ar ? "السعر" : "Price"}
 									</th>
 									<th scope="col" className="py-3 px-6">
-										Action
+										
 									</th>
 								</tr>
 							</thead>
@@ -124,7 +127,10 @@ const Compare = () => {
 													src={product.images.length == 0 ? "https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg" : product.images[0].img}
 													alt={product.name}
 												/>
-												{`${product.name} (${product.name})`}
+												{ar ? product.name_ar : product.name}
+											</th>
+											<th className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
+												{ar ? product.category.name_ar : product.category.name}
 											</th>
 											<td className="py-4 px-6">
 												{product.options.map(op => {
@@ -157,9 +163,11 @@ const Compare = () => {
 												<button className="font-medium w-full max-w-[6rem] bg-primary-100 text-white py-1 px-2 rounded">
 													{ar ? "اضف" : "Add"}
 												</button>
-												<button className="font-medium w-full max-w-[6rem] bg-gray-600 text-white py-1 px-2 rounded">
-													{ar ? "تفاصيل" : "Details"}
-												</button>
+												<Link href={`/products/${product.slug}`}>
+													<a className="text-center font-medium w-full max-w-[6rem] bg-gray-600 text-white py-1 px-2 rounded">
+														{ar ? "تفاصيل" : "Details"}
+													</a>
+												</Link>
 											</td>
 										</tr>
 									)

@@ -28,6 +28,15 @@
    width: calc(100% - 2rem);
    overflow: hidden;
 }
+.homeslider img::selection {
+   color: transparent;
+   background: none;
+}
+/* For Mozilla Firefox */
+.homeslider img::-moz-selection {
+   color: transparent;
+   background: none;
+}
 
 .homehero .swiper-button-next,
 .homehero .swiper-button-prev {

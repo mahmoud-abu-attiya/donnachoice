@@ -33,6 +33,7 @@ const WishList = () => {
          }
          axios.get('https://backends.donnachoice.com/api/products/?slug__in=' + storedWishlist).then(res => {
             setProducts(res.data)
+            console.log(res.data);
             setLoading(false)
          })
       } else {
@@ -42,6 +43,7 @@ const WishList = () => {
             },
          }).then(res => {
             setProducts(res.data)
+            console.log(res.data);
             setLoading(false)
          })
       }
@@ -128,7 +130,7 @@ const WishList = () => {
                                  {ar ? product.name_ar :product.name}
                               </td>
                               <td className="py-4 px-6">
-                                 in stock
+                                 <p className='text-primary-100 bg-primary-300 rounded-full px-4 w-fit'>{product.available ? "in stock" : "out stock"}</p>
                               </td>
                               <td className="py-4 px-6 font-semibold text-gray-900">
                                  {ar ? "ريال" : "QR"} 599
@@ -141,7 +143,7 @@ const WishList = () => {
                                     {ar ? "اضف" : "Add"}
                                  </button>
                                  <Link href={`/products/${product.slug}`}>
-                                 <a className="font-medium w-full max-w-[6rem] bg-gray-600 text-white py-1 px-2 rounded">
+                                 <a className="text-center font-medium w-full max-w-[6rem] bg-gray-600 text-white py-1 px-2 rounded">
                                     {ar ? "تفاصيل" : "Details"}
                                  </a>
                                  </Link>

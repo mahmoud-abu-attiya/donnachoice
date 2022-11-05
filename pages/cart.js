@@ -53,6 +53,10 @@ const Cart = () => {
    const [cartSections, setcartSections] = useState(1);
 
    useEffect(() => {
+      // amounts.forEach(amount => {
+      //    let val = amount.value
+      //    console.log(parseInt(val) + parseInt(val));
+      // })
       const amounts = document.querySelectorAll(".product-amount");
       const prices = document.querySelectorAll(".product-total-price");
       setTotalAmount(0);
@@ -305,10 +309,10 @@ const Cart = () => {
                                                 : product.product.name}{" "}
                                              ({product.name})
                                           </th>
-                                          <td className="py-4 px-6">{product.price}</td>
+                                          <td className="py-4 px-6">{ar ? "ريال" : "QR"} {product.price}</td>
                                           <td className="py-4 px-6 product-amount">
                                              <div className="flex items-center gap-3">
-                                                <button
+                                                {/* <button
                                                    onClick={() => setproCount(proCount - 1)}
                                                    className="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200"
                                                    type="button"
@@ -329,9 +333,10 @@ const Cart = () => {
                                                          clipRule="evenodd"
                                                       />
                                                    </svg>
-                                                </button>
+                                                </button> */}
                                                 <div>
                                                    <input
+                                                      readOnly
                                                       defaultValue={
                                                          product.added_quantity ||
                                                          amountStor.find(
@@ -345,7 +350,7 @@ const Cart = () => {
                                                       required
                                                    />
                                                 </div>
-                                                <button
+                                                {/* <button
                                                    onClick={() => setproCount(proCount + 1)}
                                                    className="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200"
                                                    type="button"
@@ -366,7 +371,7 @@ const Cart = () => {
                                                          clipRule="evenodd"
                                                       />
                                                    </svg>
-                                                </button>
+                                                </button> */}
                                              </div>
                                           </td>
                                           {/* <td className="py-4 px-6 product-total-price">
@@ -432,27 +437,27 @@ const Cart = () => {
                         </div>
                      </div>
                      <div className="flex gap-4">
-                     <button
-                        type="button"
-                        onClick={() => setcartSections(1)}
-                        className="bg-primary-100 text-white flex gap-2 items-center rounded-md p-4 whitespace-nowrap"
-                     >
-                        <i
-                           className={`fas ${ar ? "fa-arrow-right" : "fa-arrow-left"}`}
-                        ></i>
-                        Back
-                     </button>
-                     <button
-                        type="button"
-                        onClick={() => setcartSections(3)}
-                        className="w-full bg-primary-100 text-white rounded-md py-4 flex items-center gap-2 justify-center"
-                     >
-                        {ar ? "التالي" : "Next"}{" "}
-                        <i
-                           className={`fas ${ar ? "fa-arrow-left" : "fa-arrow-right"}`}
-                        ></i>{" "}
-                        {ar ? "الدفع" : "Payment"}
-                     </button>
+                        <button
+                           type="button"
+                           onClick={() => setcartSections(1)}
+                           className="bg-primary-100 text-white flex gap-2 items-center rounded-md p-4 whitespace-nowrap"
+                        >
+                           <i
+                              className={`fas ${ar ? "fa-arrow-right" : "fa-arrow-left"}`}
+                           ></i>
+                           Back
+                        </button>
+                        <button
+                           type="button"
+                           onClick={() => setcartSections(3)}
+                           className="w-full bg-primary-100 text-white rounded-md py-4 flex items-center gap-2 justify-center"
+                        >
+                           {ar ? "التالي" : "Next"}{" "}
+                           <i
+                              className={`fas ${ar ? "fa-arrow-left" : "fa-arrow-right"}`}
+                           ></i>{" "}
+                           {ar ? "الدفع" : "Payment"}
+                        </button>
                      </div>
                   </div>
                </div>
