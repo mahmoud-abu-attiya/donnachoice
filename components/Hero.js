@@ -9,7 +9,7 @@ const Hero = (props) => {
          <div className="overlay z-10"></div>
          <div className="container flex flex-col gap-8 text-white relative z-20">
             <h2 className="text-4xl uppercase">
-               {} {ar ?  ("قائمة" + " " + props.title) : (props.not != false ? (props.title + " " + "LIST") : "")}
+               {} {ar ?  ("قائمة" + " " + props.title) : (props.not != false ? (props.title + " " + "LIST") : props.title)}
             </h2>
             <ol className="inline-flex items-center gap-1 md:gap-2">
                <li className="inline-flex items-center">
