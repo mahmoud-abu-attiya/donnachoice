@@ -57,15 +57,13 @@ const Cart = () => {
       //    let val = amount.value
       //    console.log(parseInt(val) + parseInt(val));
       // })
-      const amounts = document.querySelectorAll(".product-amount");
+      const amounts = document.querySelectorAll(".product-amount-value");
       const prices = document.querySelectorAll(".product-total-price");
       setTotalAmount(0);
       setTotalPrice(0);
       for (let i = 0; i < amounts.length; i++) {
-         setTotalAmount((x) => x + parseInt(amounts[i].textContent));
-      }
-      for (let i = 0; i < prices.length; i++) {
-         setTotalPrice((x) => x + parseInt(prices[i].textContent));
+         setTotalAmount((x) => x + parseInt(amounts[i].value));
+         setTotalPrice((x) => x + (parseInt(prices[i].textContent) * parseInt(amounts[i].value)));
       }
    }, [loading]);
    useEffect(() => {
@@ -309,7 +307,11 @@ const Cart = () => {
                                                 : product.product.name}{" "}
                                              ({product.name})
                                           </th>
-                                          <td className="py-4 px-6">{ar ? "ريال" : "QR"} {product.price}</td>
+                                          <td className="py-4 px-6">{ar ? "ريال" : "QR"} 
+                                             <span className="product-total-price">
+                                                {product.price}
+                                             </span>
+                                          </td>
                                           <td className="py-4 px-6 product-amount">
                                              <div className="flex items-center gap-3">
                                                 {/* <button
@@ -346,7 +348,7 @@ const Cart = () => {
                                                       type="number"
                                                       min={1}
                                                       id="first_product"
-                                                      className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1"
+                                                      className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 product-amount-value"
                                                       required
                                                    />
                                                 </div>
