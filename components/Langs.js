@@ -13,6 +13,12 @@ const Langs = () => {
    //    setlang(Cookies.get("ar") || "false")
    // },[])
 
+   useEffect(()=>{
+      const currentLang = localStorage.getItem("lang") == "true" ? true : false
+      dispatch(handelLangs(!currentLang))
+      console.log(currentLang)
+   }, [])
+
    const setLang = () => {
       // if (lang == "false") {
       //    console.log(false);
@@ -21,7 +27,8 @@ const Langs = () => {
       //    console.log(true);
       //    Cookies.set("ar", false)
       // }
-      dispatch(handelLangs())
+      dispatch(handelLangs(!lang))
+      localStorage.setItem("lang", lang)
    }
    return (
          <button className='bg-primary-100 py-1 px-3 rounded shadow text-sm' onClick={() => setLang()} title={lang ? "Change language to English." : "تغيير اللغة الي العربية"}>
