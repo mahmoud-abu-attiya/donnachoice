@@ -178,7 +178,7 @@ const Footer = () => {
                      href="https://orizon.qa"
                      className="font-bold hover:underline hover:text-black"
                   >
-                     <img src="https://orizon.qa/images/logo/nav-logo.png" alt="Orizon Qatar" className="h-4 inline" />
+                     Orizon Qatar
                   </a>
                </span>
                <span className="text-sm sm:text-center capitalize inline-block">
