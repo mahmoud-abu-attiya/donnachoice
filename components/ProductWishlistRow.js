@@ -216,7 +216,15 @@ export default function ProductWishlistRow({ product }) {
                 <p className='text-primary-100 bg-primary-300 rounded-full px-4 w-fit whitespace-nowrap'>{product.available ? "in stock" : "out stock"}</p>
             </td>
             <td className="py-4 px-6 font-semibold text-gray-900">
-                {ar ? "ريال" : "QR"} 599
+                {product.options.map(price => {
+                    return (
+                        <p key={price.id} className="flex items-center gap-2 mb-2">
+                            <span className='text-primary-100 bg-primary-300 px-2 py-1 rounded'>{price.name}</span>
+                            <strong>{ar ? "ريال" : "QR"} {price.price}</strong>
+                        </p>
+                    )
+                })}
+                {/* {ar ? "ريال" : "QR"} {product.options[0].price} */}
             </td>
             <td className="py-4 px-6 flex flex-col gap-2 items-center justify-center">
                 <button onClick={(e) => removeFromWishlist(e, product.slug)} className="font-medium w-full max-w-[6rem] bg-red-600 text-white py-1 px-2 rounded">

@@ -172,14 +172,14 @@ export default function Profile() {
                      {ar ? "الاسم الاول" : "First Name"}
                   </div>
                   <div className="py-2 px-4 border-b">
-                     {ar ? "الكنية" :"Last Name"}
-                     </div>
+                     {ar ? "الكنية" : "Last Name"}
+                  </div>
                   <div className="py-2 px-4 border-b">
-                     {ar ? "البريد الإلكتروني":"Email"}
-                     </div>
+                     {ar ? "البريد الإلكتروني" : "Email"}
+                  </div>
                   <div className="py-2 px-4 ">
                      {ar ? "العنوان" : "Address"}
-                     </div>
+                  </div>
                </div>
                <div className="text-gray-700 col-span-5 md:col-span-6">
                   <div
@@ -249,10 +249,13 @@ export default function Profile() {
                            </td>
                            <td className="py-4 px-6 flex-col flex gap-2">
                               <Link href={"/orders/1"}>
-                              <a className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">View</a>
+                                 <a className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">View</a>
                               </Link>
                               <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Reorder</a>
-                              <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Review</a>
+                              <Link href={"/orders/1"}>
+                                 <a className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Review</a>
+                              </Link>
+                              {/* <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Review</a> */}
                            </td>
                         </tr>
                         <tr className="bg-white border-b">
@@ -266,9 +269,13 @@ export default function Profile() {
                               QR 299
                            </td>
                            <td className="py-4 px-6 flex-col flex gap-2">
-                              <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">View</a>
+                              <Link href={"/orders/1"}>
+                                 <a className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">View</a>
+                              </Link>
                               <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Reorder</a>
-                              <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Review</a>
+                              <Link href={"/orders/1"}>
+                                 <a className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Review</a>
+                              </Link>
                            </td>
                         </tr>
                         <tr className="bg-white border-b">
@@ -284,9 +291,13 @@ export default function Profile() {
                               QR 299
                            </td>
                            <td className="py-4 px-6 flex-col flex gap-2">
-                              <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">View</a>
+                              <Link href={"/orders/1"}>
+                                 <a className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">View</a>
+                              </Link>
                               <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Reorder</a>
-                              <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Review</a>
+                              <Link href={"/orders/1"}>
+                                 <a className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Review</a>
+                              </Link>
                            </td>
                         </tr>
                         {/* <tr className="bg-white border-b">

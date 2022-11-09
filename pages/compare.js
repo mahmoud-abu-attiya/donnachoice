@@ -9,6 +9,7 @@ import img from "../public/images/no-result.png"
 import { useSelector } from 'react-redux';
 import { useDispatch } from "react-redux";
 import { setCompareCount } from "../slices/compareIndicatorSlice";
+import TableP from "../components/placeholder/TableP"
 
 // export const getStaticProps = async () => {
 //    const res = await fetch('https://backends.donnachoice.com/api/products/?slug__in=product,item-2');
@@ -60,11 +61,7 @@ const Compare = () => {
 	};
 
 	if (loading) {
-		return <>
-			<div>
-				<p>Loading</p>
-			</div>
-		</>
+		return <TableP />
 	}
 
 	return (
@@ -108,7 +105,7 @@ const Compare = () => {
 			)
 				: (
 					// <div className="col-span-8 lg:col-span-6 overflow-x-auto relative h-fit rounded-lg border">
-					<div className="col-span-8 lg:col-span-6 overflow-x-auto relative shadow-md sm:rounded-lg max-w-full">
+					<div className="col-span-9 overflow-x-auto relative shadow-md sm:rounded-lg max-w-full">
 						<table className="w-full text-sm text-left text-gray-500">
 							<thead className={`text-xs text-gray-700 uppercase bg-gray-50 ${ar ? "text-right" : "text-left"}`}>
 								<tr className='border-b'>

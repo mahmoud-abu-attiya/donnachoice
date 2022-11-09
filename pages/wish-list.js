@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 import { setAmount } from "../slices/wishlistIndicatorSlice";
 import { useDispatch } from "react-redux";
 import ProductWishlistRow from "../components/ProductWishlistRow"
-
+import TableP from '../components/placeholder/TableP';
 // export const getStaticProps = async () => {
 //    const res = await fetch('https://backends.donnachoice.com/api/products/?slug__in=product,item-2');
 //    let products = await res.json();
@@ -55,13 +55,7 @@ const WishList = () => {
       }
    }, []);
 
-   if (loading) {
-      return <>
-         <div>
-            <p>Loading</p>
-         </div>
-      </>
-   }
+   if (loading) { return <TableP /> }
 
    return (
       <div dir={ar ? "rtl" : "ltr"} className='container p-5'>
