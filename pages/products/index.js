@@ -6,6 +6,7 @@ import Cookies from 'js-cookie'
 import Image from "next/image";
 import img from "../../public/images/no-result.png"
 import { useSelector } from "react-redux";
+import ProductBoxP from "../../components/placeholder/ProductBoxP"
 
 export const getStaticProps = async () => {
    const brandRes = await fetch('https://backends.donnachoice.com/api/brand/');
@@ -31,6 +32,7 @@ export default function Products({ brands, categorys }) {
    const [Floading, setFloading] = useState(false);
    const [smScreen, setSmScreen] = useState(false);
    const [filterPopup, setFilterPopup] = useState(false);
+   const [loading, setLoading] = useState(true);
 
    useEffect(() => {
       if (window.innerWidth < 1023) {
@@ -67,6 +69,7 @@ export default function Products({ brands, categorys }) {
             setFilterPopup(false)
             console.log(res.data);
             setProducts(res.data)
+            setLoading(false)
          }).catch(err => {
             if (axios.isCancel(err)) {
                console.log("we cancelled previous request")
@@ -74,6 +77,7 @@ export default function Products({ brands, categorys }) {
                console.log("unkonw error")
                console.log(err)
             }
+            setLoading(false)
          })
       } else {
          axios.get(URL, {
@@ -86,6 +90,7 @@ export default function Products({ brands, categorys }) {
             setFilterPopup(false)
             console.log(res.data);
             setProducts(res.data)
+            setLoading(false)
          }).catch(err => {
             if (axios.isCancel(err)) {
                console.log("we cancelled previous request")
@@ -93,6 +98,7 @@ export default function Products({ brands, categorys }) {
                console.log("unkonw error")
                console.log(err)
             }
+            setLoading(false)
          })
       }
    }, [searchQuery]);
@@ -219,24 +225,31 @@ export default function Products({ brands, categorys }) {
                   <button onClick={() => setCategorySlug("")}><i className="fas fa-times text-red-700   "></i></button>
                </div>
                )} */}
-                  {products.length > 0 ? products.filter((item) =>
-                     item.name.toLowerCase().includes(query.toLowerCase())
-                  ).map((product) => {
-                     <input type="text" />
-                     return (
-                        <ProductBox
-                           key={product.id}
-                           product={product}
-                        />
-                     )
-                  }) : (
-                     <div className='text-2xl capitalize text-center col-span-4'>
-                        there no products matching your filter
-                        <div className="max-w-[500px] mx-auto">
-                           <Image src={img} alt="no result" />
+                  {loading ? (
+                     <>
+                        <ProductBoxP />
+                        <ProductBoxP />
+                        <ProductBoxP />
+                     </>
+                  ) :
+                     products.length > 0 ? products.filter((item) =>
+                        item.name.toLowerCase().includes(query.toLowerCase())
+                     ).map((product) => {
+                        <input type="text" />
+                        return (
+                           <ProductBox
+                              key={product.id}
+                              product={product}
+                           />
+                        )
+                     }) : (
+                        <div className='text-2xl capitalize text-center col-span-4'>
+                           there no products matching your filter
+                           <div className="max-w-[500px] mx-auto">
+                              <Image src={img} alt="no result" />
+                           </div>
                         </div>
-                     </div>
-                  )
+                     )
                   }
                </div>
             </div>
