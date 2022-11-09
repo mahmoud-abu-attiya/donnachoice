@@ -7,9 +7,11 @@ import axios from "axios";
 import { useState } from "react";
 import Link from "next/link";
 import { useSelector } from "react-redux";
+import PorfileP from "../components/placeholder/PorfileP";
 
 export default function Profile() {
    const ar = useSelector((state) => state.langs.value);
+   const [loading, setLoading] = useState(true)
    const router = useRouter();
    const [user, setUser] = useState("");
    const wishlistIndicator = useSelector(
@@ -36,9 +38,17 @@ export default function Profile() {
             .then((res) => {
                setUser(res.data);
                console.log(res.data);
-            });
+               setLoading(false);
+            }).catch(err => {
+               setLoading(false)
+               console.log(err);
+            })
       }
    }, []);
+
+   if (loading) {
+		return <PorfileP />
+	}
    return (
       <div
          dir={ar ? "rtl" : "ltr"}
