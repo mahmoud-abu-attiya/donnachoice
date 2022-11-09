@@ -60,20 +60,22 @@ export default function Order() {
                         <span className="sr-only">Image</span>
                      </th>
                      <th scope="col" className="py-3 px-6">
-                        Product
+                        {ar ? "المنتج" : "Product"}
                      </th>
                      <th scope="col" className="py-3 px-6">
-                        <p>Count</p>
+                        <p>{ar ? "العدد" : "Count"}</p>
                         <p>3</p>
                      </th>
                      <th scope="col" className="py-3 px-6">
-                        <p>Total Price</p>
-                        <p>500 QR</p>
+                        <p>{ar ? "السعر الكامل" : "Total Price"}</p>
+                        <p>500 {ar ? "ريال" : "QR"}</p>
                      </th>
                      <th scope="col" className="py-3 px-6">
                         <button
                         onClick={() => setReorder(!Reorder)}
-                        className='font-medium text-primary-100 border border-primary-100 text-sm py-1 px-2 bg-primary-300 text-center rounded'>Reorder</button>
+                        className='font-medium text-primary-100 border border-primary-100 text-sm py-1 px-2 bg-primary-300 text-center rounded'>
+                           {ar ? "اعادة الطلب" : "Reorder"}
+                        </button>
                      </th>
                   </tr>
                </thead>
@@ -99,13 +101,13 @@ export default function Order() {
                         </div>
                      </td>
                      <td className="py-4 px-6 font-semibold text-gray-900">
-                        QR 599
+                        {ar ? "ريال" : "QR"} 599
                      </td>
                      <td className="py-4 px-6">
                         <button
                         onClick={() => setReviwe(true)}
                         className="font-medium text-white text-sm py-1 px-2 bg-primary-200 text-center rounded">
-                           Review
+                           {ar ? "تقييم" : "Reviwe"}
                         </button>
                      </td>
                   </tr>
@@ -132,7 +134,7 @@ export default function Order() {
                      </td>
                      <td className="py-4 px-6">
                         <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-200 text-center rounded">
-                           Reviwe
+                        {ar ? "تقييم" : "Reviwe"}
                         </a>
                      </td>
                   </tr>
@@ -161,7 +163,7 @@ export default function Order() {
                      </td>
                      <td className="py-4 px-6">
                         <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-200 text-center rounded">
-                           Reviwe
+                           {ar ? "تقييم" : "Reviwe"}
                         </a>
                      </td>
                   </tr>
@@ -169,7 +171,9 @@ export default function Order() {
             </table>
          </div>
             {Reorder && (
-               <button className='py-3 px-5 w-fit mx-auto my-8 bg-primary-100 rounded-md text-white shadow-md'>Reorder 3 items</button>
+               <button className='py-3 px-5 w-fit mx-auto my-8 bg-primary-100 rounded-md text-white shadow-md'>
+                  {ar ? "اعادة طلب 3 منتجات" : "Reorder 3 items"}
+               </button>
             )}
          <div>
             {/* <div className={rev ? "block" : "hidden"}> */}

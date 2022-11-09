@@ -447,7 +447,7 @@ const Cart = () => {
                            <i
                               className={`fas ${ar ? "fa-arrow-right" : "fa-arrow-left"}`}
                            ></i>
-                           Back
+                           {ar ? "عودة" :"Back"}
                         </button>
                         <button
                            type="button"

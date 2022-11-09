@@ -142,10 +142,10 @@ export default function ProductWishlistRow({ product }) {
 
     const addedOne = (element, productId) => {
         // element.textContent = "Done";
-        if (element.textContent == "Add to cart" || element.textContent == "أضف إلى العربة") {
+        if (element.textContent == "Add" || element.textContent == "أضف") {
             element.textContent = ar ? "ازالة" : "Remove"
         } else {
-            element.textContent = ar ? "أضف إلى العربة" : "Add to cart"
+            element.textContent = ar ? "أضف" : "Add"
         }
     }
 
@@ -213,7 +213,9 @@ export default function ProductWishlistRow({ product }) {
                 {ar ? product.name_ar : product.name}
             </td>
             <td className="py-4 px-6">
-                <p className='text-primary-100 bg-primary-300 rounded-full px-4 w-fit whitespace-nowrap'>{product.available ? "in stock" : "out stock"}</p>
+                <p className='text-primary-100 bg-primary-300 rounded-full py-1 px-4 w-fit whitespace-nowrap'>
+                    {product.available ? (ar ?"متاح": "in stock") : (ar ? "غبر متاح" : "out stock")}
+                </p>
             </td>
             <td className="py-4 px-6 font-semibold text-gray-900">
                 {product.options.map(price => {
@@ -234,29 +236,29 @@ export default function ProductWishlistRow({ product }) {
                 {ar ? "اضف" : "Add"}
                 </button> */}
                 <div className="relative w-full max-w-[6rem]">
-                    {product.options.length > 1 ? 
-                    <button
-                        className="font-medium w-full max-w-[6rem] bg-primary-100 text-white py-1 px-2 rounded"
-                        onClick={() => toggleOptionsMenu(product.slug)}
-                    >
-                        {ar ? "أضف إلى العربة" : "Add to cart"}
-                    </button> : <>
-                        {authState ? (
-                            <button
-                                className="text-white w-full bg-primary-100 hover:bg-primary-200 focus:outline-none font-medium rounded-lg text-sm px-4 py-2.5 text-center"
-                                onClick={(e) => { handleCart({ textContent: "Add" }, product.options[0].id); addedOne(e.target, product.options[0].id) }}
-                            >
-                                {product.options[0].is_added_to_cart ? <>{ar ? "أحذف من العربة" : "Remove from cart"}</> : <>{ar ? "أضف إلى العربة" : "Add to cart"}</>}
-                            </button>
-                        ) : (
-                            <button
-                                className="text-white w-full bg-primary-100 hover:bg-primary-200 focus:outline-none font-medium rounded-lg text-sm px-4 py-2.5 text-center"
-                                onClick={(e) => { handleCart({ textContent: "Add" }, product.options[0].id); addedOne(e.target, product.options[0].id) }}
-                            >
-                                {storedCartIds.includes(product.options[0].id) ? <>{ar ? "أحذف" : "Remove"}</> : <>{ar ? "أضف إلى العربة" : "Add to cart"}</>}
-                            </button>
-                        )}
-                    </>}
+                    {product.options.length > 1 ?
+                        <button
+                            className="font-medium w-full max-w-[6rem] bg-primary-100 text-white py-1 px-2 rounded"
+                            onClick={() => toggleOptionsMenu(product.slug)}
+                        >
+                            {ar ? "أضف" : "Add"}
+                        </button> : <>
+                            {authState ? (
+                                <button
+                                    className="font-medium w-full max-w-[6rem] bg-primary-100 text-white py-1 px-2 rounded"
+                                    onClick={(e) => { handleCart({ textContent: "Add" }, product.options[0].id); addedOne(e.target, product.options[0].id) }}
+                                >
+                                    {product.options[0].is_added_to_cart ? ar ? "أحذف" : "Remove" : ar ? "أضف" : "Add"}
+                                </button>
+                            ) : (
+                                <button
+                                    className="font-medium w-full max-w-[6rem] bg-primary-100 text-white py-1 px-2 rounded"
+                                    onClick={(e) => { handleCart({ textContent: "Add" }, product.options[0].id); addedOne(e.target, product.options[0].id) }}
+                                >
+                                    {storedCartIds.includes(product.options[0].id) ? ar ? "أحذف" : "Remove" : ar ? "أضف" : "Add"}
+                                </button>
+                            )}
+                        </>}
                     {product.options.length > 0 ? (
                         <div
                             onMouseLeave={() => toggleOptionsMenu()}

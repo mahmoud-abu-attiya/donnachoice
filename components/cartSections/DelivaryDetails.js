@@ -1,6 +1,8 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 const DelivaryDetails = () => {
+   const ar = useSelector(state => state.langs.value)
    return (
       <form className="bg-gray-50 border rounded-md p-4">
          <div className="grid gap-6 mb-6 md:grid-cols-2">
@@ -9,13 +11,13 @@ const DelivaryDetails = () => {
                   htmlFor="first_name"
                   className="block mb-2 text-sm font-medium text-gray-900"
                >
-                  First name*
+                  {ar ? "الاسم الاول*" : "First name*"}
                </label>
                <input
                   type="text"
                   id="first_name"
                   className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                  placeholder="John"
+                  placeholder="اسم"
                   required
                />
             </div>
@@ -24,13 +26,13 @@ const DelivaryDetails = () => {
                   htmlFor="last_name"
                   className="block mb-2 text-sm font-medium text-gray-900"
                >
-                  Last name*
+                  {ar ? "اللقب" : "Last name*"}
                </label>
                <input
                   type="text"
                   id="last_name"
                   className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                  placeholder="Doe"
+                  placeholder="اسم"
                   required
                />
             </div>
@@ -39,7 +41,7 @@ const DelivaryDetails = () => {
                   htmlFor="email"
                   className="block mb-2 text-sm font-medium text-gray-900"
                >
-                  Email address*
+                  {ar ? "البريد الالكترونى" : "Email address*"}
                </label>
                <input
                   type="email"
@@ -54,7 +56,7 @@ const DelivaryDetails = () => {
                   htmlFor="Mobile"
                   className="block mb-2 text-sm font-medium text-gray-900"
                >
-                  Mobile*
+                  {ar ? "التليفون المحمول*" : "Mobile*"}
                </label>
                <input
                   type="tel"
@@ -70,7 +72,7 @@ const DelivaryDetails = () => {
                   htmlFor="alt_phone"
                   className="block mb-2 text-sm font-medium text-gray-900"
                >
-                  Alt Phone*
+                  {ar ? "هاتف بديل" : "Alt Phone*"}
                </label>
                <input
                   type="tel"
@@ -86,14 +88,14 @@ const DelivaryDetails = () => {
                   htmlFor="countries"
                   className="block mb-2 text-sm font-medium text-gray-900"
                >
-                  Country*
+                  {ar ? "البلد*" : "Country*"}
                </label>
                <select
                   id="countries"
                   required
                   className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                >
-                  <option selected>Choose a country</option>
+                  <option selected>{ar ? "اختر دولة" : "Choose a country"}</option>
                   <option value="US">United States</option>
                   <option value="CA">Canada</option>
                   <option value="FR">France</option>

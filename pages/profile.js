@@ -47,8 +47,8 @@ export default function Profile() {
    }, []);
 
    if (loading) {
-		return <PorfileP />
-	}
+      return <PorfileP />
+   }
    return (
       <div
          dir={ar ? "rtl" : "ltr"}
@@ -231,17 +231,15 @@ export default function Profile() {
                      <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b">
                         <tr>
                            <th scope="col" className="py-3 px-6">
-                              Items
+                              {ar ? "العناصر" : "Items"}
                            </th>
                            <th scope="col" className="py-3 px-6">
-                              Date
+                              {ar ? "التاريخ" : "Date"}
                            </th>
                            <th scope="col" className="py-3 px-6">
-                              Total Payment
+                              {ar ? "الدفع" : "Total Payment"}
                            </th>
-                           <th scope="col" className="py-3 px-6">
-                              Action
-                           </th>
+                           <th scope="col" className="py-3 px-6"></th>
                         </tr>
                      </thead>
                      <tbody>
@@ -255,16 +253,18 @@ export default function Profile() {
                               2022-20-02
                            </td>
                            <td className="py-4 px-6">
-                              QR 2999
+                              {ar ? "ريال" : "QR"} 2999
                            </td>
-                           <td className="py-4 px-6 flex-col flex gap-2">
+                           <td className="py-4 px-6">
                               <Link href={"/orders/1"}>
-                                 <a className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">View</a>
+                                 <a className="font-medium text-white text-sm py-1 px-2 bg-primary-100 w-full text-center rounded">
+                                    {ar ? "عرض" : "View"}
+                                 </a>
                               </Link>
-                              <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Reorder</a>
+                              {/* <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Reorder</a>
                               <Link href={"/orders/1"}>
-                                 <a className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Review</a>
-                              </Link>
+                                 <a className="font-medium text-white text-sm py-1 px-2 bg-primary-100 w-full text-center rounded">Review</a>
+                              </Link> */}
                               {/* <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Review</a> */}
                            </td>
                         </tr>
@@ -278,14 +278,16 @@ export default function Profile() {
                            <td className="py-4 px-6">
                               QR 299
                            </td>
-                           <td className="py-4 px-6 flex-col flex gap-2">
+                           <td className="py-4 px-6">
                               <Link href={"/orders/1"}>
-                                 <a className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">View</a>
+                                 <a className="font-medium text-white text-sm py-1 px-2 bg-primary-100 w-full text-center rounded">
+                                    {ar ? "عرض" : "View"}
+                                 </a>
                               </Link>
-                              <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Reorder</a>
+                              {/* <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Reorder</a>
                               <Link href={"/orders/1"}>
-                                 <a className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Review</a>
-                              </Link>
+                                 <a className="font-medium text-white text-sm py-1 px-2 bg-primary-100 w-full text-center rounded">Review</a>
+                              </Link> */}
                            </td>
                         </tr>
                         <tr className="bg-white border-b">
@@ -300,14 +302,16 @@ export default function Profile() {
                            <td className="py-4 px-6">
                               QR 299
                            </td>
-                           <td className="py-4 px-6 flex-col flex gap-2">
+                           <td className="py-4 px-6">
                               <Link href={"/orders/1"}>
-                                 <a className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">View</a>
+                                 <a className="font-medium text-white text-sm py-1 px-2 bg-primary-100 w-full text-center rounded">
+                                    {ar ? "عرض" : "View"}
+                                 </a>
                               </Link>
-                              <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Reorder</a>
+                              {/* <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Reorder</a>
                               <Link href={"/orders/1"}>
-                                 <a className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Review</a>
-                              </Link>
+                                 <a className="font-medium text-white text-sm py-1 px-2 bg-primary-100 w-full text-center rounded">Review</a>
+                              </Link> */}
                            </td>
                         </tr>
                         {/* <tr className="bg-white border-b">
