@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { setCartCount } from "../slices/cartIndicatorSlice";
 import { useSelector } from "react-redux";
 import DelivaryDetails from "../components/cartSections/DelivaryDetails";
+import CarP from "../components/placeholder/CarP";
 
 // export const getStaticProps = async () => {
 //    const res = await fetch('https://backends.donnachoice.com/api/products/?slug__in=product,item-2');
@@ -106,6 +107,11 @@ const Cart = () => {
       }
    }, [loading]);
 
+   const nextstep = (next) => {
+      setcartSections(next)
+      window.scrollTo(0,0)
+   }
+
    const removeProductFromCart = (itemId) => {
       setLoading(true);
       const auth = Cookies.get("auth");
@@ -140,13 +146,7 @@ const Cart = () => {
    };
 
    if (loading) {
-      return (
-         <>
-            <div>
-               <p>Loading</p>
-            </div>
-         </>
-      );
+      return <CarP />
    }
 
    return (
@@ -409,7 +409,7 @@ const Cart = () => {
                         </div>
                         <button
                            type="button"
-                           onClick={() => setcartSections(2)}
+                           onClick={() => nextstep(2)}
                            className="w-full bg-primary-100 text-white rounded-md py-4"
                         >
                            {ar ? "التالي" : "Next"}{" "}
@@ -451,7 +451,7 @@ const Cart = () => {
                         </button>
                         <button
                            type="button"
-                           onClick={() => setcartSections(3)}
+                           onClick={() => nextstep(3)}
                            className="w-full bg-primary-100 text-white rounded-md py-4 flex items-center gap-2 justify-center"
                         >
                            {ar ? "التالي" : "Next"}{" "}
