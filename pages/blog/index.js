@@ -4,11 +4,13 @@ import Link from "next/link";
 import React from "react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import BlogP from "../../components/placeholder/BlogP";
 
 export default function Index() {
    const ar = useSelector((state) => state.langs.value);
    const [blogs, setBlogs] = useState([]);
    const [BlogCategory, setBlogCategory] = useState([]);
+   const [loading, setLoading] = useState(true);
 
    useEffect(() => {
       const queyParam = window.location.search.split("=")[1];
@@ -17,12 +19,24 @@ export default function Index() {
             `https://backends.donnachoice.com/api/blog/${queyParam ? queyParam : ""
             }`
          )
-         .then((res) => setBlogs(res.data));
+         .then((res) => {
+            setBlogs(res.data)
+            setLoading(false)
+         }).catch(err => {
+            console.log(err);
+            setLoading(false)
+         })
       axios
          .get("https://backends.donnachoice.com/api/blog_category/")
-         .then((res) => setBlogCategory(res.data));
-      console.log(blogs);
+         .then((res) => {
+            setBlogCategory(res.data)
+            setLoading(false)
+         });
+      // console.log(blogs);
    }, []);
+   if (loading) {
+      return <BlogP />
+   }
    return (
       <div dir={ar ? "rtl" : "ltr"} className="container py-6 grid md:grid-cols-8">
          <aside className={`col-span-8 md:col-span-2 py-4 md:p-4 ${ar ? "md:border-l" : "md:border-r"} md:border-gray-200`}>
