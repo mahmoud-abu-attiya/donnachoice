@@ -14,6 +14,7 @@ export default function Profile() {
    const [loading, setLoading] = useState(true)
    const router = useRouter();
    const [user, setUser] = useState("");
+   const [orderHistory, setOrderHistory] = useState([])
    const wishlistIndicator = useSelector(
       (state) => state.wishlistIndicator.count
    );
@@ -22,6 +23,8 @@ export default function Profile() {
    const handleLogout = () => {
       Cookies.remove("token");
       Cookies.remove("auth");
+      // Cookies.remove("")
+      localStorage.removeItem("user")
       router.push("/login");
    };
    useEffect(() => {
@@ -43,6 +46,15 @@ export default function Profile() {
                setLoading(false)
                console.log(err);
             })
+
+         axios.get("https://backends.donnachoice.com/api/order_history/", {
+            headers: {
+               Authorization: `Bearer ${Cookies.get("token")}`,
+            },
+         }).then(res => {
+            console.log(res.data);
+            setOrderHistory(res.data);
+         })
       }
    }, []);
 
@@ -187,8 +199,11 @@ export default function Profile() {
                   <div className="py-2 px-4 border-b">
                      {ar ? "البريد الإلكتروني" : "Email"}
                   </div>
+                  {/* <div className="py-2 px-4 border-b">
+                     {ar ? "الهاتف" : "Phone"}
+                  </div> */}
                   <div className="py-2 px-4 ">
-                     {ar ? "العنوان" : "Address"}
+                     {ar ? "الهاتف" : "Phone"}
                   </div>
                </div>
                <div className="text-gray-700 col-span-5 md:col-span-6">
@@ -209,148 +224,92 @@ export default function Profile() {
                   >
                      {user.email}
                   </div>
+                  {/* <div
+                     className={`py-2 px-4 ${ar ? "border-r" : "border-l"} border-b`}
+                  >
+                     {user.phone ? user.phone : "no phone number yet."}
+                  </div> */}
                   <div className={`py-2 px-4 ${ar ? "border-r" : "border-l"}`}>
-                     {user.address ? user.address : "no addres yet."}
+                     {user.phone ? user.phone : "no phone yet."}
                   </div>
                </div>
             </div>
             <div className="space-y-4">
                <h4 className="text-xl font-bold">{ar ? "تاريخ الطلب" : "Order history"}</h4>
-               {/* <div className="bg-gray-50 rounded-md border p-8">
-                  <p className="text-2xl font-bold text-center">
-                     {ar ? "لا توجد طلبات بعد." : "There is no orders yet."}
-                  </p>
-                  <Link href={"/products"}>
-                     <div className="w-full grow max-w-[200px] transition hover:shadow-lg hover:bg-primary-100/75 text-center bg-primary-100 text-white rounded py-3 px-5 mx-auto cursor-pointer my-8">
-                        {ar ? "ابدأ التسوق":"Start Shopping"}
-                     </div>
-                  </Link>
-               </div> */}
-               <div className="overflow-x-auto relative shadow-md sm:rounded-lg border">
-                  <table className="w-full text-sm text-left text-gray-500">
-                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b">
-                        <tr>
-                           <th scope="col" className="py-3 px-6">
-                              {ar ? "العناصر" : "Items"}
-                           </th>
-                           <th scope="col" className="py-3 px-6">
-                              {ar ? "التاريخ" : "Date"}
-                           </th>
-                           <th scope="col" className="py-3 px-6">
-                              {ar ? "الدفع" : "Total Payment"}
-                           </th>
-                           <th scope="col" className="py-3 px-6"></th>
-                        </tr>
-                     </thead>
-                     <tbody>
-                        <tr className="bg-white border-b">
-                           <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
-                              <p>Apple MacBook Pro 17</p>
-                              <p>item</p>
-                              <p className="font-bold underline">+3</p>
-                           </th>
-                           <td className="py-4 px-6 whitespace-nowrap">
-                              2022-20-02
-                           </td>
-                           <td className="py-4 px-6">
-                              {ar ? "ريال" : "QR"} 2999
-                           </td>
-                           <td className="py-4 px-6">
-                              <Link href={"/orders/1"}>
-                                 <a className="font-medium text-white text-sm py-1 px-2 bg-primary-100 w-full text-center rounded">
-                                    {ar ? "عرض" : "View"}
-                                 </a>
-                              </Link>
-                              {/* <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Reorder</a>
-                              <Link href={"/orders/1"}>
-                                 <a className="font-medium text-white text-sm py-1 px-2 bg-primary-100 w-full text-center rounded">Review</a>
-                              </Link> */}
-                              {/* <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Review</a> */}
-                           </td>
-                        </tr>
-                        <tr className="bg-white border-b">
-                           <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
-                              <p>item</p>
-                           </th>
-                           <td className="py-4 px-6 whitespace-nowrap">
-                              2022-20-02
-                           </td>
-                           <td className="py-4 px-6">
-                              QR 299
-                           </td>
-                           <td className="py-4 px-6">
-                              <Link href={"/orders/1"}>
-                                 <a className="font-medium text-white text-sm py-1 px-2 bg-primary-100 w-full text-center rounded">
-                                    {ar ? "عرض" : "View"}
-                                 </a>
-                              </Link>
-                              {/* <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Reorder</a>
+               {/* */}
+               {orderHistory.length == 0 ? (
+                  <div className="bg-gray-50 rounded-md border p-8">
+                     <p className="text-2xl font-bold text-center">
+                        {ar ? "لا توجد طلبات بعد." : "There is no orders yet."}
+                     </p>
+                     <Link href={"/products"}>
+                        <a>
+                           <div className="w-full grow max-w-[200px] transition hover:shadow-md hover:bg-primary-100/75 text-center bg-primary-100 text-white rounded py-3 px-5 mx-auto cursor-pointer my-8">
+                              {ar ? "ابدأ التسوق" : "Start Shopping"}
+                           </div>
+                        </a>
+                     </Link>
+                  </div>
+               ) :
+                  <div className="overflow-x-auto relative shadow-md sm:rounded-lg border">
+                     <table className="w-full text-sm text-left text-gray-500">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b">
+                           <tr>
+                              <th scope="col" className="py-3 px-6">
+                                 {ar ? "العناصر" : "Items"}
+                              </th>
+                              <th scope="col" className="py-3 px-6">
+                                 {ar ? "التاريخ" : "Date"}
+                              </th>
+                              <th scope="col" className="py-3 px-6">
+                                 {ar ? "الدفع" : "Total Payment"}
+                              </th>
+                              <th scope="col" className="py-3 px-6"></th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           {orderHistory.map((order, index) => {
+                              return (
+                                 <tr className="bg-white border-b" key={index}>
+                                    <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
+                                       {orderHistory.items.slice(0, 2).map(item => {
+                                          return (
+                                             <>
+                                                <p key={item.id}>{item.option.name}</p>
+                                                <p className="font-bold underline">+{order.item.length - 2}</p>
+                                             </>
+                                          )
+                                       })}
+                                       {/* <p>Apple MacBook Pro 17</p>
+                                       <p>item</p>
+                                       <p className="font-bold underline">+3</p> */}
+                                    </th>
+                                    <td className="py-4 px-6 whitespace-nowrap">
+                                       2022-20-02
+                                    </td>
+                                    <td className="py-4 px-6">
+                                       {ar ? "ريال" : "QR"} {order.total}
+                                    </td>
+                                    <td className="py-4 px-6">
+                                       <Link href={`/orders/${order.id}`}>
+                                          <a className="font-medium text-white text-sm py-1 px-2 bg-primary-100 w-full text-center rounded">
+                                             {ar ? "عرض" : "View"}
+                                          </a>
+                                       </Link>
+                                       {/* <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Reorder</a>
                               <Link href={"/orders/1"}>
                                  <a className="font-medium text-white text-sm py-1 px-2 bg-primary-100 w-full text-center rounded">Review</a>
                               </Link> */}
-                           </td>
-                        </tr>
-                        <tr className="bg-white border-b">
-                           <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
-                              <p>product</p>
-                              <p>t-shirt</p>
-                              <p className="font-bold underline">+5</p>
-                           </th>
-                           <td className="py-4 px-6 whitespace-nowrap">
-                              2022-20-02
-                           </td>
-                           <td className="py-4 px-6">
-                              QR 299
-                           </td>
-                           <td className="py-4 px-6">
-                              <Link href={"/orders/1"}>
-                                 <a className="font-medium text-white text-sm py-1 px-2 bg-primary-100 w-full text-center rounded">
-                                    {ar ? "عرض" : "View"}
-                                 </a>
-                              </Link>
-                              {/* <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Reorder</a>
-                              <Link href={"/orders/1"}>
-                                 <a className="font-medium text-white text-sm py-1 px-2 bg-primary-100 w-full text-center rounded">Review</a>
-                              </Link> */}
-                           </td>
-                        </tr>
-                        {/* <tr className="bg-white border-b">
-                           <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
-                              Microsoft Surface Pro
-                           </th>
-                           <td className="py-4 px-6">
-                              White
-                           </td>
-                           <td className="py-4 px-6">
-                              2022-20-02
-                           </td>
-                           <td className="py-4 px-6">
-                              $1999
-                           </td>
-                           <td className="py-4 px-6">
-                              <a href="#" className="font-medium text-blue-600 hover:underline">View</a>
-                           </td>
-                        </tr>
-                        <tr className="bg-white">
-                           <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
-                              Magic Mouse 2
-                           </th>
-                           <td className="py-4 px-6">
-                              Black
-                           </td>
-                           <td className="py-4 px-6">
-                              2022-20-02
-                           </td>
-                           <td className="py-4 px-6">
-                              $99
-                           </td>
-                           <td className="py-4 px-6">
-                              <a href="#" className="font-medium text-blue-600 hover:underline">View</a>
-                           </td>
-                        </tr> */}
-                     </tbody>
-                  </table>
-               </div>
+                                       {/* <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Review</a> */}
+                                    </td>
+                                 </tr>
+                              )
+                           })
+                           }
+                        </tbody>
+                     </table>
+                  </div>
+               }
             </div>
          </div>
       </div>

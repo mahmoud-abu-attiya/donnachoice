@@ -270,7 +270,7 @@ const ProductBox = (props) => {
          handleCartLocalStorage(cartBtn, itemId, true);
          dispatch(setCartCount(getNumberOfProductsInCart()));
       }
-      if (cartBtn.parentElement){
+      if (cartBtn.parentElement) {
          toggleOptionsMenu()
       }
    };
@@ -292,7 +292,7 @@ const ProductBox = (props) => {
 
    const addedOne = (element, productId) => {
       // element.textContent = "Done";
-      if(element.textContent == "Add to cart" || element.textContent == "أضف إلى العربة"){
+      if (element.textContent == "Add to cart" || element.textContent == "أضف إلى العربة") {
          element.textContent = ar ? "ازالة" : "Remove"
       } else {
          element.textContent = ar ? "أضف إلى العربة" : "Add to cart"
@@ -355,58 +355,13 @@ const ProductBox = (props) => {
                      {ar ? props.product.name_ar : props.product.name}
                   </h5>
                   <div className="flex items-center my-2.5">
-                     <svg
-                        aria-hidden="true"
-                        className="w-5 h-5 text-yellow-300"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                     >
-                        <title>First star</title>
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                     </svg>
-                     <svg
-                        aria-hidden="true"
-                        className="w-5 h-5 text-yellow-300"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                     >
-                        <title>Second star</title>
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                     </svg>
-                     <svg
-                        aria-hidden="true"
-                        className="w-5 h-5 text-yellow-300"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                     >
-                        <title>Third star</title>
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                     </svg>
-                     <svg
-                        aria-hidden="true"
-                        className="w-5 h-5 text-yellow-300"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                     >
-                        <title>Fourth star</title>
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                     </svg>
-                     <svg
-                        aria-hidden="true"
-                        className="w-5 h-5 text-yellow-300"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                     >
-                        <title>Fifth star</title>
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                     </svg>
+                     <i className={`${props.product.rate >= 1 ? "fas" : "far"} fa-star text-yellow-500`}></i>
+                     <i className={`${props.product.rate >= 2 ? "fas" : "far"} fa-star text-yellow-500`}></i>
+                     <i className={`${props.product.rate >= 3 ? "fas" : "far"} fa-star text-yellow-500`}></i>
+                     <i className={`${props.product.rate >= 4 ? "fas" : "far"} fa-star text-yellow-500`}></i>
+                     <i className={`${props.product.rate >= 5 ? "fas" : "far"} fa-star text-yellow-500`}></i>
                      <span className="bg-blue-100 text-blue-600 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded ml-3">
-                        5.0
+                        {props.product.rate ? `${props.product.rate}.0` : 0}
                      </span>
                   </div>
                </div>
@@ -414,18 +369,18 @@ const ProductBox = (props) => {
          </Link>
          <div className="space-y-4 px-2 sm:px-5 pb-2 sm:pb-5">
             <span className="text-xl sm:text-2xl mb-4 sm:mb-0 font-bold text-gray-900">
-               <span className="text-sm">{ar ? "ريال" : "QR"}</span>{props.product.options[0].price}
+               <span className="text-sm">{ar ? "ريال" : "QR"}</span>{props.product.options[0]?.price}
             </span>
             <div className="relative w-full sm:w-fit">
                <button
                   className="text-white w-full bg-primary-100 hover:bg-primary-200 focus:outline-none font-medium rounded-lg text-sm px-4 py-2.5 text-center"
-                  onClick={ props.product.options.length > 1 ? () => toggleOptionsMenu(props.product.slug) :  (e) => { handleCart({textContent:"Add"}, props.product.options[0].id); addedOne(e.target, props.product.options[0].id) }}
+                  onClick={props.product.options.length > 1 ? () => toggleOptionsMenu(props.product.slug) : (e) => { handleCart({ textContent: "Add" }, props.product.options[0].id); addedOne(e.target, props.product.options[0].id) }}
                >
                   {ar ? "أضف إلى العربة" : "Add to cart"}
                </button>
                {props.product.options.length > 0 ? (
                   <div
-                  onMouseLeave={() => toggleOptionsMenu()}
+                     onMouseLeave={() => toggleOptionsMenu()}
                      ref={optionsMenu}
                      className="absolute right-1/2 translate-x-1/2 top-full space-y-2 w-48 p-3 bg-white shadow rounded z-20 hidden"
                   >
@@ -436,7 +391,7 @@ const ProductBox = (props) => {
                               <span>{option.price}QR</span>
                               {authState ? (
                                  <button
-                                 className="bg-primary-100 text-white rounded p-2"
+                                    className="bg-primary-100 text-white rounded p-2"
                                     data-slug={props.product.slug}
                                     onClick={(e) => handleCart(e.target, option.id)}
                                  >
@@ -444,7 +399,7 @@ const ProductBox = (props) => {
                                  </button>
                               ) : (
                                  <button
-                                 className="bg-primary-100 text-white rounded p-2"
+                                    className="bg-primary-100 text-white rounded p-2"
                                     data-slug={props.product.slug}
                                     onClick={(e) => handleCart(e.target, option.id)}
                                  >

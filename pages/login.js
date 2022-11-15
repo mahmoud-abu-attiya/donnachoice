@@ -34,6 +34,8 @@ export default function Login() {
             .then(res => {
                // console.log(res.data);
                Cookies.set("token", res.data.access)
+               // Cookies.set("user_id", res.data.id)
+               localStorage.setItem("user", JSON.stringify(res.data))
                Cookies.set("auth" , true)
                const storedCart = JSON.parse(localStorage.getItem("stored-cart")) || []
                const modifiedStoredCart = []
@@ -107,6 +109,8 @@ export default function Login() {
             .then(res => {
                // console.log(res.data);
                Cookies.set("token", res.data.access)
+               // Cookies.set("user_id", res.data.id)
+               localStorage.setItem("user", JSON.stringify(res.data))
                Cookies.set("auth", true)
                const storedCart = JSON.parse(localStorage.getItem("stored-cart")) || []
                const modifiedStoredCart = []

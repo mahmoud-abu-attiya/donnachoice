@@ -101,6 +101,7 @@ const Product = ({ product }) => {
 	let storedCart, storedCartIds = []
 	const [tab, setTab] = useState(1);
 	const [imgIndex, setImgIndex] = useState(0);
+	const [reviews, setReviews] = useState([])
 	const auth = Cookies.get("auth")
 	const heartIcon = useRef()
 	const compareIcon = useRef()
@@ -188,7 +189,7 @@ const Product = ({ product }) => {
 		dispatch(setCompareCount(getNumberOfProductsInCompare()))
 	}
 
-	const addSelectedOptionToCart = (btn , quantity = 1) => {
+	const addSelectedOptionToCart = (btn, quantity = 1) => {
 		cart.load()
 		cart.add(selectedOption, quantity)
 		cart.save()
@@ -208,6 +209,8 @@ const Product = ({ product }) => {
 		axios.get(`https://backends.donnachoice.com/api/products/?parents__slug=${product.slug}`)
 			.then(res => setRelatedPro(res.data))
 		console.log(product);
+		axios.get(`https://backends.donnachoice.com/api/products/${product.slug}/rate/`)
+			.then(res => setReviews(res.data))
 	}, [product])
 
 	const selectOption = (e, optionId) => {
@@ -309,17 +312,17 @@ const Product = ({ product }) => {
 								</div>
 							</div>
 							<div className={tab != 3 ? "hidden" : ""}>
-								<ProductReviews />
+								<ProductReviews reviews={reviews} />
 							</div>
 							<div className='text-xl text-gray-700 mt-8'>{ar ? "ريال" : "QR"} {product.options[0].price}</div>
 							<div className="start text-xl">
-								<i className="fas fa-star text-yellow-500"></i>
-								<i className="fas fa-star text-yellow-500"></i>
-								<i className="fas fa-star text-yellow-500"></i>
-								<i className="fas fa-star text-yellow-500"></i>
-								<i className="far fa-star text-yellow-500"></i>
+								<i className={`${product.rate >= 1 ? "fas" : "far"} fa-star text-yellow-500`}></i>
+								<i className={`${product.rate >= 2 ? "fas" : "far"} fa-star text-yellow-500`}></i>
+								<i className={`${product.rate >= 3 ? "fas" : "far"} fa-star text-yellow-500`}></i>
+								<i className={`${product.rate >= 4 ? "fas" : "far"} fa-star text-yellow-500`}></i>
+								<i className={`${product.rate >= 5 ? "fas" : "far"} fa-star text-yellow-500`}></i>
 								<span className="bg-blue-100 text-blue-600 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded ml-3">
-									5.0
+									{product.rate ? `${product.rate}.0` : 0}
 								</span>
 							</div>
 							<div className='flex gap-2 flex-wrap my-4'>
@@ -350,7 +353,7 @@ const Product = ({ product }) => {
 									>
 										{ar ? "اضف الي العربة" : "Add to cart"}
 										<div className="done absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-green-600 rounded-lg hidden place-content-center text-xl">
-										<i class="far fa-check-circle"></i>
+											<i class="far fa-check-circle"></i>
 										</div>
 									</button>
 								</div>

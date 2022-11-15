@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Link from 'next/link'
 import React, { useRef } from 'react'
 import { useDispatch } from 'react-redux'
