@@ -10,7 +10,14 @@ export default function Order() {
    const ar = useSelector(state => state.langs.value)
    const [Reviwe, setReviwe] = useState(false)
    const [Reorder, setReorder] = useState(false)
-   const [order, setOrder] = useState()
+   const [order, setOrder] = useState();
+   const [orderReview, setorderReview] = useState()
+
+   const reviwe = (item) => {
+      setReviwe(true)
+      setorderReview(item)
+   }
+
    useEffect(() => {
       const id = window.location.pathname.split("/")[2]
       axios.get(`https://backends.donnachoice.com/api/payment/order/${id}`, {
@@ -53,7 +60,7 @@ export default function Order() {
                            }`}
                      ></i>
                      <span className="capitalize text-sm font-medium text-gray-500">
-                        2022-20-02
+                        {order?.created.slice(0,10)}
                      </span>
                   </div>
                </li>
@@ -79,7 +86,7 @@ export default function Order() {
                      </th>
                      <th scope="col" className="py-3 px-6">
                         <p>{ar ? "السعر الكامل" : "Total Price"}</p>
-                        <p>500 {ar ? "ريال" : "QR"}</p>
+                        <p>{order?.total} {ar ? "ريال" : "QR"}</p>
                      </th>
                      <th scope="col" className="py-3 px-6">
                         <button
@@ -103,24 +110,24 @@ export default function Order() {
                               </th>
                            )}
                            <td className="p-4 w-32">
-                              <img src="https://flowbite.com/docs/images/products/imac.png" alt="Apple Watch" />
+                              <img src={item.option.product.images != 0 ? item.option.product.images[0].img : "https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg"} alt="Apple Watch" />
                            </td>
                            <td className="py-4 px-6 font-semibold text-gray-900">
                               {ar ? item.option.name_ar : item.option.name}
                            </td>
                            <td className="py-4 px-6">
                               <div className="flex items-center space-x-3">
-                                 1
+                                 {item.quantity}
                               </div>
                            </td>
                            <td className="py-4 px-6 font-semibold text-gray-900">
-                              {ar ? "ريال" : "QR"} {item.price}
+                              {ar ? "ريال" : "QR"} {item?.price}
                            </td>
                            <td className="py-4 px-6">
                               <button
-                                 onClick={() => setReviwe(true)}
+                                 onClick={() => reviwe(item)}
                                  className="font-medium text-white text-sm py-1 px-2 bg-primary-200 text-center rounded">
-                                 {ar ? "تقييم" : "Reviwe"}
+                                 {ar ? "تقييم" : "Review"}
                               </button>
                            </td>
                         </tr>
@@ -137,7 +144,7 @@ export default function Order() {
          )}
          <div>
             {/* <div className={rev ? "block" : "hidden"}> */}
-            {Reviwe && <ReviewForm />}
+            {Reviwe && <ReviewForm item={orderReview} />}
          </div>
       </div>
    )

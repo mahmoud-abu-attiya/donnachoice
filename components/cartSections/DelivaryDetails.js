@@ -14,6 +14,7 @@ import Cookies from "js-cookie";
 const DelivaryDetails = (props) => {
    const ar = useSelector(state => state.langs.value)
    const [user, setuser] = useState(JSON.parse(localStorage.getItem("user")));
+   const [delivaryDetails, setdelivaryDetails] = useState(JSON.parse(localStorage.getItem("delivaryDetails")))
    const setValues = () => {
       let first_name = document.getElementById("first_name"),
          last_name = document.getElementById("last_name"),
@@ -40,8 +41,10 @@ const DelivaryDetails = (props) => {
          notes: notes.value
       }
       props.callback(USER_INFO)
+      
    }
    useEffect(() => {
+      setValues()
       let delivaryinputs = document.querySelectorAll("#delivaryform input")
       delivaryinputs.forEach(inp => {
          inp.oninput = () => {
@@ -62,7 +65,7 @@ const DelivaryDetails = (props) => {
                </label>
                <input
                   type="text"
-                  defaultValue={user?.first_name}
+                  defaultValue={delivaryDetails?.first_name}
                   id="first_name"
                   className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   placeholder={ar ? "اسم" : "First Name..."}
@@ -78,7 +81,7 @@ const DelivaryDetails = (props) => {
                </label>
                <input
                   type="text"
-                  defaultValue={user?.last_name}
+                  defaultValue={delivaryDetails?.last_name}
                   id="last_name"
                   className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   placeholder={ar ? "اسم" : "Last Name..."}
@@ -94,7 +97,7 @@ const DelivaryDetails = (props) => {
                </label>
                <input
                   type="email"
-                  defaultValue={user?.email}
+                  defaultValue={delivaryDetails?.email}
                   id="email"
                   className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   placeholder="name@info.com"
@@ -111,7 +114,7 @@ const DelivaryDetails = (props) => {
                <input
                   type="tel"
                   id="Mobile"
-                  defaultValue={user?.phone}
+                  defaultValue={delivaryDetails?.phone}
                   className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   placeholder="123-45-678"
                   pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
@@ -127,7 +130,7 @@ const DelivaryDetails = (props) => {
                </label>
                <input
                   type="tel"
-                  defaultValue={user?.alt_phone}
+                  defaultValue={delivaryDetails?.alt_phone}
                   id="alt_phone"
                   className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   placeholder="123-45-678"
@@ -160,7 +163,7 @@ const DelivaryDetails = (props) => {
                </label>
                <input
                   type="text"
-                  defaultValue={user?.city}
+                  defaultValue={delivaryDetails?.city}
                   id="State"
                   className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   required
@@ -176,7 +179,7 @@ const DelivaryDetails = (props) => {
                <input
                   type="text"
                   id="Street"
-                  defaultValue={user?.street_number}
+                  defaultValue={delivaryDetails?.street_number}
                   className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   required
                />
@@ -191,7 +194,7 @@ const DelivaryDetails = (props) => {
                <input
                   type="text"
                   id="zone"
-                  defaultValue={user?.zone_number}
+                  defaultValue={delivaryDetails?.zone_number}
                   className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   required
                />
@@ -205,7 +208,7 @@ const DelivaryDetails = (props) => {
                </label>
                <input
                   type="text"
-                  defaultValue={user?.building_number}
+                  defaultValue={delivaryDetails?.building_number}
                   id="Address"
                   className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   placeholder

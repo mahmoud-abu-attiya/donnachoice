@@ -276,12 +276,12 @@ export default function Profile() {
                                           return (
                                              <>
                                                 <p key={item.id}>{item.option.name}</p>
-                                                {order.items.length > 2 && (
-                                                <p className="font-bold underline">+{order.items.length - 2}</p>
-                                                )}
                                              </>
                                           )
                                        })}
+                                       {order.items?.length > 2 && (
+                                       <p className="font-bold underline">+{order.items.length - 2}</p>
+                                       )}
                                        {/* <p>Apple MacBook Pro 17</p>
                                        <p>item</p>
                                        <p className="font-bold underline">+3</p> */}

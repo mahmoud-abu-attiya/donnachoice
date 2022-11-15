@@ -11,6 +11,8 @@ import { setCartCount } from "../slices/cartIndicatorSlice";
 import { useSelector } from "react-redux";
 import DelivaryDetails from "../components/cartSections/DelivaryDetails";
 import CarP from "../components/placeholder/CarP";
+import Confirm from "../components/cartSections/Confirm";
+import InnerHTML from 'dangerously-set-html-content'
 
 // export const getStaticProps = async () => {
 //    const res = await fetch('https://backends.donnachoice.com/api/products/?slug__in=product,item-2');
@@ -153,6 +155,7 @@ const Cart = () => {
       setUserInfo(valuse)
    }
    const delivaryDetails = () => {
+      localStorage.setItem("delivaryDetails", JSON.stringify(userInfo))
       console.log(userInfo);
       setformloading(true)
       if (auth) {
@@ -180,17 +183,17 @@ const Cart = () => {
                Authorization: `Bearer ${Cookies.get("token")}`,
             }
          })
-         .then(res => {
-            setPaymentForm(res.data.form)
-            document.gosadad.submit();
-         })
+            .then(res => {
+               setPaymentForm(res.data.form)
+               // document.gosadad.submit();
+            })
       } else {
          axios.post("https://backends.donnachoice.com/api/payment/create_cash_order/", userInfo, {
             headers: {
                Authorization: `Bearer ${Cookies.get("token")}`,
             },
          })
-         .then(res => console.log(res.data))
+            .then(res => console.log(res.data))
       }
    }
 
@@ -535,7 +538,7 @@ const Cart = () => {
                            <fieldset id="group1" className="grid grid-cols-2 gap-4">
                               <label htmlFor="cach" className="flex gap-2 justify-center items-center text-2xl font-bold border rounded-md p-4 bg-white">
                                  <input defaultChecked id="cach" type="radio" value="value1" name="group1" onChange={() => setPayment(!payment)} />
-                                 Cach
+                                 Cash
                                  {/* <label htmlFor="cach">Cach</label> */}
                               </label>
                               <label htmlFor="online" className="flex gap-2 justify-center items-center text-2xl font-bold border rounded-md p-4 bg-white">
@@ -560,9 +563,7 @@ const Cart = () => {
                            )}
                         </div>
                      </div>
-                     {paymentForm && (
-                        <div dangerouslySetInnerHTML={{ __html: paymentForm }}></div>
-                     )}
+                     
                   </div>
                   <div className="col-span-8 lg:col-span-2 flex flex-col gap-4">
                      <div className="bg-gray-50 p-4 border rounded-md">
@@ -592,9 +593,61 @@ const Cart = () => {
                            // title={payment ? "disabled" : ""}
                            // disabled={payment}
                            type="button"
+                           onClick={() => setcartSections(4)}
+                           className="w-full bg-primary-100 text-white rounded-md py-4 flex items-center gap-2 justify-center"
+                        // className={`w-full bg-primary-100 text-white rounded-md py-4 flex items-center gap-2 justify-center ${payment && "bg-gray-300 text-gray-200"}`}
+                        >
+                           {ar ? "التالي" : "Next"}{" "}
+                           <i
+                              className={`fas ${ar ? "fa-arrow-left" : "fa-arrow-right"}`}
+                           ></i>{" "}
+                           {ar ? "أكد الطلب" : "Confirm order"}
+                        </button>
+                     </div>
+                  </div>
+               </div>
+            )}
+            {cartSections == 4 && (
+               <div className="grid grid-cols-1 lg:grid-cols-8 gap-4 mb-8">
+                  <Confirm data={userInfo} />
+                  {paymentForm && (
+                     <>
+                     {/* <div dangerouslySetInnerHTML={{ __html: paymentForm }}></div> */}
+                     <InnerHTML html={paymentForm} />
+                     {/* {document.gosadad.submit()} */}
+                     </>
+                     )}
+                  <div className="col-span-8 lg:col-span-2 flex flex-col gap-4">
+                     <div className="bg-gray-50 p-4 border rounded-md">
+                        <h4 className="text-2xl mb-4">{ar ? "ملخص" : "SUMMARY"}</h4>
+                        <div className="capitalize">
+                           {ar ? "مجموع العناصر :" : "total items: "}
+                           <span className="text-xl font-bold"> {totalAmount}</span>
+                        </div>
+                        <div className="capitalize">
+                           {ar ? "السعر الإجمالي (ريال قطري)" : "total price (QR) : "}
+                           <span className="text-xl font-bold"> {totalPrice}</span>
+                        </div>
+                     </div>
+                     <div className="flex gap-4">
+                        <button
+
+                           type="button"
+                           onClick={() => setcartSections(3)}
+                           className="bg-primary-100 text-white flex gap-2 items-center rounded-md p-4 whitespace-nowrap"
+                        >
+                           <i
+                              className={`fas ${ar ? "fa-arrow-right" : "fa-arrow-left"}`}
+                           ></i>
+                           {ar ? "عودة" : "Back"}
+                        </button>
+                        <button
+                           // title={payment ? "disabled" : ""}
+                           // disabled={payment}
+                           type="button"
                            onClick={() => pay()}
                            className="w-full bg-primary-100 text-white rounded-md py-4 flex items-center gap-2 justify-center"
-                           // className={`w-full bg-primary-100 text-white rounded-md py-4 flex items-center gap-2 justify-center ${payment && "bg-gray-300 text-gray-200"}`}
+                        // className={`w-full bg-primary-100 text-white rounded-md py-4 flex items-center gap-2 justify-center ${payment && "bg-gray-300 text-gray-200"}`}
                         >
                            {ar ? "التالي" : "Next"}{" "}
                            <i
