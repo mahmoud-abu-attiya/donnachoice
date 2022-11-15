@@ -272,11 +272,13 @@ export default function Profile() {
                               return (
                                  <tr className="bg-white border-b" key={index}>
                                     <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
-                                       {orderHistory.items.slice(0, 2).map(item => {
+                                       {order.items?.slice(0, 2).map(item => {
                                           return (
                                              <>
                                                 <p key={item.id}>{item.option.name}</p>
-                                                <p className="font-bold underline">+{order.item.length - 2}</p>
+                                                {order.items.length > 2 && (
+                                                <p className="font-bold underline">+{order.items.length - 2}</p>
+                                                )}
                                              </>
                                           )
                                        })}

@@ -6,7 +6,7 @@ const ReviewForm = () => {
    const ar = useSelector(state => state.langs.value)
    const [rait, setrait] = useState(1);
    return (
-      <div className='fixed top-0 left-0 w-full h-screen bg-black/50 flex items-center justify-center p-4'>
+      <div className='z-20 fixed top-0 left-0 w-full h-screen bg-black/50 flex items-center justify-center p-4'>
          <div className="bg-gray-50 rounded-lg border p-4 space-y-4 w-full max-w-lg">
             <h3 className='text-2xl font-bold'>
                {ar ? "اسم المنتج" : "product name"}
