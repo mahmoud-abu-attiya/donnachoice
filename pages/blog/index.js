@@ -45,6 +45,7 @@ export default function Index() {
                <h4 className="text-xl mb-2">{ar ? "أهم المدونات" : "Top Blogs"}</h4>
                {blogs
                   .sort((a, b) => a.views < b.views)
+                  .slice(0,3)
                   .map((blog) => {
                      return (
                         <Link key={blog.id} href={`/blog/${blog.slug}`}>
@@ -73,12 +74,12 @@ export default function Index() {
                })}
             </div>
          </aside>
-         <div className="h-fit col-span-8 md:col-span-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:px-6 gap-4">
+         <div className="h-fit col-span-8 md:col-span-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 md:px-6 gap-4">
             {blogs.reverse().map((blog) => {
                return (
                   <div
                      key={blog.id}
-                     className="bg-gray-50 rounded-lg border shadow-md"
+                     className="bg-gray-50 rounded-lg border shadow-md flex flex-col"
                   >
                      <div className="i_a_r_v">
                         <img
@@ -87,7 +88,7 @@ export default function Index() {
                            alt={blog.name}
                         />
                      </div>
-                     <div className="p-5">
+                     <div className="p-5 flex flex-col grow">
                         <span className="text-gray-500 text-sm">
                            {blog.created_at.slice(0, 10)}
                         </span>
@@ -107,9 +108,9 @@ export default function Index() {
                            }}
                         ></p>
                         <Link href={`/blog/${blog.slug}`}>
-                           <a className="mt-auto w-fit inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-primary-200 rounded-lg hover:bg-primary-300 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                           <div className="mt-auto cursor-pointer w-fit inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-primary-200 rounded-lg hover:bg-primary-300 focus:ring-4 focus:outline-none focus:ring-blue-300">
                               {ar ? "أقرأ المزيد":"Read more"}
-                           </a>
+                           </div>
                         </Link>
                      </div>
                   </div>

@@ -1,43 +1,60 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useEffect, useState } from 'react'
-import Link from 'next/link';
-import { useSelector } from 'react-redux';
-import ReviewForm from '../../components/ReviewForm';
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import { useSelector } from "react-redux";
+import ReviewForm from "../../components/ReviewForm";
+import axios from "axios";
+import Cookies from "js-cookie";
+import TableP from "../../components/placeholder/TableP";
 
 export default function Order() {
-   const ar = useSelector(state => state.langs.value)
-   const [Reviwe, setReviwe] = useState(false)
-   const [Reorder, setReorder] = useState(false)
+   const ar = useSelector((state) => state.langs.value);
+   const [Reviwe, setReviwe] = useState(false);
+   const [Reorder, setReorder] = useState(false);
    const [order, setOrder] = useState();
-   const [orderReview, setorderReview] = useState()
+   const [orderReview, setorderReview] = useState();
+   const [loading, setloading] = useState(true);
 
    const reviwe = (item) => {
-      setReviwe(true)
-      setorderReview(item)
-   }
+      setReviwe(true);
+      setorderReview(item);
+   };
 
    useEffect(() => {
-      const id = window.location.pathname.split("/")[2]
-      axios.get(`https://backends.donnachoice.com/api/payment/order/${id}`, {
-         headers: {
-            Authorization: `Bearer ${Cookies.get("token")}`,
-         }
-      }).then(res => {
-         console.log(res.data);
-         setOrder(res.data)
-      })
-      // console.log(id);
+      const id = window.location.pathname.split("/")[2];
+      axios
+         .get(`https://backends.donnachoice.com/api/payment/order/${id}`, {
+            headers: {
+               Authorization: `Bearer ${Cookies.get("token")}`,
+            },
+         })
+         .then((res) => {
+            setloading(false);
+            console.log(res.data);
+            setOrder(res.data);
+         });
    }, []);
+   if (loading) {
+      return <TableP />;
+   }
    return (
       <div dir={ar ? "rtl" : "ltr"} className="container pb-8">
-         <nav className="flex bg-gray-50 py-3 px-5 rounded mb-8 " aria-label="Breadcrumb">
+         <nav
+            className="flex bg-gray-50 py-3 px-5 rounded mb-8 "
+            aria-label="Breadcrumb"
+         >
             <ol className="inline-flex items-center">
                <li className="inline-flex items-center">
                   <Link href="/">
                      <a className="inline-flex gap-2 items-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                        <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
+                        <svg
+                           className="w-4 h-4 mr-2"
+                           fill="currentColor"
+                           viewBox="0 0 20 20"
+                           xmlns="http://www.w3.org/2000/svg"
+                        >
+                           <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                        </svg>
                         {ar ? "الرئيسية" : "Home"}
                      </a>
                   </Link>
@@ -60,20 +77,20 @@ export default function Order() {
                            }`}
                      ></i>
                      <span className="capitalize text-sm font-medium text-gray-500">
-                        {order?.created.slice(0,10)}
+                        {order?.created.slice(0, 10)}
                      </span>
                   </div>
                </li>
             </ol>
          </nav>
-
          <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
-            <table className={`w-full text-sm ${ar ? "text-right" : "text-left"} text-gray-500`}>
+            <table
+               className={`w-full text-sm ${ar ? "text-right" : "text-left"
+                  } text-gray-500`}
+            >
                <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                   <tr>
-                     {Reorder && (
-                        <th scope="col" className="p-4"></th>
-                     )}
+                     {Reorder && <th scope="col" className="p-4"></th>}
                      <th scope="col" className="py-3 px-6">
                         <span className="sr-only">Image</span>
                      </th>
@@ -82,35 +99,52 @@ export default function Order() {
                      </th>
                      <th scope="col" className="py-3 px-6">
                         <p>{ar ? "العدد" : "Count"}</p>
-                        <p>3</p>
+                        <p>{order?.count.count}</p>
                      </th>
                      <th scope="col" className="py-3 px-6">
                         <p>{ar ? "السعر الكامل" : "Total Price"}</p>
-                        <p>{order?.total} {ar ? "ريال" : "QR"}</p>
+                        <p>
+                           {order?.total} {ar ? "ريال" : "QR"}
+                        </p>
                      </th>
                      <th scope="col" className="py-3 px-6">
                         <button
                            onClick={() => setReorder(!Reorder)}
-                           className='font-medium text-primary-100 border border-primary-100 text-sm py-1 px-2 bg-primary-300 text-center rounded'>
+                           className="font-medium text-primary-100 border border-primary-100 text-sm py-1 px-2 bg-primary-300 text-center rounded"
+                        >
                            {ar ? "اعادة الطلب" : "Reorder"}
                         </button>
                      </th>
                   </tr>
                </thead>
                <tbody>
-                  {order?.items.map(item => {
+                  {order?.items.map((item) => {
                      return (
                         <tr className="bg-white border-b" key={item.id}>
                            {Reorder && (
                               <th scope="col" className="p-4">
                                  <div className="flex items-center">
-                                    <input defaultChecked id="checkbox-all" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 focus:ring-2" />
-                                    <label for="checkbox-all" className="sr-only">checkbox</label>
+                                    <input
+                                       defaultChecked
+                                       id="checkbox-all"
+                                       type="checkbox"
+                                       className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 focus:ring-2"
+                                    />
+                                    <label htmlFor="checkbox-all" className="sr-only">
+                                       checkbox
+                                    </label>
                                  </div>
                               </th>
                            )}
                            <td className="p-4 w-32">
-                              <img src={item.option.product.images != 0 ? item.option.product.images[0].img : "https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg"} alt="Apple Watch" />
+                              <img
+                                 src={
+                                    item.option.product.images != 0
+                                       ? item.option.product.images[0].img
+                                       : "https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg"
+                                 }
+                                 alt="Apple Watch"
+                              />
                            </td>
                            <td className="py-4 px-6 font-semibold text-gray-900">
                               {ar ? item.option.name_ar : item.option.name}
@@ -125,27 +159,31 @@ export default function Order() {
                            </td>
                            <td className="py-4 px-6">
                               <button
+                                 disabled={item.is_rated}
+                                 title={item.is_rated ? "you already rared this product." : ""}
                                  onClick={() => reviwe(item)}
-                                 className="font-medium text-white text-sm py-1 px-2 bg-primary-200 text-center rounded">
+                                 className={`font-medium text-white text-sm py-1 px-2 text-center rounded ${item.is_rated
+                                       ? "bg-gray-300 text-200"
+                                       : "bg-primary-200"
+                                    }`}
+                              >
                                  {ar ? "تقييم" : "Review"}
                               </button>
                            </td>
                         </tr>
-                     )
+                     );
                   })}
-
                </tbody>
             </table>
          </div>
          {Reorder && (
-            <button className='py-3 px-5 w-fit mx-auto my-8 bg-primary-100 rounded-md text-white shadow-md'>
-               {ar ? `اعادة طلب ${order.items.length} منتجات` : `Reorder ${order.items.length} items`}
+            <button className="py-3 px-5 w-fit mx-auto my-8 bg-primary-100 rounded-md text-white shadow-md">
+               {ar
+                  ? `اعادة طلب ${order.items.length} منتجات`
+                  : `Reorder ${order.items.length} items`}
             </button>
          )}
-         <div>
-            {/* <div className={rev ? "block" : "hidden"}> */}
-            {Reviwe && <ReviewForm item={orderReview} />}
-         </div>
+         <div>{Reviwe && <ReviewForm item={orderReview} />}</div>
       </div>
-   )
+   );
 }

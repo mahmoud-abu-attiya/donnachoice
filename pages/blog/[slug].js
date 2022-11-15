@@ -7,6 +7,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { useSelector } from "react-redux";
+import InnerHTML from 'dangerously-set-html-content'
 
 const Brand = () => {
    const ar = useSelector(state => state.langs.value)
@@ -180,6 +181,7 @@ const Brand = () => {
                         className="break-words"
                         dangerouslySetInnerHTML={{ __html: blog.description }}
                      ></div>
+                     
                   }
                </div>
             </div>

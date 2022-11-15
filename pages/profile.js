@@ -275,7 +275,7 @@ export default function Profile() {
                                        {order.items?.slice(0, 2).map(item => {
                                           return (
                                              <>
-                                                <p key={item.id}>{item.option.name}</p>
+                                                <p key={item.id}>{ar ? item.option.product.name_ar : item.option.product.name}</p>
                                              </>
                                           )
                                        })}
@@ -287,7 +287,7 @@ export default function Profile() {
                                        <p className="font-bold underline">+3</p> */}
                                     </th>
                                     <td className="py-4 px-6 whitespace-nowrap">
-                                       2022-20-02
+                                       {order.created.slice(0,10)}
                                     </td>
                                     <td className="py-4 px-6">
                                        {ar ? "ريال" : "QR"} {order.total}

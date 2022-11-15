@@ -13,6 +13,7 @@ import DelivaryDetails from "../components/cartSections/DelivaryDetails";
 import CarP from "../components/placeholder/CarP";
 import Confirm from "../components/cartSections/Confirm";
 import InnerHTML from 'dangerously-set-html-content'
+import swal from "sweetalert";
 
 // export const getStaticProps = async () => {
 //    const res = await fetch('https://backends.donnachoice.com/api/products/?slug__in=product,item-2');
@@ -160,6 +161,7 @@ const Cart = () => {
       setformloading(true)
       if (auth) {
          nextstep(3)
+         setformloading(false)
       } else {
          axios.post("https://backends.donnachoice.com/api/users/random-password/", userInfo)
             .then(res => {
@@ -193,7 +195,14 @@ const Cart = () => {
                Authorization: `Bearer ${Cookies.get("token")}`,
             },
          })
-            .then(res => console.log(res.data))
+            .then(res => {
+               if (res.data.success) {
+                  swal("Order Done!", "lorem ipsome!", "success").then(() => location.reload())
+               } else {
+                  swal("Error!", "lorem ipsome!", "error").then(() => location.reload())
+               }
+               console.log(res.data)
+            })
       }
    }
 
@@ -246,10 +255,13 @@ const Cart = () => {
             </h2>
          ) : (
             <h2 className="text-3xl text-gray-700">
-               Delivery Details /
-               <span className="text-sm">
-                  Add new or use existing delivery address.
+               <span>
+                  {cartSections == 1 && (ar ? "عناصر عربة التسوق" : "Cart items") + "/"}
+                  {cartSections == 2 && (ar ? "تفاصيل التسليم" : "Delivery Details") + "/"}
+                  {cartSections == 3 && (ar ? "خيارات الدفع" : "Payment Options") + "/"}
+                  {cartSections == 4 && (ar ? "أكد الطلب" : "Confirm order") + "/"}
                </span>
+               <span className="text-sm">{ar ? "لوريم ايبسوم لوريم" : "Lorem ipsum dolor sit, "}</span>
             </h2>
          )}
 
@@ -538,32 +550,32 @@ const Cart = () => {
                            <fieldset id="group1" className="grid grid-cols-2 gap-4">
                               <label htmlFor="cach" className="flex gap-2 justify-center items-center text-2xl font-bold border rounded-md p-4 bg-white">
                                  <input defaultChecked id="cach" type="radio" value="value1" name="group1" onChange={() => setPayment(!payment)} />
-                                 Cash
+                                 {ar ? "كاش" : "Cash"}
                                  {/* <label htmlFor="cach">Cach</label> */}
                               </label>
                               <label htmlFor="online" className="flex gap-2 justify-center items-center text-2xl font-bold border rounded-md p-4 bg-white">
                                  <input type="radio" id="online" value="value2" name="group1" onChange={() => setPayment(!payment)} />
-                                 Online Payment
+                                 {ar ? "الدفع الالكتروني" : "Online Payment"}
                                  {/* <label htmlFor="online">Online Payment</label> */}
                               </label>
                            </fieldset>
                            {payment ? (
                               <div className="text-center space-y-4">
                                  <div className={ar ? "text-right" : "text-left"}>
-                                    <p className="mb-4">- Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae at rem corporis sint modi sunt minus quibusdam reprehenderit fugit minima, fuga aliquid inventore architecto corrupti voluptas illum cupiditate ratione delectus.</p>
-                                    <p className="mb-4">- Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae at rem corporis sint modi sunt minus quibusdam reprehenderit fugit minima, fuga aliquid inventore architecto corrupti voluptas illum cupiditate ratione delectus.</p>
+                                    <p className="mb-4">{ar ? "خسائر اللازمة ومطالبة حدة بل. الآخر الحلفاء أن غزو, إجلاء وتنامت عدد مع. لقهر معركة لبلجيكا، بـ انه, ربع الأثنان المقيتة في, اقتصّت المحور حدة و. هذه ما طرفاً عالمية استسلام," : "- Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae at rem corporis sint modi sunt minus quibusdam reprehenderit fugit minima, fuga aliquid inventore architecto corrupti voluptas illum cupiditate ratione delectus."}</p>
+                                    <p className="mb-4">{ar ? "خسائر اللازمة ومطالبة حدة بل. الآخر الحلفاء أن غزو, إجلاء وتنامت عدد مع. لقهر معركة لبلجيكا، بـ انه, ربع الأثنان المقيتة في, اقتصّت المحور حدة و. هذه ما طرفاً عالمية استسلام," : "- Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae at rem corporis sint modi sunt minus quibusdam reprehenderit fugit minima, fuga aliquid inventore architecto corrupti voluptas illum cupiditate ratione delectus."}</p>
                                  </div>
                                  {/* <button className="bg-primary-100 shadow rounded-md text-primary-300 w-full p-4 max-w-sm m-auto font-bold text-xl">Pay now</button> */}
                               </div>
                            ) : (
 
                               <div>
-                                 Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid atque deleniti excepturi officia dolore consequuntur! Vel voluptatibus tenetur deserunt ut exercitationem officiis illo quo, facere temporibus voluptate soluta iste molestiae.
+                                 {ar ? "خسائر اللازمة ومطالبة حدة بل. الآخر الحلفاء أن غزو, إجلاء وتنامت عدد مع. لقهر معركة لبلجيكا، بـ انه, ربع الأثنان المقيتة في, اقتصّت المحور حدة و. هذه ما طرفاً عالمية استسلام," : "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid atque deleniti excepturi officia dolore consequuntur! Vel voluptatibus tenetur deserunt ut exercitationem officiis illo quo, facere temporibus voluptate soluta iste molestiae."}
                               </div>
                            )}
                         </div>
                      </div>
-                     
+
                   </div>
                   <div className="col-span-8 lg:col-span-2 flex flex-col gap-4">
                      <div className="bg-gray-50 p-4 border rounded-md">
@@ -612,11 +624,11 @@ const Cart = () => {
                   <Confirm data={userInfo} />
                   {paymentForm && (
                      <>
-                     {/* <div dangerouslySetInnerHTML={{ __html: paymentForm }}></div> */}
-                     <InnerHTML html={paymentForm} />
-                     {/* {document.gosadad.submit()} */}
+                        {/* <div dangerouslySetInnerHTML={{ __html: paymentForm }}></div> */}
+                        <InnerHTML html={paymentForm} />
+                        {/* {document.gosadad.submit()} */}
                      </>
-                     )}
+                  )}
                   <div className="col-span-8 lg:col-span-2 flex flex-col gap-4">
                      <div className="bg-gray-50 p-4 border rounded-md">
                         <h4 className="text-2xl mb-4">{ar ? "ملخص" : "SUMMARY"}</h4>
