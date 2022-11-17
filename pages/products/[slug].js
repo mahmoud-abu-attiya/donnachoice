@@ -114,7 +114,7 @@ const Product = ({ product }) => {
 		cart = new LocalStorageCart()
 	}
 
-	const optionQ = product.options.find(option => option.id == selectedOption)?.quantity
+	const optionQ = product?.options.find(option => option.id == selectedOption)?.quantity
 	useEffect(() => {
 
 		console.log(product);
