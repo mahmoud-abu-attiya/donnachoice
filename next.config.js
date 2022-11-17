@@ -13,6 +13,14 @@ module.exports = {
         source: '/api/products/:slug*',
         destination: 'https://backends.donnachoice.com/api/products/:slug*'
       },
+      {
+        source: '/api/create_online_order',
+        destination: 'https://backends.donnachoice.com/api/create_online_order'
+      },
+      {
+        source: '/api/create_cash_order',
+        destination: 'https://backends.donnachoice.com/api/create_cash_order'
+      },
     ]
   },
   async redirects() {

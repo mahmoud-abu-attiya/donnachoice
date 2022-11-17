@@ -11,6 +11,8 @@ import { useSelector } from 'react-redux'
 import { useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import Image from "next/image";
+import offer from "../public/images/offer.png"
 
 const getNumberOfProductsInWishlist = () => {
    const storedWishlist =
@@ -300,7 +302,13 @@ const ProductBox = (props) => {
    }
 
    return (
-      <div className="w-full relative border bg-gray-50 rounded-lg shadow-md">
+      <div className="w-full flex flex-col relative border bg-gray-50 rounded-lg shadow-md">
+         {props.product.options[0].discount != 0 && (
+            <div className="offer">
+            <Image src={offer} alt="product offer" />
+            <div className="percing">{props.product.options[0].discount}%</div>
+         </div>
+         )}
          <div className="wish z-10 absolute top-[1rem] text-red-500 text-xl right-[1rem]">
             {authState ? (
                <button
@@ -341,7 +349,7 @@ const ProductBox = (props) => {
             <a>
                <div className="w-full mb-4 img-container">
                   <img
-                     className="w-full rounded-t-lg square object-contain"
+                     className="w-full rounded-t-lg square object-cover"
                      src={
                         props.product.images != 0
                            ? props.product.images[0].img
@@ -354,22 +362,22 @@ const ProductBox = (props) => {
                   <h5 className="text-xl font-semibold tracking-tight text-gray-900">
                      {ar ? props.product.name_ar : props.product.name}
                   </h5>
-                  <div className="flex items-center my-2.5">
-                     <i className={`${props.product.rate >= 1 ? "fas" : "far"} fa-star text-yellow-500`}></i>
-                     <i className={`${props.product.rate >= 2 ? "fas" : "far"} fa-star text-yellow-500`}></i>
-                     <i className={`${props.product.rate >= 3 ? "fas" : "far"} fa-star text-yellow-500`}></i>
-                     <i className={`${props.product.rate >= 4 ? "fas" : "far"} fa-star text-yellow-500`}></i>
-                     <i className={`${props.product.rate >= 5 ? "fas" : "far"} fa-star text-yellow-500`}></i>
-                     <span className="bg-blue-100 text-blue-600 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded ml-3">
+                  <div className={`flex items-center my-2.5 ${props.product.rate < 1 ? "text-gray-300" : "text-yellow-500"}`}>
+                     <i className={`${props.product.rate >= 1 ? "fas" : "far"} fa-star`}></i>
+                     <i className={`${props.product.rate >= 2 ? "fas" : "far"} fa-star`}></i>
+                     <i className={`${props.product.rate >= 3 ? "fas" : "far"} fa-star`}></i>
+                     <i className={`${props.product.rate >= 4 ? "fas" : "far"} fa-star`}></i>
+                     <i className={`${props.product.rate >= 5 ? "fas" : "far"} fa-star`}></i>
+                     <span className={`bg-blue-100 ${props.product.rate < 1 ? "text-gray-300" : "text-blue-500"} text-xs font-semibold mr-2 px-2.5 py-0.5 rounded ml-3`}>
                         {props.product.rate ? `${props.product.rate}.0` : 0}
                      </span>
                   </div>
                </div>
             </a>
          </Link>
-         <div className="space-y-4 px-2 sm:px-5 pb-2 sm:pb-5">
+         <div className="space-y-4 flex flex-col justify-end grow px-2 sm:px-5 pb-2 sm:pb-5">
             <span className="text-xl sm:text-2xl mb-4 sm:mb-0 font-bold text-gray-900">
-               <span className="text-sm">{ar ? "ريال" : "QR"}</span>{props.product.options[0]?.price}
+               {props.product.options[0]?.price}<span className="text-sm">{ar ? "ريال" : "QR"}</span>
             </span>
             <div className="relative w-full sm:w-fit">
                <button

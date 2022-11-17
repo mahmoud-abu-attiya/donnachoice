@@ -114,6 +114,7 @@ const Product = ({ product }) => {
 		cart = new LocalStorageCart()
 	}
 
+	const optionQ = product.options.find(option => option.id == selectedOption)?.quantity
 	useEffect(() => {
 
 		console.log(product);
@@ -224,7 +225,7 @@ const Product = ({ product }) => {
 
 	return (product &&
 		<div dir={ar ? "rtl" : "ltr"}>
-			<div className='container'>
+			<div className='container mt-8'>
 				<nav className="flex bg-gray-50 py-3 px-5 rounded mb-8 " aria-label="Breadcrumb">
 					<ol className="inline-flex items-center">
 						<li className="inline-flex items-center">
@@ -315,31 +316,41 @@ const Product = ({ product }) => {
 								<ProductReviews reviews={reviews} />
 							</div>
 							<div className='text-xl text-gray-700 mt-8'>{ar ? "ريال" : "QR"} {product.options[0].price}</div>
-							<div className="start text-xl">
-								<i className={`${product.rate >= 1 ? "fas" : "far"} fa-star text-yellow-500`}></i>
-								<i className={`${product.rate >= 2 ? "fas" : "far"} fa-star text-yellow-500`}></i>
-								<i className={`${product.rate >= 3 ? "fas" : "far"} fa-star text-yellow-500`}></i>
-								<i className={`${product.rate >= 4 ? "fas" : "far"} fa-star text-yellow-500`}></i>
-								<i className={`${product.rate >= 5 ? "fas" : "far"} fa-star text-yellow-500`}></i>
-								<span className="bg-blue-100 text-blue-600 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded ml-3">
+							<div className={`start text-xl ${product.rate < 1 ? "text-gray-300" : "text-yellow-500"}`}>
+								<i className={`${product.rate >= 1 ? "fas" : "far"} fa-star`}></i>
+								<i className={`${product.rate >= 2 ? "fas" : "far"} fa-star`}></i>
+								<i className={`${product.rate >= 3 ? "fas" : "far"} fa-star`}></i>
+								<i className={`${product.rate >= 4 ? "fas" : "far"} fa-star`}></i>
+								<i className={`${product.rate >= 5 ? "fas" : "far"} fa-star`}></i>
+								<span className={`bg-blue-100 ${product.rate < 1 ? "text-gray-300" : "text-blue-600"} text-xs font-semibold mr-2 px-2.5 py-0.5 rounded ml-3`}>
 									{product.rate ? `${product.rate}.0` : 0}
 								</span>
 							</div>
 							<div className='flex gap-2 flex-wrap my-4'>
 								{product.options.map((option, index) => {
 									return (
-										<button key={option.id} onClick={(e) => selectOption(e, option.id)} className={index == 0 ? "px-4 py-2 rounded border border-primary-100 active-option" : "px-4 py-2 rounded border"}>{option.name}</button>
+										<>
+											<button key={option.id} onClick={(e) => selectOption(e, option.id)} className={index == 0 ? "px-4 py-2 rounded border border-primary-100 active-option" : "px-4 py-2 rounded border"}>{option.name}</button>
+										</>
 									)
 								})}
 							</div>
+							{optionQ <= 5 && (
+								<div className='text-sm bg-red-500/25 w-fit rounded-full mb-4 py-1 px-3 text-red-800'>
+									{ar && "يوجد"} {" "}
+									{product.options.find(option => option.id == selectedOption).quantity} {" "}
+									{ar ? "في المخزن" : "in stock"}
+								</div>
+							)}
+							{/* {option.quantity < 5 && (<p>{option.quantity} in stock</p>)} */} 
 							<div className='flex items-center gap-3 mb-4'>
-								<button onClick={() => setproCount(proCount - 1)} className="inline-flex items-center p-2 font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200" type="button">
+								<button onClick={() => setproCount(proCount == 1 ? 1 : proCount - 1)} className="inline-flex items-center p-2 font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200" type="button">
 									<svg className="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" /></svg>
 								</button>
 								<div>
-									<input readOnly value={proCount > 0 ? proCount : 1} type="number" min={1} id="first_product" className="bg-gray-50 w-16 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-3.5 py-1" placeholder={product.amount || product.quantity || 1} required />
+									<input readOnly value={proCount > optionQ ? optionQ : proCount} type="number" max={optionQ} min={1} id="first_product" className="bg-gray-50 w-16 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-3.5 py-1" placeholder={product.amount || product.quantity || 1} required />
 								</div>
-								<button onClick={() => setproCount(proCount + 1)} className="inline-flex items-center p-2 font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200" type="button">
+								<button onClick={() => setproCount(proCount >= 10 ? 10 : proCount + 1)} className="inline-flex items-center p-2 font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200" type="button">
 									<svg className="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" /></svg>
 								</button>
 							</div>

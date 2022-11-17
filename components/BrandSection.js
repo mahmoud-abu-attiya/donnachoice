@@ -4,7 +4,7 @@ import Link from 'next/link'
 import React from 'react'
 import logo from "../public/images/logo-placeholder.png"
 import { useSelector } from 'react-redux'
-
+   
 const BrandSection = (props) => {
    const ar = useSelector(state => state.langs.value)
    return (

@@ -152,8 +152,7 @@
    left: 50%;
    transform: translate(-50%, -50%);
    width: 100%;
-   max-height: 100%;
-   max-width: 100%;
+   height: 100%;
 }
 .i_a_r_v img{
    position: absolute;
@@ -248,4 +247,34 @@
 }
 .active_cart_part{
    @apply bg-primary-100 text-primary-300
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
+}
+
+.offer{
+   position: absolute;
+   top: -0.7rem;
+   left: 55%;
+   z-index: 1;
+   width: 3rem;
+}
+.offer .percing{
+   position: absolute;
+   top: 7px;
+   font-size: 0.8rem;
+   font-weight: bold;
+   background-color: #de2c29;
+   left: 19px;
+   padding: 0px 2px;
+   border-radius: 0px 8px 0 0;
+   color: white;
 }

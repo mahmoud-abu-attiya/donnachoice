@@ -38,7 +38,7 @@ export default function Order() {
       return <TableP />;
    }
    return (
-      <div dir={ar ? "rtl" : "ltr"} className="container pb-8">
+      <div dir={ar ? "rtl" : "ltr"} className="container py-8">
          <nav
             className="flex bg-gray-50 py-3 px-5 rounded mb-8 "
             aria-label="Breadcrumb"
@@ -99,21 +99,12 @@ export default function Order() {
                      </th>
                      <th scope="col" className="py-3 px-6">
                         <p>{ar ? "العدد" : "Count"}</p>
-                        <p>{order?.count.count}</p>
                      </th>
                      <th scope="col" className="py-3 px-6">
-                        <p>{ar ? "السعر الكامل" : "Total Price"}</p>
-                        <p>
-                           {order?.total} {ar ? "ريال" : "QR"}
-                        </p>
+                        <p>{ar ? "السعر" : "Price"}</p>
                      </th>
                      <th scope="col" className="py-3 px-6">
-                        <button
-                           onClick={() => setReorder(!Reorder)}
-                           className="font-medium text-primary-100 border border-primary-100 text-sm py-1 px-2 bg-primary-300 text-center rounded"
-                        >
-                           {ar ? "اعادة الطلب" : "Reorder"}
-                        </button>
+
                      </th>
                   </tr>
                </thead>
@@ -126,13 +117,9 @@ export default function Order() {
                                  <div className="flex items-center">
                                     <input
                                        defaultChecked
-                                       id="checkbox-all"
                                        type="checkbox"
                                        className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 focus:ring-2"
                                     />
-                                    <label htmlFor="checkbox-all" className="sr-only">
-                                       checkbox
-                                    </label>
                                  </div>
                               </th>
                            )}
@@ -163,8 +150,8 @@ export default function Order() {
                                  title={item.is_rated ? "you already rared this product." : ""}
                                  onClick={() => reviwe(item)}
                                  className={`font-medium text-white text-sm py-1 px-2 text-center rounded ${item.is_rated
-                                       ? "bg-gray-300 text-200"
-                                       : "bg-primary-200"
+                                    ? "bg-gray-300 text-200"
+                                    : "bg-primary-200"
                                     }`}
                               >
                                  {ar ? "تقييم" : "Review"}
@@ -173,6 +160,35 @@ export default function Order() {
                         </tr>
                      );
                   })}
+                  <tr className="text-black text-xl font-bold bg-gray-50">
+                     {Reorder && (
+                        <th scope="col" className="p-4">
+                           <div className="flex items-center gap-2">
+                              <input
+                                 defaultChecked
+                                 id="checkbox-all"
+                                 type="checkbox"
+                                 className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 focus:ring-2"
+                              />
+                              <label htmlFor="checkbox-all" className="text-sm font-normal">
+                                 All
+                              </label>
+                           </div>
+                        </th>
+                     )}
+                     <td className="p-4">{ar ? "المجموع" : "Total"}:</td>
+                     <td className="p-4"></td>
+                     <td className="p-4">{order?.count.count}</td>
+                     <td className="p-4">{order?.total} {ar ? "ريال" : "QR"}</td>
+                     <td className="p-4">
+                        <button
+                           onClick={() => setReorder(!Reorder)}
+                           className="font-medium text-primary-100 border border-primary-100 text-sm py-1 px-2 bg-primary-300 text-center rounded"
+                        >
+                           {ar ? "اعادة الطلب" : "Reorder"}
+                        </button>
+                     </td>
+                  </tr>
                </tbody>
             </table>
          </div>

@@ -211,7 +211,7 @@ const Cart = () => {
    }
 
    return (
-      <div dir={ar ? "rtl" : "ltr"} className="container">
+      <div dir={ar ? "rtl" : "ltr"} className="container mt-8">
          <nav
             className="flex bg-gray-50 py-3 px-5 rounded mb-8 "
             aria-label="Breadcrumb"
@@ -256,12 +256,11 @@ const Cart = () => {
          ) : (
             <h2 className="text-3xl text-gray-700">
                <span>
-                  {cartSections == 1 && (ar ? "عناصر عربة التسوق" : "Cart items") + "/"}
-                  {cartSections == 2 && (ar ? "تفاصيل التسليم" : "Delivery Details") + "/"}
-                  {cartSections == 3 && (ar ? "خيارات الدفع" : "Payment Options") + "/"}
-                  {cartSections == 4 && (ar ? "أكد الطلب" : "Confirm order") + "/"}
+                  {cartSections == 1 && (ar ? "عناصر عربة التسوق" : "Cart items")}
+                  {cartSections == 2 && (ar ? "تفاصيل التسليم" : "Delivery Details")}
+                  {cartSections == 3 && (ar ? "خيارات الدفع" : "Payment Options")}
+                  {cartSections == 4 && (ar ? "أكد الطلب" : "Confirm order")}
                </span>
-               <span className="text-sm">{ar ? "لوريم ايبسوم لوريم" : "Lorem ipsum dolor sit, "}</span>
             </h2>
          )}
 

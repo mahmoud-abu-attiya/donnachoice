@@ -121,9 +121,7 @@ const Compare = () => {
 									<th scope="col" className="py-3 px-6">
 										{ar ? "الخيارات" : "Options"}
 									</th>
-									<th scope="col" className="py-3 px-6">
-										{ar ? "الكمية" : "Quantity"}
-									</th>
+									
 									<th scope="col" className="py-3 px-6 whitespace-nowrap">
 										{ar ? "السعر" : "Price"}
 									</th>
@@ -158,14 +156,7 @@ const Compare = () => {
 												}
 												)}
 											</td>
-											<td className="py-4 px-6 product-amount">
-												{product.options.map(op => {
-													return (
-														<p key={op.id}>{op.quantity}</p>
-													)
-												}
-												)}
-											</td>
+											
 											<td className="py-4 px-6 product-total-price">
 												{product.options.map(op => {
 													return (

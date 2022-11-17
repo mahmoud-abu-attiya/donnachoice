@@ -173,7 +173,7 @@ const Footer = () => {
          <div className=" bg-primary-100 text-gray-100 p-4 sm:p-6">
             <div className="container sm:flex sm:items-center sm:justify-between">
                <span className="text-sm sm:text-center capitalize inline-block">
-                  {ar ? "تطوير وتنفيز" : "developed by"}{" "}
+                  {ar ? "تطوير وتنفيذ" : "developed by"}{" "}
                   <a
                      href="https://orizon.qa"
                      className="font-bold hover:underline hover:text-black"
@@ -182,7 +182,7 @@ const Footer = () => {
                   </a>
                </span>
                <span className="text-sm sm:text-center capitalize inline-block">
-                  {ar ? "© 2022 جميع الحقوق محفوظة" : "© 2022 All Copy right reserved to"} <strong>{ar ? "دوناتشويس" : "DONNA CHOICE"}</strong>
+                  {ar ? "© 2022 جميع الحقوق محفوظة" : "© 2022 All Copy right reserved to"} <strong>DONNA CHOICE</strong>
                </span>
                <div className="flex mt-4 gap-6 sm:justify-center sm:mt-0">
                   <a href="https://www.facebook.com/donnachoice.qa" className="hover:text-gray-900">

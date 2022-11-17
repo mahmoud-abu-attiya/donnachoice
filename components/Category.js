@@ -38,7 +38,7 @@ const Category = (props) => {
 
          {props.products &&
             <div>
-               <div className="head flex justify-between items-center">
+               <div dir={ar ? "rtl" : "ltr"} className="head flex justify-between items-center">
                   <h4 className="text-xl md:text-2xl font-bold">{ar ? props.products.name_ar : props.products.name}</h4>
                   <Link href={props.products.url}>
                      <a
@@ -77,7 +77,7 @@ const Category = (props) => {
                                  <div className="max-w-sm h-full bg-gray-100 rounded-lg border border-gray-200 shadow-md">
                                     <div className="img-container">
                                     <img
-                                       className="square object-contain"
+                                       className="square object-cover"
                                        src={item.img ? `https://backends.donnachoice.com${item.img}` : "https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg"} alt="img" />
                                     </div>
                                     <div className="py-4">

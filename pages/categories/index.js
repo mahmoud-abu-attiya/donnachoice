@@ -21,7 +21,7 @@ export default function Categories({ categories }) {
 	return (
 		<div>
 			<Hero title={ar ? "الفئات" : "categories"} />
-			<div className="container">
+			<div className="container" >
 				<div className="grid grid-cols-1 gap-12 mb-10 md:gap-24 py-8">
 					{categories && categories.map((products, index) => {
 						return(
