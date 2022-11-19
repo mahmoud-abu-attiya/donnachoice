@@ -305,11 +305,11 @@ const ProductBox = (props) => {
       <div className="w-full flex flex-col relative border bg-gray-50 rounded-lg shadow-md">
          {props.product.options[0].discount != 0 && (
             <div className="offer">
-            <Image src={offer} alt="product offer" />
-            <div className="percing">{props.product.options[0].discount}%</div>
-         </div>
+               <Image src={offer} alt="product offer" />
+               <div className="percing">{props.product.options[0].discount}%</div>
+            </div>
          )}
-         <div className="wish z-10 absolute top-[1rem] text-red-500 text-xl right-[1rem]">
+         <div className="opacity-50 transition hover:opacity-100 z-10 absolute top-[1rem] text-red-500 text-xl right-[1rem]">
             {authState ? (
                <button
                   className="z-10"
@@ -336,7 +336,7 @@ const ProductBox = (props) => {
                </button>
             )}
          </div>
-         <div className="wish z-10 absolute top-[1rem] text-blue-500 text-xl left-[1rem]">
+         <div className="opacity-50 transition hover:opacity-100 z-10 absolute top-[3rem] text-blue-500 text-xl right-[1rem]">
             <button
                className=""
                onClick={() => handleCompare(props.product.slug)}
@@ -376,9 +376,19 @@ const ProductBox = (props) => {
             </a>
          </Link>
          <div className="space-y-4 flex flex-col justify-end grow px-2 sm:px-5 pb-2 sm:pb-5">
-            <span className="text-xl sm:text-2xl mb-4 sm:mb-0 font-bold text-gray-900">
-               {props.product.options[0]?.price}<span className="text-sm">{ar ? "ريال" : "QR"}</span>
-            </span>
+            {props.product.options[0].discount == 0 && (
+               <span className="text-xl sm:text-2xl mb-4 sm:mb-0 font-bold text-gray-900">
+                  {props.product.options[0]?.price}<span className="text-sm">{ar ? "ريال" : "QR"}</span>
+               </span>
+            )}
+            {props.product.options[0].discount != 0 && (
+               <span className="text-xl sm:text-2xl mb-4 sm:mb-0 font-bold text-gray-900">
+                  <span className="block text-sm line-through text-gray-500">
+                  {props.product.options[0]?.price}<span className="text-sm">{ar ? "ريال" : "QR"}</span>
+                  </span>
+                  {props.product.options[0]?.price_after_discount}<span className="text-sm">{ar ? "ريال" : "QR"}</span>
+               </span>
+            )}
             <div className="relative w-full sm:w-fit">
                <button
                   className="text-white w-full bg-primary-100 hover:bg-primary-200 focus:outline-none font-medium rounded-lg text-sm px-4 py-2.5 text-center"

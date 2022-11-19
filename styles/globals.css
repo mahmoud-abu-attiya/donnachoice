@@ -3,7 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
+* {
    font-family: 'Almarai', sans-serif;
    scroll-behavior: smooth;
 }
@@ -29,10 +29,12 @@
    width: calc(100% - 2rem);
    overflow: hidden;
 }
+
 .homeslider img::selection {
    color: transparent;
    background: none;
 }
+
 /* For Mozilla Firefox */
 .homeslider img::-moz-selection {
    color: transparent;
@@ -140,7 +142,8 @@
    position: relative;
    overflow: hidden;
 }
-.i_a_r_v{
+
+.i_a_r_v {
    padding-top: 56.25%;
    position: relative;
    overflow: hidden;
@@ -154,7 +157,8 @@
    width: 100%;
    height: 100%;
 }
-.i_a_r_v img{
+
+.i_a_r_v img {
    position: absolute;
    top: 50%;
    left: 50%;
@@ -220,7 +224,8 @@
    box-sizing: border-box;
    padding: 10px 0;
 }
-.p-s .mySwiper .swiper-wrapper{
+
+.p-s .mySwiper .swiper-wrapper {
    justify-content: center;
 }
 
@@ -241,68 +246,102 @@
    object-fit: contain;
 }
 
-.reviews > div:not(:last-child){
+.reviews>div:not(:last-child) {
    border-bottom: 1px solid #ccc;
    padding-bottom: 1rem;
 }
-.active_cart_part{
+
+.active_cart_part {
    @apply bg-primary-100 text-primary-300
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    /* display: none; <- Crashes Chrome on hover */
-    -webkit-appearance: none;
-    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+   /* display: none; <- Crashes Chrome on hover */
+   -webkit-appearance: none;
+   margin: 0;
+   /* <-- Apparently some margin are still there even though it's hidden */
 }
 
 input[type=number] {
-    -moz-appearance:textfield; /* Firefox */
+   -moz-appearance: textfield;
+   /* Firefox */
 }
 
-.offer{
+.offer {
    position: absolute;
-   top: -0.7rem;
-   left: 55%;
+   top: -9px;
+   left: -11px;
    z-index: 1;
-   width: 3rem;
+   width: 5rem;
 }
-.offer .percing{
+
+.offer .percing {
    position: absolute;
-   top: 7px;
-   font-size: 0.8rem;
+   top: 19px;
    font-weight: bold;
-   background-color: #de2c29;
-   left: 19px;
-   padding: 0px 2px;
+   left: 20px;
    border-radius: 0px 8px 0 0;
    color: white;
+   transform: rotate(-45deg);
 }
 
-.price {
-   /* CSS for the wrapper element */
-}
-.price[data-disabled] {
-   /* CSS for disabled range slider element */
-}
 .price .range-slider__range {
    background-color: #e496a7 !important;
 }
-.price .range-slider__range[data-active] {
-   /* CSS for active (actively being dragged) range */
-}
-.price .range-slider__thumb {
-   /* CSS for thumbs */
-}
+
 .price .range-slider__thumb[data-lower] {
    background-color: #ab5266 !important;
 }
+
 .price .range-slider__thumb[data-upper] {
    background-color: #ab5266;
 }
-.price .range-slider__thumb[data-active] {
-   /* CSS for active (actively being dragged) thumbs */
+
+/* Shine */
+.offer_label {
+   z-index: 0;
+   position: relative;
+   overflow: hidden;
 }
-.price .range-slider__thumb[data-disabled] {
-   /* CSS for disabled thumbs */
+
+.offer_label:after {
+   content: '';
+   top: 0;
+   transform: translateX(100%);
+   width: 100%;
+   height: 220px;
+   position: absolute;
+   z-index: 1;
+   animation: slide 2s infinite 2s;
+
+   /* 
+  CSS Gradient - complete browser support from http://www.colorzilla.com/gradient-editor/ 
+  */
+   background: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(128, 186, 232, 0) 99%, rgba(125, 185, 232, 0) 100%);
+   /* FF3.6+ */
+   background: -webkit-gradient(linear, left top, right top, color-stop(0%, rgba(255, 255, 255, 0)), color-stop(50%, rgba(255, 255, 255, 0.8)), color-stop(99%, rgba(128, 186, 232, 0)), color-stop(100%, rgba(125, 185, 232, 0)));
+   /* Chrome,Safari4+ */
+   background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(128, 186, 232, 0) 99%, rgba(125, 185, 232, 0) 100%);
+   /* Chrome10+,Safari5.1+ */
+   background: -o-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(128, 186, 232, 0) 99%, rgba(125, 185, 232, 0) 100%);
+   /* Opera 11.10+ */
+   background: -ms-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(128, 186, 232, 0) 99%, rgba(125, 185, 232, 0) 100%);
+   /* IE10+ */
+   background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(128, 186, 232, 0) 99%, rgba(125, 185, 232, 0) 100%);
+   /* W3C */
+   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#007db9e8', GradientType=1);
+   /* IE6-9 */
+}
+
+/* animation */
+
+@keyframes slide {
+   0% {
+      transform: translateX(-100%);
+   }
+
+   100% {
+      transform: translateX(100%);
+   }
 }
