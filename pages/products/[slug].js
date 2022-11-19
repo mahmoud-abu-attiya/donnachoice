@@ -364,7 +364,7 @@ const Product = ({ product }) => {
 									>
 										{ar ? "اضف الي العربة" : "Add to cart"}
 										<div className="done absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-green-600 rounded-lg hidden place-content-center text-xl">
-											<i class="far fa-check-circle"></i>
+											<i className="far fa-check-circle"></i>
 										</div>
 									</button>
 								</div>

@@ -278,3 +278,31 @@ input[type=number] {
    border-radius: 0px 8px 0 0;
    color: white;
 }
+
+.price {
+   /* CSS for the wrapper element */
+}
+.price[data-disabled] {
+   /* CSS for disabled range slider element */
+}
+.price .range-slider__range {
+   background-color: #e496a7 !important;
+}
+.price .range-slider__range[data-active] {
+   /* CSS for active (actively being dragged) range */
+}
+.price .range-slider__thumb {
+   /* CSS for thumbs */
+}
+.price .range-slider__thumb[data-lower] {
+   background-color: #ab5266 !important;
+}
+.price .range-slider__thumb[data-upper] {
+   background-color: #ab5266;
+}
+.price .range-slider__thumb[data-active] {
+   /* CSS for active (actively being dragged) thumbs */
+}
+.price .range-slider__thumb[data-disabled] {
+   /* CSS for disabled thumbs */
+}

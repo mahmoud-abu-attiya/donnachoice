@@ -21,13 +21,13 @@ const BlogP = () => {
             </div>
             <div className="bg-gray-50 space-y-4 p-4 rounded shadow border mt-6">
                <h4 className="text-xl mb-2">{ar ? "الفئات" : "Categories"}</h4>
-               <div role="status" class="w-[50%] animate-pulse">
+               <div role="status" className="w-[50%] animate-pulse">
                   <div className="h-2 bg-gray-200 rounded-full" />
                </div>
-               <div role="status" class="w-[60%] animate-pulse">
+               <div role="status" className="w-[60%] animate-pulse">
                   <div className="h-2 bg-gray-200 rounded-full" />
                </div>
-               <div role="status" class="w-[40%] animate-pulse">
+               <div role="status" className="w-[40%] animate-pulse">
                   <div className="h-2 bg-gray-200 rounded-full" />
                </div>
             </div>

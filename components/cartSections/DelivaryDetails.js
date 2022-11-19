@@ -69,7 +69,10 @@ const DelivaryDetails = (props) => {
       document.querySelector("#delivaryform textarea").oninput = () => setValues();
 
       handlePhoneCode()
-      // console.log(phoneCode)
+      let delivaryform = document.getElementById("delivaryform")
+      delivaryform.onsubmit = (e) => {
+         e.preventDefault()
+      }
    }, []);
    return (
       <form className="bg-gray-50 border rounded-md p-4" id="delivaryform">

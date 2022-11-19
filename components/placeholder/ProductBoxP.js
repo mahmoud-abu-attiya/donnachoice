@@ -25,7 +25,7 @@ const ProductBoxP = () => {
          </div>
          <div className="px-2 sm:px-5 sm:pb-5">
             <h5 className="text-xl mt-4 font-semibold tracking-tight text-gray-900">
-               <div role="status" class="w-[80%] animate-pulse">
+               <div role="status" className="w-[80%] animate-pulse">
                   <div className="h-3 bg-gray-300 rounded-full" />
                </div>
             </h5>
@@ -81,15 +81,15 @@ const ProductBoxP = () => {
                   <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                </svg>
                <span className="bg-blue-100 py-1 text-blue-600 text-xs font-semibold mr-2 px-2.5 rounded ml-3">
-                  <div role="status" class="max-w-sm animate-pulse">
-                     <div class="h-2 bg-blue-600 w-4 rounded-full max-w-[360px]"></div>
+                  <div role="status" className="max-w-sm animate-pulse">
+                     <div className="h-2 bg-blue-600 w-4 rounded-full max-w-[360px]"></div>
                   </div>
                </span>
             </div>
          </div>
          <div className="space-y-4 px-2 sm:px-5 pb-2 sm:pb-5">
             <span className="mb-4 sm:mb-0 font-bold text-gray-900">
-               <div role="status" class="max-w-sm animate-pulse">
+               <div role="status" className="max-w-sm animate-pulse">
                   <div className="h-2.5 bg-gray-200 max-w-[8rem] rounded-full" />
                </div>
             </span>

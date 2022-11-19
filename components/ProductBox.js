@@ -388,7 +388,6 @@ const ProductBox = (props) => {
                </button>
                {props.product.options.length > 0 ? (
                   <div
-                     onMouseLeave={() => toggleOptionsMenu()}
                      ref={optionsMenu}
                      className="absolute right-1/2 translate-x-1/2 top-full space-y-2 w-48 p-3 bg-white shadow rounded z-20 hidden"
                   >

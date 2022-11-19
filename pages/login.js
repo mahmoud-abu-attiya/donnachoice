@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux'
 import { setAmount } from "../slices/wishlistIndicatorSlice"
 import { setCartCount } from "../slices/cartIndicatorSlice"
 import { useSelector } from "react-redux";
+import swal from "sweetalert";
 
 export default function Login() {
    const ar = useSelector(state => state.langs.value)
@@ -18,10 +19,27 @@ export default function Login() {
    const [passwordError, setPasswordError] = useState([])
    const [logError, setLogError] = useState(false)
    const [forget, setForget] = useState(false);
+   const [resetEmailError, setResetEmailError] = useState()
    const dispatch = useDispatch()
    useEffect(() => {
       let loginForm = document.getElementById("login_form")
       let signupForm = document.getElementById("signup_form")
+      let forgotForm = document.getElementById("forgot_form")
+
+      const resetPass = () => {
+         const email = document.getElementById("Femail").value
+         axios.post("https://backends.donnachoice.com/api/users/password-reset/", { email: email })
+            .then(res => {
+               console.log(res.data);
+               swal("Done", "Check your email", "success",)
+               setForget(false)
+               setLog(1)
+            }).catch(err => {
+               console.log(err.response.data.email[0]);
+               setResetEmailError(err.response.data.email[0])
+            })
+         console.log(email);
+      }
 
       const handleLogin = () => {
          setLoading(true)
@@ -166,6 +184,11 @@ export default function Login() {
          loginForm.onsubmit = (e) => {
             e.preventDefault();
             handleLogin()
+         }
+      } else {
+         forgotForm.onsubmit = (e) => {
+            e.preventDefault();
+            resetPass();
          }
       }
    }, [log]);
@@ -419,7 +442,12 @@ export default function Login() {
                         <p className="text-sm text-gray-600">
                            {ar ? "سنرسل لك رمزًا في بريدك الإلكتروني للتحقق من حسابك ، ثم يمكنك إعادة تعيين كلمة المرور الخاصة بك" : "we will send you a code in your email to verify your account, then you can reset your password"}
                         </p>
-                        <form className="space-y-4 md:space-y-6" id="login_form">
+                        <form className="space-y-4 md:space-y-6" id="forgot_form">
+                           {resetEmailError && (
+                              <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">
+                                 <span class="font-medium">{resetEmailError}</span>
+                              </div>
+                           )}
                            <div>
                               <label
                                  htmlFor="Femail"
@@ -453,14 +481,14 @@ export default function Login() {
                            </button>
                            <p className="text-sm font-light text-gray-500">
                               <a
-                                 onClick={() => {setLog(1); setForget(false)}}
+                                 onClick={() => { setLog(1); setForget(false) }}
                                  className="font-medium text-blue-600 hover:underline cursor-pointer"
                               >
                                  {ar ? "تسجيل الدخول" : "Log in"}
                               </a>
                               <p className="text-gray-600 inline">{ar ? " او " : " or "}</p>
                               <a
-                                 onClick={() => {setLog(2); setForget(false)}}
+                                 onClick={() => { setLog(2); setForget(false) }}
                                  className="font-medium text-blue-600 hover:underline cursor-pointer"
                               >
                                  {ar ? "انشاء حساب" : "Sign up"}
