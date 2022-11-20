@@ -2,7 +2,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useState, useEffect } from "react";
-import CartItem from "../components/CartItem";
 import Image from "next/image";
 import img from "../public/images/empty-cart.png";
 import Link from "next/link";
@@ -14,17 +13,6 @@ import CarP from "../components/placeholder/CarP";
 import Confirm from "../components/cartSections/Confirm";
 import InnerHTML from "dangerously-set-html-content";
 import swal from "sweetalert";
-
-// export const getStaticProps = async () => {
-//    const res = await fetch('https://backends.donnachoice.com/api/products/?slug__in=product,item-2');
-//    let products = await res.json();
-
-//    return {
-//       props: {
-//          products,
-//       }
-//    }
-// }
 
 const getNumberOfProductsInCart = () => {
    const storedCart = JSON.parse(localStorage.getItem("stored-cart")) || [];
@@ -49,25 +37,16 @@ const Cart = () => {
    const [amountStor, setAmountStor] = useState([]);
    const ar = useSelector((state) => state.langs.value);
    const [products, setProducts] = useState([]);
-   // const [proCount, setproCount] = useState(0)
    const [payment, setPayment] = useState(false);
    const [loading, setLoading] = useState(true);
    const [totalAmount, setTotalAmount] = useState(0);
    const [totalPrice, setTotalPrice] = useState(0);
    const dispatch = useDispatch();
    const [cartSections, setcartSections] = useState(1);
-   const [userInfo, setUserInfo] = useState({});
    const [paymentForm, setPaymentForm] = useState("");
-   const [formloading, setformloading] = useState(false);
-   const [emailErr, setEmailErr] = useState();
-   const [phoneErr, setPhoneErr] = useState();
-   const auth = Cookies.get("auth");
+
 
    useEffect(() => {
-      // amounts.forEach(amount => {
-      //    let val = amount.value
-      //    console.log(parseInt(val) + parseInt(val));
-      // })
       const amounts = document.querySelectorAll(".product-amount-value");
       const prices = document.querySelectorAll(".product-total-price");
       setTotalAmount(0);
@@ -79,11 +58,6 @@ const Cart = () => {
                x + parseInt(prices[i].textContent) * parseInt(amounts[i].value)
          );
       }
-   }, [loading]);
-   // useEffect(() => {
-   //    console.log(cartSections);
-   // }, [cartSections, loading]);
-   useEffect(() => {
       const auth = Cookies.get("auth");
       if (auth) {
          axios
@@ -94,7 +68,6 @@ const Cart = () => {
             })
             .then((res) => {
                setProducts(res.data);
-               // setproCount(res.data.added_quantity)
                setLoading(false);
             });
       } else {
@@ -120,6 +93,8 @@ const Cart = () => {
             });
       }
    }, [loading]);
+   // useEffect(() => {
+   // }, [loading]);
 
    const nextstep = (next) => {
       setcartSections(next);
@@ -161,54 +136,17 @@ const Cart = () => {
    const setValuse = (valuse) => {
       setUserInfo(valuse);
    };
-   const delivaryDetails = () => {
-      let delivaryFormBtn = document.querySelector("#delivaryform button");
-      delivaryFormBtn.click();
-      let delivaryForm = document.getElementById("delivaryform");
-      delivaryForm.onsubmit = (e) => {
-         e.preventDefault();
-         localStorage.setItem("delivaryDetails", JSON.stringify(userInfo));
-         console.log(userInfo);
-         setformloading(true);
-         if (auth) {
-            nextstep(3);
-            setformloading(false);
-         } else {
-            axios
-               .post(
-                  "https://backends.donnachoice.com/api/users/random-password/",
-                  userInfo
-               )
-               .then((res) => {
-                  console.log(res.data);
-                  Cookies.set("token", res.data.access);
-                  Cookies.set("auth", true);
-                  localStorage.setItem("user", JSON.stringify(res.data));
-                  setformloading(false);
-                  nextstep(3);
-                  setEmailErr(false);
-                  setPhoneErr(false);
-               })
-               .catch((err) => {
-                  console.log(err.response.data);
-                  if (err.response.data.email) {
-                     setEmailErr(err.response.data.email);
-                  }
-                  if (err.response.data.phone) {
-                     setPhoneErr(err.response.data.phone);
-                  }
-                  setformloading(false);
-               });
-         }
-      };
-   };
+   // const submitDelivaryFrom = () => {
+   //    let delivaryForm = document.getElementById("delivaryform");
+   // };
+
 
    const pay = () => {
       if (payment) {
          axios
             .post(
                "https://backends.donnachoice.com/api/payment/create_online_order/",
-               userInfo,
+               JSON.parse(localStorage.getItem("delivaryDetails")),
                {
                   headers: {
                      Authorization: `Bearer ${Cookies.get("token")}`,
@@ -223,7 +161,7 @@ const Cart = () => {
          axios
             .post(
                "https://backends.donnachoice.com/api/payment/create_cash_order/",
-               userInfo,
+               JSON.parse(localStorage.getItem("delivaryDetails")),
                {
                   headers: {
                      Authorization: `Bearer ${Cookies.get("token")}`,
@@ -488,33 +426,8 @@ const Cart = () => {
                                                         required
                                                      />
                                                   </div>
-                                                  {/* <button
-                                                   onClick={() => setproCount(proCount + 1)}
-                                                   className="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200"
-                                                   type="button"
-                                                >
-                                                   <span className="sr-only">
-                                                      Quantity button
-                                                   </span>
-                                                   <svg
-                                                      className="w-4 h-4"
-                                                      aria-hidden="true"
-                                                      fill="currentColor"
-                                                      viewBox="0 0 20 20"
-                                                      xmlns="http://www.w3.org/2000/svg"
-                                                   >
-                                                      <path
-                                                         fillRule="evenodd"
-                                                         d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                                                         clipRule="evenodd"
-                                                      />
-                                                   </svg>
-                                                </button> */}
                                                </div>
                                             </td>
-                                            {/* <td className="py-4 px-6 product-total-price">
-                                             {(product.amount || product.quantity || 1) * product.price}
-                                          </td> */}
                                             <td className="py-4 px-6">
                                                <button
                                                   onClick={() =>
@@ -571,106 +484,15 @@ const Cart = () => {
                      </div>
                   </div>
                ))}
-            {cartSections == 2 && (
-               <div className="grid grid-cols-1 lg:grid-cols-8 gap-4 mb-8">
-                  <div className="col-span-8 lg:col-span-6">
-                     {emailErr && (
-                        <div
-                           className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
-                           role="alert"
-                        >
-                           <span class="font-bold">Email error!</span>{"  "}
-                           {emailErr}
-                        </div>
-                     )}
-                     {phoneErr && (
-                        <div
-                           className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
-                           role="alert"
-                        >
-                           <span class="font-bold">Phone error!</span>{"  "}
-                           {phoneErr}
-                        </div>
-                     )}
-                     <DelivaryDetails callback={setValuse} />
-                  </div>
-                  <div className="col-span-8 lg:col-span-2 flex flex-col gap-4">
-                     <div className="bg-gray-50 p-4 border rounded-md">
-                        <h4 className="text-2xl mb-4">
-                           {ar ? "ملخص" : "SUMMARY"}
-                        </h4>
-                        <div className="capitalize">
-                           {ar ? "مجموع العناصر :" : "total items: "}
-                           <span className="text-xl font-bold">
-                              {" "}
-                              {totalAmount}
-                           </span>
-                        </div>
-                        <div className="capitalize">
-                           {ar
-                              ? "السعر الإجمالي (ريال قطري)"
-                              : "total price (QR) : "}
-                           <span className="text-xl font-bold">
-                              {" "}
-                              {totalPrice}
-                           </span>
-                        </div>
-                     </div>
-                     <div className="flex gap-4">
-                        <button
-                           type="button"
-                           onClick={() => setcartSections(1)}
-                           className="bg-primary-100 text-white flex gap-2 items-center rounded-md p-4 whitespace-nowrap"
-                        >
-                           <i
-                              className={`fas ${
-                                 ar ? "fa-arrow-right" : "fa-arrow-left"
-                              }`}
-                           ></i>
-                           {ar ? "عودة" : "Back"}
-                        </button>
-                        <button
-                           type="button"
-                           // onClick={() => nextstep(3)}
-                           onClick={() => delivaryDetails()}
-                           className="w-full bg-primary-100 text-white rounded-md py-4 flex items-center gap-2 justify-center"
-                        >
-                           {formloading ? (
-                              <div role="status">
-                                 <svg
-                                    aria-hidden="true"
-                                    className="mr-2 w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
-                                    viewBox="0 0 100 101"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                 >
-                                    <path
-                                       d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                                       fill="currentColor"
-                                    />
-                                    <path
-                                       d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                                       fill="currentFill"
-                                    />
-                                 </svg>
-                                 <span className="sr-only">Loading...</span>
-                              </div>
-                           ) : (
-                              <>
-                                 {ar ? "التالي" : "Next"}{" "}
-                                 <i
-                                    className={`fas ${
-                                       ar ? "fa-arrow-left" : "fa-arrow-right"
-                                    }`}
-                                 ></i>{" "}
-                                 {ar ? "الدفع" : "Payment"}
-                              </>
-                           )}
-                        </button>
-                     </div>
-                  </div>
-               </div>
-            )}
+            {cartSections == 2 && 
+            <DelivaryDetails
+            callback={setValuse}
+            setcartSections={setcartSections} 
+            totalAmount={totalAmount}
+            totalPrice={totalPrice}
+            nextstep={nextstep}
+            />
+            }
             {cartSections == 3 && (
                <div className="grid grid-cols-1 lg:grid-cols-8 gap-4 mb-8">
                   <div className="col-span-8 lg:col-span-6">
@@ -795,7 +617,7 @@ const Cart = () => {
             )}
             {cartSections == 4 && (
                <div className="grid grid-cols-1 lg:grid-cols-8 gap-4 mb-8">
-                  <Confirm data={userInfo} />
+                  <Confirm data={JSON.parse(localStorage.getItem("delivaryDetails"))} />
                   {paymentForm && (
                      <>
                         {/* <div dangerouslySetInnerHTML={{ __html: paymentForm }}></div> */}
