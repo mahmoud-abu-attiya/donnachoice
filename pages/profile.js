@@ -25,7 +25,7 @@ export default function Profile() {
       Cookies.remove("auth");
       // Cookies.remove("")
       localStorage.removeItem("user")
-      router.push("/login");
+      location.reload()
    };
    useEffect(() => {
       if (!Cookies.get("auth")) {
