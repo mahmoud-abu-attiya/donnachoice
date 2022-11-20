@@ -12,18 +12,16 @@ import Cookies from "js-cookie";
 // }
 
 const DelivaryDetails = (props) => {
-   const [phoneCode, setPhoneCode] = useState()
-   const [country, setCountry] = useState()
-   const [fastD, setFastD] = useState(true)
+   const [phoneCode, setPhoneCode] = useState();
+   const [country, setCountry] = useState();
+   const [fastD, setFastD] = useState(true);
    const ar = useSelector((state) => state.langs.value);
    const [user, setuser] = useState(JSON.parse(localStorage.getItem("user")));
-   const [delivaryDetails, setdelivaryDetails] = useState(
-      JSON.parse(localStorage.getItem("delivaryDetails"))
-   );
+   const delivaryDetails = JSON.parse(localStorage.getItem("delivaryDetails"));
    const setValues = () => {
       let first_name = document.getElementById("first_name"),
          last_name = document.getElementById("last_name"),
-         phone = document.getElementById("Mobile"),
+         phone = document.getElementById("phone"),
          alt_phone = document.getElementById("alt_phone"),
          email = document.getElementById("email"),
          city = document.getElementById("State"),
@@ -35,7 +33,8 @@ const DelivaryDetails = (props) => {
       const USER_INFO = {
          first_name: first_name.value,
          last_name: last_name.value,
-         phone: phoneCode + phone.value,
+         country_code : phoneCode,
+         phone: phone.value,
          alt_phone: alt_phone.value,
          email: email.value,
          country: country,
@@ -53,26 +52,21 @@ const DelivaryDetails = (props) => {
       let value = e.options[e.selectedIndex].value;
       var text = e.options[e.selectedIndex].text;
       setPhoneCode(value);
-      setCountry(text)
-      // setTimeout(() => {
-         
-      // }, 1000);
-   }
+      console.log(value);
+      setCountry(text);
+   };
    useEffect(() => {
       setValues();
+      handlePhoneCode();
       let delivaryinputs = document.querySelectorAll("#delivaryform input");
       delivaryinputs.forEach((inp) => {
-         inp.oninput = () => {
+         inp.onchange = () => {
             setValues();
          };
       });
-      document.querySelector("#delivaryform textarea").oninput = () => setValues();
 
-      handlePhoneCode()
-      let delivaryform = document.getElementById("delivaryform")
-      delivaryform.onsubmit = (e) => {
-         e.preventDefault()
-      }
+      document.querySelector("#delivaryform textarea").onchange = () =>
+         setValues();
    }, []);
    return (
       <form className="bg-gray-50 border rounded-md p-4" id="delivaryform">
@@ -142,21 +136,21 @@ const DelivaryDetails = (props) => {
                   <option selected value="974">
                      {ar ? "قطر" : "Qatar"}
                   </option>
-                  <option selected value="971">
+                  <option value="971">
                      {ar ? "الإمارات العربية المتحدة" : "United Arab Emirates"}
                   </option>
-                  <option selected value="973">
+                  <option value="973">
                      {ar ? "مملكة البحرين" : "Kingdom of Bahrain"}
                   </option>
-                  <option selected value="968">
+                  <option value="968">
                      {ar ? "سلطنة عمان" : "Sultanate of Oman"}
                   </option>
-                  <option selected value="966">
-                     {ar ? "المملكة العربية السعودية" : "The Kingdom of Saudi Arabia"}
+                  <option value="966">
+                     {ar
+                        ? "المملكة العربية السعودية"
+                        : "The Kingdom of Saudi Arabia"}
                   </option>
-                  <option selected value="965">
-                     {ar ? "الكويت" : "Kuwait"}
-                  </option>
+                  <option value="965">{ar ? "الكويت" : "Kuwait"}</option>
                </select>
             </div>
             <div>
@@ -176,21 +170,30 @@ const DelivaryDetails = (props) => {
                   required
                /> */}
                <label
-                  htmlFor="Mobile"
+                  htmlFor="phone"
                   className="block mb-2 text-sm font-medium text-gray-900"
                >
                   {ar ? "التليفون المحمول*" : "Mobile*"}
                </label>
                <div className="flex">
-                  <span className={`inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border ${ar ? "border-l-0 rounded-r-md" : "border-r-0 rounded-l-md"} border-gray-300`}>
+                  <span
+                     className={`inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border ${
+                        ar
+                           ? "border-l-0 rounded-r-md"
+                           : "border-r-0 rounded-l-md"
+                     } border-gray-300`}
+                  >
                      +{phoneCode}
                   </span>
                   <input
                      defaultValue={delivaryDetails?.phone}
                      type="number"
-                     id="Mobile"
-                     className={`rounded-none ${ar ? "rounded-l-lg" : "rounded-r-lg"} bg-white border text-gray-900 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5`}
+                     id="phone"
+                     className={`rounded-none ${
+                        ar ? "rounded-l-lg" : "rounded-r-lg"
+                     } bg-white border text-gray-900 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5`}
                      placeholder="123-45-678"
+                     required
                   />
                </div>
             </div>
@@ -202,13 +205,12 @@ const DelivaryDetails = (props) => {
                   {ar ? "هاتف بديل" : "Alt Phone"}
                </label>
                <input
-                  type="tel"
+                  type="number"
                   defaultValue={delivaryDetails?.alt_phone}
                   id="alt_phone"
                   className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   placeholder="123-45-678"
                   pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
-                  required
                />
             </div>
             <div>
@@ -249,7 +251,7 @@ const DelivaryDetails = (props) => {
                   {ar ? "رقم المنطقة*" : "Zone Number*"}
                </label>
                <input
-                  type="text"
+                  type="number"
                   id="zone"
                   defaultValue={delivaryDetails?.zone_number}
                   className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -264,7 +266,7 @@ const DelivaryDetails = (props) => {
                   {ar ? "رقم المبني*" : "Building Number*"}
                </label>
                <input
-                  type="text"
+                  type="number"
                   defaultValue={delivaryDetails?.building_number}
                   id="Address"
                   className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -289,9 +291,18 @@ const DelivaryDetails = (props) => {
             />
          </div>
          <div className="my-4 flex gap-4">
-         <input type="checkbox" onChange={() => setFastD(!fastD)} defaultChecked name="fastDelivary" id="fastDelivary" />
-      <label htmlFor="fastDelivary">{ar ? "توصيل سريع +15 ريال" : "Fast Delivary +15 QR"}</label>
+            <input
+               type="checkbox"
+               onChange={() => setFastD(!fastD)}
+               defaultChecked
+               name="fastDelivary"
+               id="fastDelivary"
+            />
+            <label htmlFor="fastDelivary">
+               {ar ? "توصيل سريع +15 ريال" : "Fast Delivary +15 QR"}
+            </label>
          </div>
+         <button type="submit" className="hidden"></button>
       </form>
    );
 };

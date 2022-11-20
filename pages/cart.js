@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 import DelivaryDetails from "../components/cartSections/DelivaryDetails";
 import CarP from "../components/placeholder/CarP";
 import Confirm from "../components/cartSections/Confirm";
-import InnerHTML from 'dangerously-set-html-content'
+import InnerHTML from "dangerously-set-html-content";
 import swal from "sweetalert";
 
 // export const getStaticProps = async () => {
@@ -50,15 +50,17 @@ const Cart = () => {
    const ar = useSelector((state) => state.langs.value);
    const [products, setProducts] = useState([]);
    // const [proCount, setproCount] = useState(0)
-   const [payment, setPayment] = useState(false)
+   const [payment, setPayment] = useState(false);
    const [loading, setLoading] = useState(true);
    const [totalAmount, setTotalAmount] = useState(0);
    const [totalPrice, setTotalPrice] = useState(0);
    const dispatch = useDispatch();
    const [cartSections, setcartSections] = useState(1);
-   const [userInfo, setUserInfo] = useState({})
-   const [paymentForm, setPaymentForm] = useState("")
-   const [formloading, setformloading] = useState(false)
+   const [userInfo, setUserInfo] = useState({});
+   const [paymentForm, setPaymentForm] = useState("");
+   const [formloading, setformloading] = useState(false);
+   const [emailErr, setEmailErr] = useState();
+   const [phoneErr, setPhoneErr] = useState();
    const auth = Cookies.get("auth");
 
    useEffect(() => {
@@ -72,12 +74,15 @@ const Cart = () => {
       setTotalPrice(0);
       for (let i = 0; i < amounts.length; i++) {
          setTotalAmount((x) => x + parseInt(amounts[i].value));
-         setTotalPrice((x) => x + (parseInt(prices[i].textContent) * parseInt(amounts[i].value)));
+         setTotalPrice(
+            (x) =>
+               x + parseInt(prices[i].textContent) * parseInt(amounts[i].value)
+         );
       }
    }, [loading]);
-   useEffect(() => {
-      console.log(cartSections);
-   }, [cartSections, loading]);
+   // useEffect(() => {
+   //    console.log(cartSections);
+   // }, [cartSections, loading]);
    useEffect(() => {
       const auth = Cookies.get("auth");
       if (auth) {
@@ -93,7 +98,8 @@ const Cart = () => {
                setLoading(false);
             });
       } else {
-         const storedCart = JSON.parse(localStorage.getItem("stored-cart")) || [];
+         const storedCart =
+            JSON.parse(localStorage.getItem("stored-cart")) || [];
          setAmountStor(storedCart);
          if (storedCart.length < 1) {
             storedCart.push("---");
@@ -116,9 +122,9 @@ const Cart = () => {
    }, [loading]);
 
    const nextstep = (next) => {
-      setcartSections(next)
-      window.scrollTo(0, 0)
-   }
+      setcartSections(next);
+      window.scrollTo(0, 0);
+   };
 
    const removeProductFromCart = (itemId) => {
       setLoading(true);
@@ -153,61 +159,94 @@ const Cart = () => {
       }
    };
    const setValuse = (valuse) => {
-      setUserInfo(valuse)
-   }
+      setUserInfo(valuse);
+   };
    const delivaryDetails = () => {
-      localStorage.setItem("delivaryDetails", JSON.stringify(userInfo))
-      console.log(userInfo);
-      setformloading(true)
-      if (auth) {
-         nextstep(3)
-         setformloading(false)
-      } else {
-         axios.post("https://backends.donnachoice.com/api/users/random-password/", userInfo)
-            .then(res => {
-               console.log(res.data);
-               Cookies.set("token", res.data.access)
-               Cookies.set("auth", true)
-               localStorage.setItem("user", JSON.stringify(res.data))
-               setformloading(false)
-               nextstep(3)
-            }).catch(err => {
-               console.log(err.data);
-               setformloading(false)
-            })
-      }
-   }
+      let delivaryFormBtn = document.querySelector("#delivaryform button");
+      delivaryFormBtn.click();
+      let delivaryForm = document.getElementById("delivaryform");
+      delivaryForm.onsubmit = (e) => {
+         e.preventDefault();
+         localStorage.setItem("delivaryDetails", JSON.stringify(userInfo));
+         console.log(userInfo);
+         setformloading(true);
+         if (auth) {
+            nextstep(3);
+            setformloading(false);
+         } else {
+            axios
+               .post(
+                  "https://backends.donnachoice.com/api/users/random-password/",
+                  userInfo
+               )
+               .then((res) => {
+                  console.log(res.data);
+                  Cookies.set("token", res.data.access);
+                  Cookies.set("auth", true);
+                  localStorage.setItem("user", JSON.stringify(res.data));
+                  setformloading(false);
+                  nextstep(3);
+                  setEmailErr(false);
+                  setPhoneErr(false);
+               })
+               .catch((err) => {
+                  console.log(err.response.data);
+                  if (err.response.data.email) {
+                     setEmailErr(err.response.data.email);
+                  }
+                  if (err.response.data.phone) {
+                     setPhoneErr(err.response.data.phone);
+                  }
+                  setformloading(false);
+               });
+         }
+      };
+   };
 
    const pay = () => {
       if (payment) {
-         axios.post("https://backends.donnachoice.com/api/payment/create_online_order/", userInfo, {
-            headers: {
-               Authorization: `Bearer ${Cookies.get("token")}`,
-            }
-         })
-            .then(res => {
-               setPaymentForm(res.data.form)
-               // document.gosadad.submit();
-            })
-      } else {
-         axios.post("https://backends.donnachoice.com/api/payment/create_cash_order/", userInfo, {
-            headers: {
-               Authorization: `Bearer ${Cookies.get("token")}`,
-            },
-         })
-            .then(res => {
-               if (res.data.success) {
-                  swal("Order Done!", "lorem ipsome!", "success").then(() => location.reload())
-               } else {
-                  swal("Error!", "lorem ipsome!", "error").then(() => location.reload())
+         axios
+            .post(
+               "https://backends.donnachoice.com/api/payment/create_online_order/",
+               userInfo,
+               {
+                  headers: {
+                     Authorization: `Bearer ${Cookies.get("token")}`,
+                  },
                }
-               console.log(res.data)
-            })
+            )
+            .then((res) => {
+               setPaymentForm(res.data.form);
+               // document.gosadad.submit();
+            });
+      } else {
+         axios
+            .post(
+               "https://backends.donnachoice.com/api/payment/create_cash_order/",
+               userInfo,
+               {
+                  headers: {
+                     Authorization: `Bearer ${Cookies.get("token")}`,
+                  },
+               }
+            )
+            .then((res) => {
+               if (res.data.success) {
+                  swal("Order Done!", "lorem ipsome!", "success").then(() =>
+                     location.reload()
+                  );
+               } else {
+                  swal("Error!", "lorem ipsome!", "error").then(() =>
+                     location.reload()
+                  );
+               }
+               console.log(res.data);
+            });
       }
-   }
+   };
 
    if (loading) {
-      return <CarP />
+      return <CarP />;
    }
 
    return (
@@ -236,8 +275,9 @@ const Cart = () => {
                   <div className="flex items-center gap-2">
                      {/* <svg className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg> */}
                      <i
-                        className={`text-gray-400 mx-2 fas ${ar ? "fa-chevron-left" : "fa-chevron-right"
-                           }`}
+                        className={`text-gray-400 mx-2 fas ${
+                           ar ? "fa-chevron-left" : "fa-chevron-right"
+                        }`}
                      ></i>
                      <span className="capitalize text-sm font-medium text-gray-500">
                         {ar ? "عربة التسوق" : "Cart"}
@@ -256,9 +296,12 @@ const Cart = () => {
          ) : (
             <h2 className="text-3xl text-gray-700">
                <span>
-                  {cartSections == 1 && (ar ? "عناصر عربة التسوق" : "Cart items")}
-                  {cartSections == 2 && (ar ? "تفاصيل التسليم" : "Delivery Details")}
-                  {cartSections == 3 && (ar ? "خيارات الدفع" : "Payment Options")}
+                  {cartSections == 1 &&
+                     (ar ? "عناصر عربة التسوق" : "Cart items")}
+                  {cartSections == 2 &&
+                     (ar ? "تفاصيل التسليم" : "Delivery Details")}
+                  {cartSections == 3 &&
+                     (ar ? "خيارات الدفع" : "Payment Options")}
                   {cartSections == 4 && (ar ? "أكد الطلب" : "Confirm order")}
                </span>
             </h2>
@@ -267,34 +310,53 @@ const Cart = () => {
          <div className="mt-8">
             <div className="hidden lg:block mb-4 border-gray-200 bg-primary-300 text-primary-100  rounded-lg overflow-hidden">
                <ul className="flex flex-wrap -mb-px text-sm font-medium text-center">
-                  <li className={`grow ${cartSections == 1 && "active_cart_part"}`}>
+                  <li
+                     className={`grow ${
+                        cartSections == 1 && "active_cart_part"
+                     }`}
+                  >
                      <div
-                        className={`flex gap-4 justify-center items-center py-4 ${ar ? "border-l" : "border-r"
-                           } border-primary-100`}
+                        className={`flex gap-4 justify-center items-center py-4 ${
+                           ar ? "border-l" : "border-r"
+                        } border-primary-100`}
                      >
                         <i className="fad fa-bags-shopping text-xl"></i>
                         {ar ? "عناصر عربة التسوق" : "Cart items"}
                      </div>
                   </li>
-                  <li className={`grow ${cartSections == 2 && "active_cart_part"}`}>
+                  <li
+                     className={`grow ${
+                        cartSections == 2 && "active_cart_part"
+                     }`}
+                  >
                      <div
-                        className={`flex gap-4 justify-center items-center py-4 ${ar ? "border-l" : "border-r"
-                           } border-primary-100`}
+                        className={`flex gap-4 justify-center items-center py-4 ${
+                           ar ? "border-l" : "border-r"
+                        } border-primary-100`}
                      >
                         <i className="fad fa-truck-loading text-xl"></i>
                         {ar ? "تفاصيل التسليم" : "Delivery Details"}
                      </div>
                   </li>
-                  <li className={`grow ${cartSections == 3 && "active_cart_part"}`}>
+                  <li
+                     className={`grow ${
+                        cartSections == 3 && "active_cart_part"
+                     }`}
+                  >
                      <div
-                        className={`flex gap-4 justify-center items-center py-4 ${ar ? "border-l" : "border-r"
-                           } border-primary-100`}
+                        className={`flex gap-4 justify-center items-center py-4 ${
+                           ar ? "border-l" : "border-r"
+                        } border-primary-100`}
                      >
                         <i className="fad fa-credit-card text-xl"></i>
                         {ar ? "خيارات الدفع" : "Payment Options"}
                      </div>
                   </li>
-                  <li className={`grow ${cartSections == 4 && "active_cart_part"}`}>
+                  <li
+                     className={`grow ${
+                        cartSections == 4 && "active_cart_part"
+                     }`}
+                  >
                      <div className="flex gap-4 justify-center items-center py-4">
                         <i className="fad fa-check-square text-xl"></i>
                         {ar ? "أكد الطلب" : "Confirm order"}
@@ -322,8 +384,9 @@ const Cart = () => {
                   <div className="grid grid-cols-1 lg:grid-cols-8 gap-4 mb-8">
                      <div className="col-span-8 lg:col-span-6 overflow-x-auto relative h-fit rounded-lg border">
                         <table
-                           className={`w-full text-sm text-left text-gray-500 ${ar && "text-right"
-                              }`}
+                           className={`w-full text-sm text-left text-gray-500 ${
+                              ar && "text-right"
+                           }`}
                         >
                            <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                               <tr className="border-b">
@@ -351,33 +414,41 @@ const Cart = () => {
                               {products.length == 0
                                  ? "there is no products in cart yet."
                                  : products.map((product, index) => {
-                                    return (
-                                       <tr key={product.id} className="bg-white border-b">
-                                          <td className="p-4 w-4">{index + 1}</td>
-                                          <th className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
-                                             <img
-                                                className="h-12 aspect-square object-cover"
-                                                src={
-                                                   product.product.images.length == 0
-                                                      ? "https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg"
-                                                      : product.product.images[0].img
-                                                }
-                                                alt={product.product.name}
-                                             />
-                                             {/* {`${product.product.name} (${product.name})`} */}
-                                             {ar
-                                                ? product.product.name_ar
-                                                : product.product.name}{" "}
-                                             ({product.name})
-                                          </th>
-                                          <td className="py-4 px-6">{ar ? "ريال" : "QR"}
-                                             <span className="product-total-price">
-                                                {product.price}
-                                             </span>
-                                          </td>
-                                          <td className="py-4 px-6 product-amount">
-                                             <div className="flex items-center gap-3">
-                                                {/* <button
+                                      return (
+                                         <tr
+                                            key={product.id}
+                                            className="bg-white border-b"
+                                         >
+                                            <td className="p-4 w-4">
+                                               {index + 1}
+                                            </td>
+                                            <th className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
+                                               <img
+                                                  className="h-12 aspect-square object-cover"
+                                                  src={
+                                                     product.product.images
+                                                        .length == 0
+                                                        ? "https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg"
+                                                        : product.product
+                                                             .images[0].img
+                                                  }
+                                                  alt={product.product.name}
+                                               />
+                                               {/* {`${product.product.name} (${product.name})`} */}
+                                               {ar
+                                                  ? product.product.name_ar
+                                                  : product.product.name}{" "}
+                                               ({product.name})
+                                            </th>
+                                            <td className="py-4 px-6">
+                                               {ar ? "ريال" : "QR"}
+                                               <span className="product-total-price">
+                                                  {product.price}
+                                               </span>
+                                            </td>
+                                            <td className="py-4 px-6 product-amount">
+                                               <div className="flex items-center gap-3">
+                                                  {/* <button
                                                    onClick={() => setproCount(proCount - 1)}
                                                    className="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200"
                                                    type="button"
@@ -399,23 +470,25 @@ const Cart = () => {
                                                       />
                                                    </svg>
                                                 </button> */}
-                                                <div>
-                                                   <input
-                                                      readOnly
-                                                      defaultValue={
-                                                         product.added_quantity ||
-                                                         amountStor.find(
-                                                            (item) => (item.id = product.id)
-                                                         ).amount
-                                                      }
-                                                      type="number"
-                                                      min={1}
-                                                      id="first_product"
-                                                      className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 product-amount-value"
-                                                      required
-                                                   />
-                                                </div>
-                                                {/* <button
+                                                  <div>
+                                                     <input
+                                                        readOnly
+                                                        defaultValue={
+                                                           product.added_quantity ||
+                                                           amountStor.find(
+                                                              (item) =>
+                                                                 (item.id =
+                                                                    product.id)
+                                                           ).amount
+                                                        }
+                                                        type="number"
+                                                        min={1}
+                                                        id="first_product"
+                                                        className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 product-amount-value"
+                                                        required
+                                                     />
+                                                  </div>
+                                                  {/* <button
                                                    onClick={() => setproCount(proCount + 1)}
                                                    className="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200"
                                                    type="button"
@@ -437,37 +510,49 @@ const Cart = () => {
                                                       />
                                                    </svg>
                                                 </button> */}
-                                             </div>
-                                          </td>
-                                          {/* <td className="py-4 px-6 product-total-price">
+                                               </div>
+                                            </td>
+                                            {/* <td className="py-4 px-6 product-total-price">
                                              {(product.amount || product.quantity || 1) * product.price}
                                           </td> */}
-                                          <td className="py-4 px-6">
-                                             <button
-                                                onClick={() =>
-                                                   removeProductFromCart(product.id)
-                                                }
-                                                className="px-4 py-2 rounded text-xl text-white bg-red-700"
-                                             >
-                                                <i className="fad fa-trash-alt"></i>
-                                             </button>
-                                          </td>
-                                       </tr>
-                                    );
-                                 })}
+                                            <td className="py-4 px-6">
+                                               <button
+                                                  onClick={() =>
+                                                     removeProductFromCart(
+                                                        product.id
+                                                     )
+                                                  }
+                                                  className="px-4 py-2 rounded text-xl text-white bg-red-700"
+                                               >
+                                                  <i className="fad fa-trash-alt"></i>
+                                               </button>
+                                            </td>
+                                         </tr>
+                                      );
+                                   })}
                            </tbody>
                         </table>
                      </div>
                      <div className="col-span-8 lg:col-span-2 flex flex-col gap-4">
                         <div className="bg-gray-50 p-4 border rounded-md">
-                           <h4 className="text-2xl mb-4">{ar ? "ملخص" : "SUMMARY"}</h4>
+                           <h4 className="text-2xl mb-4">
+                              {ar ? "ملخص" : "SUMMARY"}
+                           </h4>
                            <div className="capitalize">
                               {ar ? "مجموع العناصر :" : "total items: "}
-                              <span className="text-xl font-bold"> {totalAmount}</span>
+                              <span className="text-xl font-bold">
+                                 {" "}
+                                 {totalAmount}
+                              </span>
                            </div>
                            <div className="capitalize">
-                              {ar ? "السعر الإجمالي (ريال قطري)" : "total price (QR) : "}
-                              <span className="text-xl font-bold"> {totalPrice}</span>
+                              {ar
+                                 ? "السعر الإجمالي (ريال قطري)"
+                                 : "total price (QR) : "}
+                              <span className="text-xl font-bold">
+                                 {" "}
+                                 {totalPrice}
+                              </span>
                            </div>
                         </div>
                         <button
@@ -477,7 +562,9 @@ const Cart = () => {
                         >
                            {ar ? "التالي" : "Next"}{" "}
                            <i
-                              className={`fas ${ar ? "fa-arrow-left" : "fa-arrow-right"}`}
+                              className={`fas ${
+                                 ar ? "fa-arrow-left" : "fa-arrow-right"
+                              }`}
                            ></i>{" "}
                            {ar ? "توصيل" : "Delivery"}
                         </button>
@@ -487,18 +574,46 @@ const Cart = () => {
             {cartSections == 2 && (
                <div className="grid grid-cols-1 lg:grid-cols-8 gap-4 mb-8">
                   <div className="col-span-8 lg:col-span-6">
+                     {emailErr && (
+                        <div
+                           className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
+                           role="alert"
+                        >
+                           <span class="font-bold">Email error!</span>{"  "}
+                           {emailErr}
+                        </div>
+                     )}
+                     {phoneErr && (
+                        <div
+                           className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
+                           role="alert"
+                        >
+                           <span class="font-bold">Phone error!</span>{"  "}
+                           {phoneErr}
+                        </div>
+                     )}
                      <DelivaryDetails callback={setValuse} />
                   </div>
                   <div className="col-span-8 lg:col-span-2 flex flex-col gap-4">
                      <div className="bg-gray-50 p-4 border rounded-md">
-                        <h4 className="text-2xl mb-4">{ar ? "ملخص" : "SUMMARY"}</h4>
+                        <h4 className="text-2xl mb-4">
+                           {ar ? "ملخص" : "SUMMARY"}
+                        </h4>
                         <div className="capitalize">
                            {ar ? "مجموع العناصر :" : "total items: "}
-                           <span className="text-xl font-bold"> {totalAmount}</span>
+                           <span className="text-xl font-bold">
+                              {" "}
+                              {totalAmount}
+                           </span>
                         </div>
                         <div className="capitalize">
-                           {ar ? "السعر الإجمالي (ريال قطري)" : "total price (QR) : "}
-                           <span className="text-xl font-bold"> {totalPrice}</span>
+                           {ar
+                              ? "السعر الإجمالي (ريال قطري)"
+                              : "total price (QR) : "}
+                           <span className="text-xl font-bold">
+                              {" "}
+                              {totalPrice}
+                           </span>
                         </div>
                      </div>
                      <div className="flex gap-4">
@@ -508,7 +623,9 @@ const Cart = () => {
                            className="bg-primary-100 text-white flex gap-2 items-center rounded-md p-4 whitespace-nowrap"
                         >
                            <i
-                              className={`fas ${ar ? "fa-arrow-right" : "fa-arrow-left"}`}
+                              className={`fas ${
+                                 ar ? "fa-arrow-right" : "fa-arrow-left"
+                              }`}
                            ></i>
                            {ar ? "عودة" : "Back"}
                         </button>
@@ -518,24 +635,37 @@ const Cart = () => {
                            onClick={() => delivaryDetails()}
                            className="w-full bg-primary-100 text-white rounded-md py-4 flex items-center gap-2 justify-center"
                         >
-
                            {formloading ? (
                               <div role="status">
-                                 <svg aria-hidden="true" className="mr-2 w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
-                                    <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" />
+                                 <svg
+                                    aria-hidden="true"
+                                    className="mr-2 w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                                    viewBox="0 0 100 101"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                 >
+                                    <path
+                                       d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                                       fill="currentColor"
+                                    />
+                                    <path
+                                       d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                                       fill="currentFill"
+                                    />
                                  </svg>
                                  <span className="sr-only">Loading...</span>
-                              </div>)
-                              :
-                              (<>
+                              </div>
+                           ) : (
+                              <>
                                  {ar ? "التالي" : "Next"}{" "}
                                  <i
-                                    className={`fas ${ar ? "fa-arrow-left" : "fa-arrow-right"}`}
+                                    className={`fas ${
+                                       ar ? "fa-arrow-left" : "fa-arrow-right"
+                                    }`}
                                  ></i>{" "}
                                  {ar ? "الدفع" : "Payment"}
-                              </>)
-                           }
+                              </>
+                           )}
                         </button>
                      </div>
                   </div>
@@ -546,57 +676,100 @@ const Cart = () => {
                   <div className="col-span-8 lg:col-span-6">
                      <div className="bg-gray-50 border rounded-md p-4">
                         <div className="space-y-4">
-                           <fieldset id="group1" className="grid grid-cols-2 gap-4">
-                              <label htmlFor="cach" className="flex gap-2 justify-center items-center text-2xl font-bold border rounded-md p-4 bg-white">
-                                 <input defaultChecked id="cach" type="radio" value="value1" name="group1" onChange={() => setPayment(!payment)} />
+                           <fieldset
+                              id="group1"
+                              className="grid grid-cols-2 gap-4"
+                           >
+                              <label
+                                 htmlFor="cach"
+                                 className="flex gap-2 justify-center items-center text-2xl font-bold border rounded-md p-4 bg-white"
+                              >
+                                 <input
+                                    defaultChecked
+                                    id="cach"
+                                    type="radio"
+                                    value="value1"
+                                    name="group1"
+                                    onChange={() => setPayment(!payment)}
+                                 />
                                  {ar ? "كاش" : "Cash"}
                                  {/* <label htmlFor="cach">Cach</label> */}
                               </label>
-                              <label htmlFor="online" className="flex gap-2 justify-center items-center text-2xl font-bold border rounded-md p-4 bg-white">
-                                 <input type="radio" id="online" value="value2" name="group1" onChange={() => setPayment(!payment)} />
+                              <label
+                                 htmlFor="online"
+                                 className="flex gap-2 justify-center items-center text-2xl font-bold border rounded-md p-4 bg-white"
+                              >
+                                 <input
+                                    type="radio"
+                                    id="online"
+                                    value="value2"
+                                    name="group1"
+                                    onChange={() => setPayment(!payment)}
+                                 />
                                  {ar ? "الدفع الالكتروني" : "Online Payment"}
                                  {/* <label htmlFor="online">Online Payment</label> */}
                               </label>
                            </fieldset>
                            {payment ? (
                               <div className="text-center space-y-4">
-                                 <div className={ar ? "text-right" : "text-left"}>
-                                    <p className="mb-4">{ar ? "خسائر اللازمة ومطالبة حدة بل. الآخر الحلفاء أن غزو, إجلاء وتنامت عدد مع. لقهر معركة لبلجيكا، بـ انه, ربع الأثنان المقيتة في, اقتصّت المحور حدة و. هذه ما طرفاً عالمية استسلام," : "- Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae at rem corporis sint modi sunt minus quibusdam reprehenderit fugit minima, fuga aliquid inventore architecto corrupti voluptas illum cupiditate ratione delectus."}</p>
-                                    <p className="mb-4">{ar ? "خسائر اللازمة ومطالبة حدة بل. الآخر الحلفاء أن غزو, إجلاء وتنامت عدد مع. لقهر معركة لبلجيكا، بـ انه, ربع الأثنان المقيتة في, اقتصّت المحور حدة و. هذه ما طرفاً عالمية استسلام," : "- Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae at rem corporis sint modi sunt minus quibusdam reprehenderit fugit minima, fuga aliquid inventore architecto corrupti voluptas illum cupiditate ratione delectus."}</p>
+                                 <div
+                                    className={ar ? "text-right" : "text-left"}
+                                 >
+                                    <p className="mb-4">
+                                       {ar
+                                          ? "خسائر اللازمة ومطالبة حدة بل. الآخر الحلفاء أن غزو, إجلاء وتنامت عدد مع. لقهر معركة لبلجيكا، بـ انه, ربع الأثنان المقيتة في, اقتصّت المحور حدة و. هذه ما طرفاً عالمية استسلام,"
+                                          : "- Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae at rem corporis sint modi sunt minus quibusdam reprehenderit fugit minima, fuga aliquid inventore architecto corrupti voluptas illum cupiditate ratione delectus."}
+                                    </p>
+                                    <p className="mb-4">
+                                       {ar
+                                          ? "خسائر اللازمة ومطالبة حدة بل. الآخر الحلفاء أن غزو, إجلاء وتنامت عدد مع. لقهر معركة لبلجيكا، بـ انه, ربع الأثنان المقيتة في, اقتصّت المحور حدة و. هذه ما طرفاً عالمية استسلام,"
+                                          : "- Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae at rem corporis sint modi sunt minus quibusdam reprehenderit fugit minima, fuga aliquid inventore architecto corrupti voluptas illum cupiditate ratione delectus."}
+                                    </p>
                                  </div>
                                  {/* <button className="bg-primary-100 shadow rounded-md text-primary-300 w-full p-4 max-w-sm m-auto font-bold text-xl">Pay now</button> */}
                               </div>
                            ) : (
-
                               <div>
-                                 {ar ? "خسائر اللازمة ومطالبة حدة بل. الآخر الحلفاء أن غزو, إجلاء وتنامت عدد مع. لقهر معركة لبلجيكا، بـ انه, ربع الأثنان المقيتة في, اقتصّت المحور حدة و. هذه ما طرفاً عالمية استسلام," : "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid atque deleniti excepturi officia dolore consequuntur! Vel voluptatibus tenetur deserunt ut exercitationem officiis illo quo, facere temporibus voluptate soluta iste molestiae."}
+                                 {ar
+                                    ? "خسائر اللازمة ومطالبة حدة بل. الآخر الحلفاء أن غزو, إجلاء وتنامت عدد مع. لقهر معركة لبلجيكا، بـ انه, ربع الأثنان المقيتة في, اقتصّت المحور حدة و. هذه ما طرفاً عالمية استسلام,"
+                                    : "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid atque deleniti excepturi officia dolore consequuntur! Vel voluptatibus tenetur deserunt ut exercitationem officiis illo quo, facere temporibus voluptate soluta iste molestiae."}
                               </div>
                            )}
                         </div>
                      </div>
-
                   </div>
                   <div className="col-span-8 lg:col-span-2 flex flex-col gap-4">
                      <div className="bg-gray-50 p-4 border rounded-md">
-                        <h4 className="text-2xl mb-4">{ar ? "ملخص" : "SUMMARY"}</h4>
+                        <h4 className="text-2xl mb-4">
+                           {ar ? "ملخص" : "SUMMARY"}
+                        </h4>
                         <div className="capitalize">
                            {ar ? "مجموع العناصر :" : "total items: "}
-                           <span className="text-xl font-bold"> {totalAmount}</span>
+                           <span className="text-xl font-bold">
+                              {" "}
+                              {totalAmount}
+                           </span>
                         </div>
                         <div className="capitalize">
-                           {ar ? "السعر الإجمالي (ريال قطري)" : "total price (QR) : "}
-                           <span className="text-xl font-bold"> {totalPrice}</span>
+                           {ar
+                              ? "السعر الإجمالي (ريال قطري)"
+                              : "total price (QR) : "}
+                           <span className="text-xl font-bold">
+                              {" "}
+                              {totalPrice}
+                           </span>
                         </div>
                      </div>
                      <div className="flex gap-4">
                         <button
-
                            type="button"
                            onClick={() => setcartSections(2)}
                            className="bg-primary-100 text-white flex gap-2 items-center rounded-md p-4 whitespace-nowrap"
                         >
                            <i
-                              className={`fas ${ar ? "fa-arrow-right" : "fa-arrow-left"}`}
+                              className={`fas ${
+                                 ar ? "fa-arrow-right" : "fa-arrow-left"
+                              }`}
                            ></i>
                            {ar ? "عودة" : "Back"}
                         </button>
@@ -606,11 +779,13 @@ const Cart = () => {
                            type="button"
                            onClick={() => setcartSections(4)}
                            className="w-full bg-primary-100 text-white rounded-md py-4 flex items-center gap-2 justify-center"
-                        // className={`w-full bg-primary-100 text-white rounded-md py-4 flex items-center gap-2 justify-center ${payment && "bg-gray-300 text-gray-200"}`}
+                           // className={`w-full bg-primary-100 text-white rounded-md py-4 flex items-center gap-2 justify-center ${payment && "bg-gray-300 text-gray-200"}`}
                         >
                            {ar ? "التالي" : "Next"}{" "}
                            <i
-                              className={`fas ${ar ? "fa-arrow-left" : "fa-arrow-right"}`}
+                              className={`fas ${
+                                 ar ? "fa-arrow-left" : "fa-arrow-right"
+                              }`}
                            ></i>{" "}
                            {ar ? "أكد الطلب" : "Confirm order"}
                         </button>
@@ -630,25 +805,36 @@ const Cart = () => {
                   )}
                   <div className="col-span-8 lg:col-span-2 flex flex-col gap-4">
                      <div className="bg-gray-50 p-4 border rounded-md">
-                        <h4 className="text-2xl mb-4">{ar ? "ملخص" : "SUMMARY"}</h4>
+                        <h4 className="text-2xl mb-4">
+                           {ar ? "ملخص" : "SUMMARY"}
+                        </h4>
                         <div className="capitalize">
                            {ar ? "مجموع العناصر :" : "total items: "}
-                           <span className="text-xl font-bold"> {totalAmount}</span>
+                           <span className="text-xl font-bold">
+                              {" "}
+                              {totalAmount}
+                           </span>
                         </div>
                         <div className="capitalize">
-                           {ar ? "السعر الإجمالي (ريال قطري)" : "total price (QR) : "}
-                           <span className="text-xl font-bold"> {totalPrice}</span>
+                           {ar
+                              ? "السعر الإجمالي (ريال قطري)"
+                              : "total price (QR) : "}
+                           <span className="text-xl font-bold">
+                              {" "}
+                              {totalPrice}
+                           </span>
                         </div>
                      </div>
                      <div className="flex gap-4">
                         <button
-
                            type="button"
                            onClick={() => setcartSections(3)}
                            className="bg-primary-100 text-white flex gap-2 items-center rounded-md p-4 whitespace-nowrap"
                         >
                            <i
-                              className={`fas ${ar ? "fa-arrow-right" : "fa-arrow-left"}`}
+                              className={`fas ${
+                                 ar ? "fa-arrow-right" : "fa-arrow-left"
+                              }`}
                            ></i>
                            {ar ? "عودة" : "Back"}
                         </button>
@@ -658,11 +844,13 @@ const Cart = () => {
                            type="button"
                            onClick={() => pay()}
                            className="w-full bg-primary-100 text-white rounded-md py-4 flex items-center gap-2 justify-center"
-                        // className={`w-full bg-primary-100 text-white rounded-md py-4 flex items-center gap-2 justify-center ${payment && "bg-gray-300 text-gray-200"}`}
+                           // className={`w-full bg-primary-100 text-white rounded-md py-4 flex items-center gap-2 justify-center ${payment && "bg-gray-300 text-gray-200"}`}
                         >
                            {ar ? "التالي" : "Next"}{" "}
                            <i
-                              className={`fas ${ar ? "fa-arrow-left" : "fa-arrow-right"}`}
+                              className={`fas ${
+                                 ar ? "fa-arrow-left" : "fa-arrow-right"
+                              }`}
                            ></i>{" "}
                            {ar ? "أكد الطلب" : "Confirm order"}
                         </button>
