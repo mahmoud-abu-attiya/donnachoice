@@ -45,7 +45,6 @@ const Cart = () => {
    const [cartSections, setcartSections] = useState(1);
    const [paymentForm, setPaymentForm] = useState("");
 
-
    useEffect(() => {
       const amounts = document.querySelectorAll(".product-amount-value");
       const prices = document.querySelectorAll(".product-total-price");
@@ -93,8 +92,6 @@ const Cart = () => {
             });
       }
    }, [loading]);
-   // useEffect(() => {
-   // }, [loading]);
 
    const nextstep = (next) => {
       setcartSections(next);
@@ -136,11 +133,6 @@ const Cart = () => {
    const setValuse = (valuse) => {
       setUserInfo(valuse);
    };
-   // const submitDelivaryFrom = () => {
-   //    let delivaryForm = document.getElementById("delivaryform");
-   // };
-
-
    const pay = () => {
       if (payment) {
          axios
@@ -155,7 +147,6 @@ const Cart = () => {
             )
             .then((res) => {
                setPaymentForm(res.data.form);
-               // document.gosadad.submit();
             });
       } else {
          axios
@@ -340,109 +331,85 @@ const Cart = () => {
                                  <th scope="col" className="py-3 px-6">
                                     {ar ? "العدد" : "Count"}
                                  </th>
-                                 {/* <th scope="col" className="py-3 px-6">
-                                 Total (QA)
-                              </th> */}
-                                 <th scope="col" className="py-3 px-6">
-                                    {/* Action */}
-                                 </th>
+                                 <th scope="col" className="py-3 px-6"></th>
                               </tr>
                            </thead>
                            <tbody>
                               {products.length == 0
                                  ? "there is no products in cart yet."
                                  : products.map((product, index) => {
-                                      return (
-                                         <tr
-                                            key={product.id}
-                                            className="bg-white border-b"
-                                         >
-                                            <td className="p-4 w-4">
-                                               {index + 1}
-                                            </td>
-                                            <th className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
-                                               <img
-                                                  className="h-12 aspect-square object-cover"
-                                                  src={
-                                                     product.product.images
-                                                        .length == 0
-                                                        ? "https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg"
-                                                        : product.product
-                                                             .images[0].img
-                                                  }
-                                                  alt={product.product.name}
-                                               />
-                                               {/* {`${product.product.name} (${product.name})`} */}
-                                               {ar
-                                                  ? product.product.name_ar
-                                                  : product.product.name}{" "}
-                                               ({product.name})
-                                            </th>
-                                            <td className="py-4 px-6">
-                                               {ar ? "ريال" : "QR"}
-                                               <span className="product-total-price">
-                                                  {product.price}
-                                               </span>
-                                            </td>
-                                            <td className="py-4 px-6 product-amount">
-                                               <div className="flex items-center gap-3">
-                                                  {/* <button
-                                                   onClick={() => setproCount(proCount - 1)}
-                                                   className="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200"
-                                                   type="button"
+                                       return (
+                                          <tr
+                                             key={product.id}
+                                             className="bg-white border-b"
+                                          >
+                                             <td className="p-4 w-4">
+                                                {index + 1}
+                                             </td>
+                                             <th className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
+                                                <img
+                                                   className="h-12 aspect-square object-cover"
+                                                   src={
+                                                      product.product.images
+                                                         .length == 0
+                                                         ? "https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg"
+                                                         : product.product.images[0].img
+                                                   }
+                                                   alt={product.product.name}
+                                                />
+                                                <Link
+                                                   href={`/products/${product.product.slug}`}
                                                 >
-                                                   <span className="sr-only">
-                                                      Quantity button
-                                                   </span>
-                                                   <svg
-                                                      className="w-4 h-4"
-                                                      aria-hidden="true"
-                                                      fill="currentColor"
-                                                      viewBox="0 0 20 20"
-                                                      xmlns="http://www.w3.org/2000/svg"
-                                                   >
-                                                      <path
-                                                         fillRule="evenodd"
-                                                         d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                                                         clipRule="evenodd"
+                                                   <a className="hover:underline">
+                                                      {ar
+                                                         ? product.product.name_ar
+                                                         : product.product.name}
+                                                   </a>
+                                                </Link>
+                                             </th>
+                                             <td className="py-4 px-6">
+                                                {ar ? "ريال" : "QR"}
+                                                <span className="product-total-price">
+                                                   {product.price}
+                                                </span>
+                                             </td>
+                                             <td className="py-4 px-6 product-amount">
+                                                <div className="flex items-center gap-3">
+                                                   <div>
+                                                      <input
+                                                         readOnly
+                                                         defaultValue={
+                                                            product.added_quantity ||
+                                                            amountStor.find(
+                                                               (item) =>
+                                                                  (item.id =
+                                                                     product.id)
+                                                            ).amount
+                                                         }
+                                                         type="number"
+                                                         min={1}
+                                                         id="first_product"
+                                                         className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 product-amount-value"
+                                                         required
                                                       />
-                                                   </svg>
-                                                </button> */}
-                                                  <div>
-                                                     <input
-                                                        readOnly
-                                                        defaultValue={
-                                                           product.added_quantity ||
-                                                           amountStor.find(
-                                                              (item) =>
-                                                                 (item.id =
-                                                                    product.id)
-                                                           ).amount
-                                                        }
-                                                        type="number"
-                                                        min={1}
-                                                        id="first_product"
-                                                        className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 product-amount-value"
-                                                        required
-                                                     />
-                                                  </div>
-                                               </div>
-                                            </td>
-                                            <td className="py-4 px-6">
-                                               <button
-                                                  onClick={() =>
-                                                     removeProductFromCart(
-                                                        product.id
-                                                     )
-                                                  }
-                                                  className="px-4 py-2 rounded text-xl text-white bg-red-700"
-                                               >
-                                                  <i className="fad fa-trash-alt"></i>
-                                               </button>
-                                            </td>
-                                         </tr>
-                                      );
-                                   })}
+                                                   </div>
+                                                </div>
+                                             </td>
+                                             <td className="py-4 px-6">
+                                                <button
+                                                   onClick={() =>
+                                                      removeProductFromCart(
+                                                         product.id
+                                                      )
+                                                   }
+                                                   className="px-4 py-2 rounded text-xl text-white bg-red-700"
+                                                >
+                                                   <i className="fad fa-trash-alt"></i>
+                                                </button>
+                                             </td>
+                                          </tr>
+                                       );
+                                    })}
                            </tbody>
                         </table>
                      </div>
@@ -484,15 +451,15 @@ const Cart = () => {
                      </div>
                   </div>
                ))}
-            {cartSections == 2 && 
-            <DelivaryDetails
-            callback={setValuse}
-            setcartSections={setcartSections} 
-            totalAmount={totalAmount}
-            totalPrice={totalPrice}
-            nextstep={nextstep}
-            />
-            }
+            {cartSections == 2 && (
+               <DelivaryDetails
+                  callback={setValuse}
+                  setcartSections={setcartSections}
+                  totalAmount={totalAmount}
+                  totalPrice={totalPrice}
+                  nextstep={nextstep}
+               />
+            )}
             {cartSections == 3 && (
                <div className="grid grid-cols-1 lg:grid-cols-8 gap-4 mb-8">
                   <div className="col-span-8 lg:col-span-6">
@@ -617,12 +584,12 @@ const Cart = () => {
             )}
             {cartSections == 4 && (
                <div className="grid grid-cols-1 lg:grid-cols-8 gap-4 mb-8">
-                  <Confirm data={JSON.parse(localStorage.getItem("delivaryDetails"))} />
+                  <Confirm
+                     data={JSON.parse(localStorage.getItem("delivaryDetails"))}
+                  />
                   {paymentForm && (
                      <>
-                        {/* <div dangerouslySetInnerHTML={{ __html: paymentForm }}></div> */}
                         <InnerHTML html={paymentForm} />
-                        {/* {document.gosadad.submit()} */}
                      </>
                   )}
                   <div className="col-span-8 lg:col-span-2 flex flex-col gap-4">
@@ -661,12 +628,9 @@ const Cart = () => {
                            {ar ? "عودة" : "Back"}
                         </button>
                         <button
-                           // title={payment ? "disabled" : ""}
-                           // disabled={payment}
                            type="button"
                            onClick={() => pay()}
                            className="w-full bg-primary-100 text-white rounded-md py-4 flex items-center gap-2 justify-center"
-                           // className={`w-full bg-primary-100 text-white rounded-md py-4 flex items-center gap-2 justify-center ${payment && "bg-gray-300 text-gray-200"}`}
                         >
                            {ar ? "التالي" : "Next"}{" "}
                            <i
