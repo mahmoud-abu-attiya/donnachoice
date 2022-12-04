@@ -17,6 +17,12 @@ const Nav = () => {
    useEffect(() => {
       const payment = window.location.search.split("=")[1];
       console.log(payment);
+		if (payment === "True") {
+			setPaymentState(true);
+			localStorage.setItem("stored-cart", []);
+		} else {
+			setPaymentState(false);
+		}
       payment === "True" ? setPaymentState(true) : setPaymentState(false);
       const closenav = () => {
          setToggle(false);
