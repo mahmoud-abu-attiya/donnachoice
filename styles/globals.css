@@ -298,6 +298,17 @@ input[type=number] {
    background-color: #ab5266;
 }
 
+.succsseAlert{
+   position: absolute;
+   width: 90%;
+   z-index: 10;
+   top: 2rem;
+   left: 50%;
+   transform: translate(-50%);
+   display: flex;
+   justify-content: space-between;
+}
+
 /* Shine */
 .offer_label {
    z-index: 0;
