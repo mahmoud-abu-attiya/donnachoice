@@ -10,10 +10,13 @@ import Head from 'next/head'
 import { useSelector } from 'react-redux'
 
 const Nav = () => {
+  const [paymentState , setPaymentState] = useState(false)
   const lang = useSelector(state => state.langs.value)
   const router = useRouter();
   const [toggle, setToggle] = useState(false)
   useEffect(() => {
+    const payment = window.location.search  
+    console.log(payment);
     const closenav = () => {
       setToggle(false)
     }

@@ -146,6 +146,7 @@ const Cart = () => {
                }
             )
             .then((res) => {
+               console.log(res.data);
                setPaymentForm(res.data.form);
             });
       } else {

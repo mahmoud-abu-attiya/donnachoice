@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
@@ -15,6 +15,7 @@ const DelivaryDetails = (props) => {
    const [emailErr, setEmailErr] = useState();
    const [phoneErr, setPhoneErr] = useState();
    const auth = Cookies.get("auth");
+   const dispatch = useDispatch();
 
    const handlePhoneCode = () => {
       let e = document.querySelector("select");
@@ -26,17 +27,15 @@ const DelivaryDetails = (props) => {
    };
 
    const fast = () => {
-      let fastDelivary = document.getElementById("fastDelivary")
+      let fastDelivary = document.getElementById("fastDelivary");
       console.log(fastDelivary.checked);
-   }
+   };
 
    useEffect(() => {
       let e = document.querySelector("select");
       let phoneCode = e.options[e.selectedIndex].value;
       let country = e.options[e.selectedIndex].text;
       setPhoneCode(e.options[e.selectedIndex].value);
-
-      
 
       // setPhoneCode(e.options[e.selectedIndex].value);
       // setCountry(e.options[e.selectedIndex].text);
@@ -94,6 +93,74 @@ const DelivaryDetails = (props) => {
                   props.nextstep(3);
                   setEmailErr(false);
                   setPhoneErr(false);
+                  // //////////////////////////////////////////////d
+                  // Cookies.set("token", res.data.access);
+                  // localStorage.setItem("user", JSON.stringify(res.data));
+                  // Cookies.set("auth", true);
+                  const storedCart =
+                     JSON.parse(localStorage.getItem("stored-cart")) || [];
+                  const modifiedStoredCart = [];
+                  for (let i = 0; i < storedCart.length; i++) {
+                     modifiedStoredCart.push({
+                        option: storedCart[i].id,
+                        quantity: storedCart[i].amount,
+                     });
+                  }
+                  const storedWishlist =
+                     JSON.parse(localStorage.getItem("stored-wishlist")) || [];
+                  axios
+                     .post(
+                        `https://backends.donnachoice.com/api/products/cart/`,
+                        modifiedStoredCart,
+                        {
+                           headers: {
+                              Authorization: `Bearer ${Cookies.get("token")}`,
+                           },
+                        }
+                     )
+                     .then((res) => {
+                        axios
+                           .post(
+                              `https://backends.donnachoice.com/api/products/update_wishlist/`,
+                              {
+                                 products: storedWishlist,
+                              },
+                              {
+                                 headers: {
+                                    Authorization: `Bearer ${Cookies.get(
+                                       "token"
+                                    )}`,
+                                 },
+                              }
+                           )
+                           .then((res) => {
+                              axios
+                                 .get(
+                                    `https://backends.donnachoice.com/api/counts`,
+                                    {
+                                       headers: {
+                                          Authorization: `Bearer ${Cookies.get(
+                                             "token"
+                                          )}`,
+                                       },
+                                    }
+                                 )
+                                 .then((res) => {
+                                    dispatch(setAmount(res.data.wishlist));
+                                    dispatch(setCartCount(res.data.cart));
+                                    localStorage.setItem(
+                                       "stored-cart",
+                                       JSON.stringify([])
+                                    );
+                                    localStorage.setItem(
+                                       "stored-wishlist",
+                                       JSON.stringify([])
+                                    );
+                                    location.reload();
+                                 });
+                           });
+                     });
+                  // //////////////////////////////////////////////d
                })
                .catch((err) => {
                   console.log(err.response.data);
@@ -178,7 +245,9 @@ const DelivaryDetails = (props) => {
                            type="email"
                            defaultValue={delivaryDetails?.email}
                            id="email"
-                           className={`bg-white border ${emailErr ? "border-red-500" : "border-gray-300"} text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
+                           className={`bg-white border ${
+                              emailErr ? "border-red-500" : "border-gray-300"
+                           } text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
                            placeholder="name@info.com"
                            onChange={() => setEmailErr(false)}
                            required
@@ -245,7 +314,9 @@ const DelivaryDetails = (props) => {
                               id="phone"
                               className={`rounded-none ${
                                  ar ? "rounded-l-lg" : "rounded-r-lg"
-                              } bg-white border text-gray-900 block flex-1 min-w-0 w-full text-sm ${phoneErr ? "border-red-500" : "border-gray-300"} p-2.5`}
+                              } bg-white border text-gray-900 block flex-1 min-w-0 w-full text-sm ${
+                                 phoneErr ? "border-red-500" : "border-gray-300"
+                              } p-2.5`}
                               placeholder="123-45-678"
                               onChange={() => setPhoneErr(false)}
                               required
