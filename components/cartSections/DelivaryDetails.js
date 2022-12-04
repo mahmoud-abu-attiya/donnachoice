@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { setAmount } from "../../slices/wishlistIndicatorSlice";
+import { setCartCount } from "../../slices/cartIndicatorSlice";
 
 const DelivaryDetails = (props) => {
    const [phoneCode, setPhoneCode] = useState();
