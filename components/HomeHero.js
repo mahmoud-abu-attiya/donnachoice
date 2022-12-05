@@ -26,6 +26,7 @@ export default function App() {
             pagination={{
                clickable: true,
             }}
+            loop={true}
             navigation={true}
             modules={[Autoplay, Pagination, Navigation]}
             className="mySwiper homehero"
