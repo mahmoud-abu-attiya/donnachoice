@@ -21,7 +21,7 @@ const Footer = () => {
                         </h6>
                         <p className="font-light text-gray-600 text-sm">
 
-                           {ar ? "لوريم ايبسوم دولار سيت أميت ,كونسيكتيتور أدايبا يسكينج أليايت,سيت" : "Lorem ipsum, dolor sit amet consectetur"}
+                           {ar ? "اعتمد علينا للحصول على أعلى جودة" : "Count on us for the highest Quality"}
                         </p>
                      </div>
                   </div>
@@ -36,7 +36,7 @@ const Footer = () => {
                         </h6>
                         <p className="font-light text-gray-600 text-sm">
 
-                           {ar ? "لوريم ايبسوم دولار سيت أميت ,كونسيكتيتور أدايبا يسكينج أليايت,سيت" : "Lorem ipsum, dolor sit amet consectetur"}
+                           {ar ? "نحن نثق في دونا" : "In Donna, we trust "}
                         </p>
                      </div>
                   </div>
@@ -51,7 +51,7 @@ const Footer = () => {
                         </h6>
                         <p className="font-light text-gray-600 text-sm">
 
-                           {ar ? "لوريم ايبسوم دولار سيت أميت ,كونسيكتيتور أدايبا يسكينج أليايت,سيت" : "Lorem ipsum, dolor sit amet consectetur"}
+                           {ar ? "دائما سعيد للمساعدة" : "Always glad to help"}
                         </p>
                      </div>
                   </div>
@@ -69,14 +69,9 @@ const Footer = () => {
                </a>
                <p className="max-w-sm">
                   {ar ? `
-                  لوريم ايبسوم دولار سيت أميت ,كونسيكتيتور أدايبا يسكينج أليايت,سيت دو أيوسمود تيمبور
-                  أنكايديديونتيوت لابوري ات دولار ماجنا أليكيوا . يوت انيم أد مينيم فينايم,كيواس نوستريد
-                  أكسير سيتاشن يللأمكو لابورأس نيسي يت أليكيوب أكس أيا كوممودو كونسيكيوات . ديواس
-                  أيوتي أريري دولار إن ريبريهينديرأيت فوليوبتاتي 
+                  مع دونا ، نقدم الرعاية القصوى والأناقة لجميع احتياجاتك.
                   ` : `
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-                  tenetur iure amet a. Consequatur, eos optio deleniti atque delectus
-                  facilis in ut accusantium nulla! Ullam minima possimus rem ex quae.
+                  With Donna, we provide the ultimate care and style for all your needs.
                   `}
                </p>
             </div>
