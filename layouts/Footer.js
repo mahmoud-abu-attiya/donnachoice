@@ -71,7 +71,7 @@ const Footer = () => {
                   {ar ? `
                   مع دونا ، نقدم الرعاية القصوى والأناقة لجميع احتياجاتك.
                   ` : `
-                  With Donna, we provide the ultimate care and style for all your needs.
+                  With Donna, we provide the ultimate care and style.
                   `}
                </p>
             </div>
@@ -147,17 +147,17 @@ const Footer = () => {
                   </ul>
                </div>
                <div>
-                  <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase">
+                  <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase disable">
                      {ar ? "قانوني" : "Legal"}
                   </h2>
                   <ul className="text-gray-600">
                      <li className="mb-4">
-                        <a href="#" className="hover:underline">
+                        <a href="#" className="hover:underline disable">
                            {ar ? "سياسة الخصوصية" : "Privacy Policy"}
                         </a>
                      </li>
                      <li>
-                        <a href="#" className="hover:underline">
+                        <a href="#" className="hover:underline disable">
                            {ar ? "الشورط والاحكام" : "Terms & Conditions"}
                         </a>
                      </li>
@@ -191,9 +191,6 @@ const Footer = () => {
                   </a>
                   <a href="https://www.tiktok.com/@donnachoice.qa" className="hover:text-gray-900">
                      <i className="fab fa-tiktok"></i>
-                  </a>
-                  <a href="https://wa.me/97433189999" className="hover:text-gray-900">
-                     <i className="fab fa-whatsapp"></i>
                   </a>
                </div>
             </div>

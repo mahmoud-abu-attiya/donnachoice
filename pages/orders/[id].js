@@ -123,7 +123,7 @@ export default function Order() {
                                  </div>
                               </th>
                            )}
-                           <td className="p-4 w-32">
+                           <td className="p-4 h-12">
                               <img
                                  src={
                                     item.option.product.images != 0

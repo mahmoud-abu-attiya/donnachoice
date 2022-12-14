@@ -8,6 +8,11 @@
    scroll-behavior: smooth;
 }
 
+.disable{
+   pointer-events: none;
+   color: rgb(180, 180, 180);
+}
+
 #loading {
    position: fixed;
    width: 100vw;
@@ -355,4 +360,7 @@ input[type=number] {
    100% {
       transform: translateX(100%);
    }
+}
+.img-offer{
+   padding: 0 10px;
 }

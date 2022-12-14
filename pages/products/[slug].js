@@ -305,7 +305,7 @@ const Product = ({ product }) => {
 					<hr className="my-8 h-px bg-gray-200 border-0" />
 					<div className="product grid grid-cols-1 md:grid-cols-2 gap-8">
 						<div className="p-s">
-							<ProductSwiper images={product.images} />
+							<ProductSwiper images={product.images} offer={product.options[0].discount} />
 						</div>
 						{/* ///////////////////////////////////////////////// */}
 						<div>
@@ -408,21 +408,15 @@ const Product = ({ product }) => {
 								</div>
 								{product.options[0].discount == 0 ? (
 									<div className="text-xl text-gray-700 mt-8">
-										{ar ? "ريال" : "QR"} {product.options[0].price}
+										{product.options[0].price} {ar ? "ريال" : "QR"} 
 									</div>
 								) : (
 									<div className="text-xl text-gray-700 flex gap-2 mb-2 mt-8">
-										<div className="text offer_label flex items-center justify-center border border-red-700 flex-col text-base bg-red-600 text-white rounded-md px-4">
-											<p>
-												{product.options[0].discount}%
-											</p>
-											<p>
-												Offer
-											</p>
-										</div>
 										<div>
-											<span className="block text-sm line-through text-gray-500">{ar ? "ريال" : "QR"} {product.options[0].price}</span>
-											{ar ? "ريال" : "QR"} {product.options[0].price_after_discount}
+											<span className="block text-sm line-through text-gray-500">
+												{product.options[0].price} {ar ? "ريال" : "QR"}
+												</span>
+											{product.options[0].price_after_discount} {ar ? "ريال" : "QR"}
 										</div>
 									</div>
 								)}

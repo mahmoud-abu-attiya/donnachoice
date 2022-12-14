@@ -8,7 +8,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/thumbs";
-
+import offer from "../public/images/offer.png";
+import Image from "next/image";
 
 // import required modules
 import { FreeMode, Thumbs } from "swiper";
@@ -18,7 +19,7 @@ export default function ProductSwiper(props) {
    const [thumbsSwiper, setThumbsSwiper] = useState(null);
    useEffect(() => {
       console.log(props.images);
-   }, [])
+   }, []);
    return (
       <div dir="ltr">
          <Swiper
@@ -29,15 +30,44 @@ export default function ProductSwiper(props) {
             className="mySwiper2"
             loop={true}
          >
-            {props.images.length != 0 ? props.images.map(img => {
-               return (
-                  <SwiperSlide key={img.id}>
-                     <img src={img.img} />
-                  </SwiperSlide>
-               )
-            }) : (
+            {props.images.length != 0 ? (
+               props.images.map((img) => {
+                  return (
+                     <SwiperSlide key={img.id}>
+                        <div className="img-offer">
+                           <div className="relative">
+                              {props.offer > 0 ? (
+                                 <div className="offer">
+                                    <Image src={offer} alt="" />
+                                    <div className="percing">{props.offer}%</div>
+                                 </div>
+                              ) : (
+                                 ""
+                              )}
+                              <img src={img.img} className="img-offer" />
+                           </div>
+                        </div>
+                     </SwiperSlide>
+                  );
+               })
+            ) : (
                <SwiperSlide>
-                  <img src="https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg" alt="" />
+                  <div className="img-offer">
+                     <div className="relative">
+                        {props.offer > 0 ? (
+                           <div className="offer">
+                              <Image src={offer} alt="" />
+                              <div className="percing">{props.offer}%</div>
+                           </div>
+                        ) : (
+                           ""
+                        )}
+                        <img
+                           src="https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg"
+                           alt=""
+                        />
+                     </div>
+                  </div>
                </SwiperSlide>
             )}
          </Swiper>
@@ -51,14 +81,13 @@ export default function ProductSwiper(props) {
                modules={[FreeMode, Thumbs]}
                className="mySwiper"
             >
-               {props.images.map(img => {
+               {props.images.map((img) => {
                   return (
                      <SwiperSlide key={img.id}>
                         <img src={img.img} />
                      </SwiperSlide>
-                  )
-               }
-               )}
+                  );
+               })}
             </Swiper>
          )}
       </div>

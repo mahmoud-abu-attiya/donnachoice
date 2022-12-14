@@ -4,6 +4,7 @@ import Navbar from './Navbar'
 import Loading from './Loading'
 import { useSelector } from 'react-redux'
 import { useEffect } from 'react'
+import Whatsapp from './Whatsapp'
 
 const Layout = ({ children }) => {
    const ar = useSelector(state => state.langs.value)
@@ -21,6 +22,7 @@ const Layout = ({ children }) => {
    return (
       <>
          {/* <Loading /> */}
+         <Whatsapp />
          <Navbar />
          {children}
          <Footer />

@@ -12,16 +12,6 @@ import { setAmount } from "../slices/wishlistIndicatorSlice";
 import { useDispatch } from "react-redux";
 import ProductWishlistRow from "../components/ProductWishlistRow"
 import TableP from '../components/placeholder/TableP';
-// export const getStaticProps = async () => {
-//    const res = await fetch('https://backends.donnachoice.com/api/products/?slug__in=product,item-2');
-//    let products = await res.json();
-
-//    return {
-//       props: {
-//          products,
-//       }
-//    }
-// }
 
 const WishList = () => {
    const ar = useSelector((state) => state.langs.value);
@@ -107,10 +97,10 @@ const WishList = () => {
                                  {ar ? "المنتج" : "Product"}
                               </th>
                               <th scope="col" className="py-3 px-6">
-                                 {ar ? "المخزون" : "Stock"}
+                                 {ar ? "الماركة" : "Brand"}
                               </th>
                               <th scope="col" className="py-3 px-6">
-                                 {ar ? "السعر" : "Price"}
+                                 {ar ? "المخزون" : "Stock"}
                               </th>
                               <th scope="col" className="py-3 px-6">
                                  {/* {ar ? "" : "Action"} */}

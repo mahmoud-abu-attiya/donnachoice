@@ -15,9 +15,9 @@ export const getStaticProps = async () => {
 
 export default function Categories({ categories }) {
 	const ar = useSelector(state => state.langs.value)
-	// useEffect(()=>{
-	// 	console.log(categories);
-	// },[categories])
+	useEffect(()=>{
+		console.log(categories);
+	},[categories])
 	return (
 		<div>
 			<Hero title={ar ? "الفئات" : "categories"} />

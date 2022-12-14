@@ -120,19 +120,3 @@ export default function Index() {
       </div>
    );
 }
-// export const getStaticProps = async () => {
-//    const blogsres = await fetch("https://backends.donnachoice.com/api/blog/");
-//    let blogs = await blogsres.json();
-
-//    const categoryres = await fetch(
-//       "https://backends.donnachoice.com/api/blog_category/"
-//    );
-
-//    let category_blogs = await categoryres.json();
-//    return {
-//       props: {
-//          blogs,
-//          category_blogs,
-//       },
-//    };
-// };

@@ -233,6 +233,31 @@ export default function Products({ brands, categorys }) {
                         </div>
                      </div>
                      <div>
+                        <h5 className="mb-2">{ar ? "الفئات" : "Categories"}</h5>
+                        <select
+                           id="countries"
+                           name="category__slug"
+                           className="bg-gray-50 outline-none border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-200 focus:border-primary-200 block w-full p-2.5"
+                        >
+                           <option value={""}>{ar ? "الكل" : "All"}</option>
+                           {categorys.map((cat) => {
+                              return (
+                                 <option
+                                    selected={
+                                       searchQuery.includes(`category__slug=${cat.slug}`)
+                                          ? true
+                                          : false
+                                    }
+                                    value={cat.slug}
+                                    key={cat.id}
+                                 >
+                                    {ar ? cat.name_ar : cat.name}
+                                 </option>
+                              );
+                           })}
+                        </select>
+                     </div>
+                     <div>
                         <h5 className="mb-2">{ar ? "ماركة" : "Brand"}</h5>
                         <select
                            id="countries"
@@ -260,31 +285,7 @@ export default function Products({ brands, categorys }) {
                            })}
                         </select>
                      </div>
-                     <div>
-                        <h5 className="mb-2">{ar ? "الفئات" : "Categories"}</h5>
-                        <select
-                           id="countries"
-                           name="category__slug"
-                           className="bg-gray-50 outline-none border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-200 focus:border-primary-200 block w-full p-2.5"
-                        >
-                           <option value={""}>{ar ? "الكل" : "All"}</option>
-                           {categorys.map((cat) => {
-                              return (
-                                 <option
-                                    selected={
-                                       searchQuery.includes(`category__slug=${cat.slug}`)
-                                          ? true
-                                          : false
-                                    }
-                                    value={cat.slug}
-                                    key={cat.id}
-                                 >
-                                    {ar ? cat.name_ar : cat.name}
-                                 </option>
-                              );
-                           })}
-                        </select>
-                     </div>
+
                      <div className="py-2">
                         {/* <button type="button" id="filter_btn" className="text-white w-full bg-gradient-to-r from-primary-200 via-primary-200 to-pink-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"> */}
                         <button

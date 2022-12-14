@@ -87,9 +87,6 @@ const Subnav = () => {
                <a href="https://www.tiktok.com/@donnachoice.qa">
                   <i className="fab fa-tiktok"></i>
                </a>
-               <a href="https://wa.me/97433189999">
-                  <i className="fab fa-whatsapp"></i>
-               </a>
             </div>
             <div className="hidden md:block">
                <a href="tel:+97433189999">

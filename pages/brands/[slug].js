@@ -21,23 +21,4 @@ const Brand = ({ brand }) => {
    )
 }
 
-export default Brand
-
-// export const getStaticProps = async ({ params }) => {
-//    const { data } = await Axios.get(`https://backends.donnachoice.com/api/brand/${params.slug}`);
-//    const brand = data;
-//    return {
-//       props: {
-//          brand,
-//       },
-//    };
-// };
-
-// export const getStaticPaths = async () => {
-//    const { data } = await Axios.get("https://backends.donnachoice.com/api/brand/");
-//    const paths = data.map((brand) => ({ params: { slug: brand.slug.toString() } }));
-//    return {
-//       paths,
-//       fallback: true,
-//    };
-// };
+export default Brand;

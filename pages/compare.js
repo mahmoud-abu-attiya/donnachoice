@@ -135,7 +135,7 @@ const Compare = () => {
                            {ar ? "الفئة" : "Category"}
                         </th>
                         <th scope="col" className="py-3 px-6">
-                           {ar ? "الخيارات" : "Options"}
+                           {ar ? "المخزون" : "Stock"}
                         </th>
 
                         <th scope="col" className="py-3 px-6 whitespace-nowrap">
@@ -173,23 +173,22 @@ const Compare = () => {
                                     ? product.category.name_ar
                                     : product.category.name}
                               </th>
-                              <td className="py-4 px-6">
-                                 {product.options.map((op) => {
-                                    return <p key={op.id}>{op.name}</p>;
-                                 })}
-                              </td>
+                              <th className="py-4 px-6">
+                                 <p className="text-primary-100 bg-primary-300 rounded-full py-1 px-4 w-fit whitespace-nowrap">
+                                    {product.available
+                                       ? ar
+                                          ? "متاح"
+                                          : "in stock"
+                                       : ar
+                                       ? "غبر متاح"
+                                       : "out stock"}
+                                 </p>
+                              </th>
 
                               <td className="py-4 px-6 product-total-price">
-                                 {product.options.map((op) => {
-                                    return (
-                                       <p
-                                          className="whitespace-nowrap"
-                                          key={op.id}
-                                       >
-                                          {op.price} {ar ? "ريال" : "QR"}
-                                       </p>
-                                    );
-                                 })}
+                                 <p className="whitespace-nowrap">
+                                    {product.options[0].price} {ar ? "ريال" : "QR"}
+                                 </p>
                               </td>
                               <td className="py-4 px-6 flex flex-col gap-2 items-center justify-center">
                                  <button
