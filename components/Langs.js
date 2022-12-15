@@ -16,7 +16,7 @@ const Langs = () => {
    useEffect(()=>{
       const currentLang = localStorage.getItem("lang") == "true" ? true : false
       dispatch(handelLangs(currentLang))
-      console.log(currentLang)
+      // console.log(currentLang)
    }, [])
    
    const setLang = () => {

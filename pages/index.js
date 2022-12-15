@@ -3,6 +3,7 @@ import Hero from "../components/HomeHero"
 import Section from "../components/Sections"
 import { useState, useEffect } from "react";
 import HomeP from "../components/placeholder/HomeP";
+import HomeHero from "../components/HomeHero";
 
 export default function Home() {
   const [sections , setSections] = useState([])
@@ -20,7 +21,8 @@ export default function Home() {
   }
   return (
     <div>
-      <Hero />
+      {/* <Hero /> */}
+      <HomeHero />
       <div className="container">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-10 py-8">
           {sections?.map((section) => {

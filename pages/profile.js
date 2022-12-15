@@ -132,7 +132,7 @@ export default function Profile() {
                            <span className="flex-1 whitespace-nowrap">
                               {ar ? "الرغبات" : "Wish list"}
                            </span>
-                           <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-primary-100 bg-primary-300 rounded-full">
+                           <span className="inline-flex justify-center items-center p-3 md:ml-3 w-3 h-3 text-sm font-medium text-primary-100 bg-primary-300 rounded-full">
                               {wishlistIndicator}
                            </span>
                         </a>
@@ -147,7 +147,7 @@ export default function Profile() {
                            <span className="flex-1 whitespace-nowrap">
                               {ar ? "العربة" : "Cart"}
                            </span>
-                           <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-primary-100 bg-primary-300 rounded-full">
+                           <span className="inline-flex justify-center items-center p-3 md:ml-3 w-3 h-3 text-sm font-medium text-primary-100 bg-primary-300 rounded-full">
                               {cartIndicator}
                            </span>
                         </a>
@@ -163,7 +163,7 @@ export default function Profile() {
                            <span className="flex-1 whitespace-nowrap">
                               {ar ? "قارن" : "Compare"}
                            </span>
-                           <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-primary-100 bg-primary-300 rounded-full">
+                           <span className="inline-flex justify-center items-center p-3 md:ml-3 w-3 h-3 text-sm font-medium text-primary-100 bg-primary-300 rounded-full">
                               {compareIndicator}
                            </span>
                         </a>
@@ -187,6 +187,9 @@ export default function Profile() {
             <div className="head capitalize flex gap-4 items-center text-xl md:text-3xl">
                <i className="fad fa-user-circle text-gray-600 text-5xl"></i>
                {user.first_name + " " + user.last_name}
+               <button className="justify-self-end ml-auto bg-gray-200 text-gray-700 rounded-full w-10 h-10 text-sm border border-gray-300 shadow">
+                  <i className="fad fa-edit"></i>
+                  </button>
             </div>
             <div className="info grid grid-cols-8 bg-gray-50 rounded-md border max-w-full overflow-x-auto">
                <div className="col-span-3 md:col-span-2">

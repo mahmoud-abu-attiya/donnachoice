@@ -42,7 +42,7 @@ export default function App() {
                         className="flex justify-center items-center"
                      >
                         <img
-                           src={swiper.img}
+                           src={swiper.img_desktop}
                            className="min-h-full min-w-full object-cover"
                            alt=""
                         />

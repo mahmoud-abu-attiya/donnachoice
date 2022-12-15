@@ -16,7 +16,7 @@ const Nav = () => {
    const [toggle, setToggle] = useState(false);
    useEffect(() => {
       const payment = window.location.search.split("=")[1];
-      console.log(payment);
+      // console.log(payment);
 		if (payment === "True") {
 			setPaymentState(true);
 			localStorage.setItem("stored-cart", []);
@@ -46,7 +46,7 @@ const Nav = () => {
       </Head> */}
          {paymentState && (
             <div
-               className="succsseAlert shadow-xl p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800"
+               className="succsseAlert shadow-xl p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg"
                role="alert"
             >
                <p>

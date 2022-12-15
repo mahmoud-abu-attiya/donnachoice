@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import { setAmount } from "../../slices/wishlistIndicatorSlice";
 import { setCartCount } from "../../slices/cartIndicatorSlice";
+import Link from "next/link";
 
 const DelivaryDetails = (props) => {
    const [phoneCode, setPhoneCode] = useState();
@@ -33,7 +34,21 @@ const DelivaryDetails = (props) => {
       console.log(fastDelivary.checked);
    };
 
+   // block letters from inputs type number
+   const BLFNI = () => {
+      let inputs = document.querySelectorAll("input[type=number]");
+      const blockLetters = ["e", "E", "+", "-"];
+      inputs.forEach((input) => {
+         input.addEventListener("keydown", (e) => {
+            if (blockLetters.includes(e.key)) {
+               e.preventDefault();
+            }
+         });
+      });
+   };
+
    useEffect(() => {
+      BLFNI();
       let e = document.querySelector("select");
       let phoneCode = e.options[e.selectedIndex].value;
       let country = e.options[e.selectedIndex].text;
@@ -75,7 +90,7 @@ const DelivaryDetails = (props) => {
          };
          e.preventDefault();
          localStorage.setItem("delivaryDetails", JSON.stringify(USER_INFO));
-         console.log(USER_INFO);
+         // console.log(USER_INFO);
          setformloading(true);
          if (auth) {
             props.nextstep(3);
@@ -183,17 +198,22 @@ const DelivaryDetails = (props) => {
             <div className="col-span-8 lg:col-span-6">
                {emailErr && (
                   <div
-                     className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
+                     className="p-4 flex justify-between items-center mb-4 text-sm text-red-700 bg-red-100 rounded-lg"
                      role="alert"
                   >
-                     <span class="font-bold">Email error!</span>
-                     {"  "}
-                     {emailErr}
+                     <div>
+                        <span class="font-bold">Email error!</span>
+                        {"  "}
+                        {emailErr}
+                     </div>
+                     <Link href={"/login"}>
+                        <a className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2">Login</a>
+                     </Link>
                   </div>
                )}
                {phoneErr && (
                   <div
-                     className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
+                     className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg"
                      role="alert"
                   >
                      <span class="font-bold">Phone error!</span>
@@ -213,7 +233,7 @@ const DelivaryDetails = (props) => {
                         </label>
                         <input
                            type="text"
-                           defaultValue={delivaryDetails?.first_name}
+                           // defaultValue={delivaryDetails?.first_name}
                            id="first_name"
                            className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                            placeholder={ar ? "اسم" : "First Name..."}
@@ -229,7 +249,7 @@ const DelivaryDetails = (props) => {
                         </label>
                         <input
                            type="text"
-                           defaultValue={delivaryDetails?.last_name}
+                           // defaultValue={delivaryDetails?.last_name}
                            id="last_name"
                            className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                            placeholder={ar ? "اسم" : "Last Name..."}
@@ -245,7 +265,7 @@ const DelivaryDetails = (props) => {
                         </label>
                         <input
                            type="email"
-                           defaultValue={delivaryDetails?.email}
+                           // defaultValue={delivaryDetails?.email}
                            id="email"
                            className={`bg-white border ${
                               emailErr ? "border-red-500" : "border-gray-300"
@@ -311,8 +331,10 @@ const DelivaryDetails = (props) => {
                               +{phoneCode}
                            </span>
                            <input
-                              defaultValue={delivaryDetails?.phone}
+                              // defaultValue={delivaryDetails?.phone}
                               type="number"
+                              maxLength={8}
+                              minLength={8}
                               id="phone"
                               className={`rounded-none ${
                                  ar ? "rounded-l-lg" : "rounded-r-lg"
@@ -334,7 +356,7 @@ const DelivaryDetails = (props) => {
                         </label>
                         <input
                            type="number"
-                           defaultValue={delivaryDetails?.alt_phone}
+                           // defaultValue={delivaryDetails?.alt_phone}
                            id="alt_phone"
                            className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                            placeholder="123-45-678"
@@ -350,7 +372,7 @@ const DelivaryDetails = (props) => {
                         </label>
                         <input
                            type="text"
-                           defaultValue={delivaryDetails?.city}
+                           // defaultValue={delivaryDetails?.city}
                            id="State"
                            className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                            required
@@ -366,7 +388,7 @@ const DelivaryDetails = (props) => {
                         <input
                            type="number"
                            id="Street"
-                           defaultValue={delivaryDetails?.street_number}
+                           // defaultValue={delivaryDetails?.street_number}
                            className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                            required
                         />
@@ -381,7 +403,7 @@ const DelivaryDetails = (props) => {
                         <input
                            type="number"
                            id="zone"
-                           defaultValue={delivaryDetails?.zone_number}
+                           // defaultValue={delivaryDetails?.zone_number}
                            className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                            required
                         />
@@ -395,7 +417,7 @@ const DelivaryDetails = (props) => {
                         </label>
                         <input
                            type="number"
-                           defaultValue={delivaryDetails?.building_number}
+                           // defaultValue={delivaryDetails?.building_number}
                            id="Address"
                            className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                            placeholder
@@ -472,7 +494,7 @@ const DelivaryDetails = (props) => {
                         <div role="status">
                            <svg
                               aria-hidden="true"
-                              className="mr-2 w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                              className="mr-2 w-8 h-8 text-gray-200 animate-spin fill-blue-600"
                               viewBox="0 0 100 101"
                               fill="none"
                               xmlns="http://www.w3.org/2000/svg"

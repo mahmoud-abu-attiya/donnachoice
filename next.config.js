@@ -21,6 +21,10 @@ module.exports = {
         source: '/api/create_cash_order',
         destination: 'https://backends.donnachoice.com/api/create_cash_order'
       },
+      {
+        source: '/api/categories',
+        destination: 'https://backends.donnachoice.com/api/categories'
+      },
     ]
   },
   async redirects() {

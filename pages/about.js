@@ -7,7 +7,7 @@ export default function About() {
    const ar = useSelector((state) => state.langs.value);
    return (
       <div dir={ar ? "rtl" : "ltr"}>
-         <Hero title={ar ? "من نحن" : "about us"} not={false} />
+         <Hero title={ar ? "من نحن" : "about us"} not={true} />
          <div className="container text-center py-10">
             <h1 className="mb-8 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl">
                {ar

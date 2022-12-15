@@ -30,7 +30,6 @@ export default function Order() {
          })
          .then((res) => {
             setloading(false);
-            console.log(res.data);
             setOrder(res.data);
          });
    }, []);
@@ -123,8 +122,9 @@ export default function Order() {
                                  </div>
                               </th>
                            )}
-                           <td className="p-4 h-12">
+                           <td className="p-4">
                               <img
+                              className="h-12 object-cover mx-auto"
                                  src={
                                     item.option.product.images != 0
                                        ? item.option.product.images[0].img
@@ -134,7 +134,7 @@ export default function Order() {
                               />
                            </td>
                            <td className="py-4 px-6 font-semibold text-gray-900">
-                              {ar ? item.option.name_ar : item.option.name}
+                              {ar ? item.option.product.name_ar : item.option.product.name}
                            </td>
                            <td className="py-4 px-6">
                               <div className="flex items-center space-x-3">
@@ -142,7 +142,7 @@ export default function Order() {
                               </div>
                            </td>
                            <td className="py-4 px-6 font-semibold text-gray-900">
-                              {ar ? "ريال" : "QR"} {item?.price}
+                              {item?.price} {ar ? "ريال" : "QR"} 
                            </td>
                            <td className="py-4 px-6">
                               <button

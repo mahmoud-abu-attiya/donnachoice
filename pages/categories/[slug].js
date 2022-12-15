@@ -5,16 +5,22 @@ import BrandSection from '../../components/BrandSection';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import img from "../../public/images/no-result.png"
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 
 const Cat = ({ brands }) => {
+   const [cat, setCat] = useState()
    const ar = useSelector(state => state.langs.value)
    const router = useRouter()
    const { slug } = router.query
    useEffect(() => {
-      console.log(0);
+      axios.get("https://backends.donnachoice.com/api/category/").then(res => {
+         const cat = res.data.find(cat => cat.slug === slug)
+         setCat(cat)
+         console.log(cat);
+      })
+      console.log(brands);
    }, []);
    return (
       <div dir={ar ? "rtl" : "ltr"}>
@@ -22,7 +28,7 @@ const Cat = ({ brands }) => {
          <div className="container pt-6">
             <div className='bg-gray-700 text-primary-200 border px-5 py-3 w-fit capitalize text-2xl rounded-md flex items-center gap-4'>
                <span className="text-sm">{ar ? "الفئة" : "category"}:</span>
-               {slug}
+               {ar ? cat?.name_ar : cat?.name}
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-10 py-8">
                {brands && brands.length != 0 ?
