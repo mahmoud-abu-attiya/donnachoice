@@ -11,7 +11,7 @@ const BrandSection = ({item}) => {
    return (
       <Link href={`influencers/${item.slug}`}>
          <a className="h-full">
-            <div className="max-w-sm h-full bg-gray-100 rounded-lg border border-gray-200 shadow-md">
+            <div className="h-full bg-gray-100 rounded-lg border border-gray-200 shadow-md">
                <div className="img-container">
                   <img
                      className="square object-cover"

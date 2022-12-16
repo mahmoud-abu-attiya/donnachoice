@@ -10,7 +10,6 @@ const Influ = () => {
    const [influ, setInflu] = useState();
    const ar = useSelector((state) => state.langs.value);
    const [products, setProducts] = useState();
-   // const [inslu, setInslu] = useState();
    const router = useRouter();
    const [loading, setLoading] = useState(true);
    useEffect(() => {
@@ -42,7 +41,7 @@ const Influ = () => {
    }
    return (
       <div dir={ar ? "rtl" : "ltr"}>
-         <Hero title={ar ? influ.name_ar : influ.name} not={true} />
+         <Hero title={ar ? influ.name_ar : influ.name} not={true} img={influ.img} />
          <div className="container py-6">
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                {products &&

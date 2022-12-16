@@ -27,7 +27,7 @@ export default function Index() {
    }
    return (
       <div>
-         <Hero title={ar ? "العلامات التجارية" : "brands"} />
+         <Hero title={ar ? "المؤثرين" : "influencers"} />
          <div className="container pt-6">
             <div dir={ar ? "rtl" : "ltr"} className="relative max-w-lg mx-auto">
                <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
@@ -41,7 +41,7 @@ export default function Index() {
                   onChange={(e) => setQuery(e.target.value)}
                />
             </div>
-            <div dir={ar ? "rtl" : "ltr"} className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-10 py-8">
+            <div dir={ar ? "rtl" : "ltr"} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-10 py-8">
                {influs
                   .filter((item) => {
                      if (ar) {
