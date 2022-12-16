@@ -53,7 +53,7 @@ const Nav = () => {
 						Payment completed successfully
 					</p>
 					<button onClick={() => setPaymentState(false)}>
-						<i class="fas fa-times"></i>
+						<i className="fas fa-times"></i>
 					</button>
             </div>
          )}

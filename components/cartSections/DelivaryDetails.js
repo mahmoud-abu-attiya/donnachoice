@@ -202,7 +202,7 @@ const DelivaryDetails = (props) => {
                      role="alert"
                   >
                      <div>
-                        <span class="font-bold">Email error!</span>
+                        <span className="font-bold">Email error!</span>
                         {"  "}
                         {emailErr}
                      </div>
@@ -216,7 +216,7 @@ const DelivaryDetails = (props) => {
                      className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg"
                      role="alert"
                   >
-                     <span class="font-bold">Phone error!</span>
+                     <span className="font-bold">Phone error!</span>
                      {"  "}
                      {phoneErr}
                   </div>

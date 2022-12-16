@@ -8,24 +8,28 @@ import { useState } from "react";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import PorfileP from "../components/placeholder/PorfileP";
+import swal from "sweetalert";
 
 export default function Profile() {
    const ar = useSelector((state) => state.langs.value);
-   const [loading, setLoading] = useState(true)
+   const [loading, setLoading] = useState(true);
    const router = useRouter();
    const [user, setUser] = useState("");
-   const [orderHistory, setOrderHistory] = useState([])
+   const [orderHistory, setOrderHistory] = useState([]);
+   const [edit, setEdit] = useState(false);
    const wishlistIndicator = useSelector(
       (state) => state.wishlistIndicator.count
    );
    const cartIndicator = useSelector((state) => state.cartIndicator.count);
-   const compareIndicator = useSelector((state) => state.compareIndicator.count);
+   const compareIndicator = useSelector(
+      (state) => state.compareIndicator.count
+   );
    const handleLogout = () => {
       Cookies.remove("token");
       Cookies.remove("auth");
       // Cookies.remove("")
-      localStorage.removeItem("user")
-      location.reload()
+      localStorage.removeItem("user");
+      location.reload();
    };
    useEffect(() => {
       if (!Cookies.get("auth")) {
@@ -42,24 +46,53 @@ export default function Profile() {
                setUser(res.data);
                console.log(res.data);
                setLoading(false);
-            }).catch(err => {
-               setLoading(false)
-               console.log(err);
             })
+            .catch((err) => {
+               setLoading(false);
+               console.log(err);
+            });
 
-         axios.get("https://backends.donnachoice.com/api/order_history/", {
+         axios
+            .get("https://backends.donnachoice.com/api/order_history/", {
+               headers: {
+                  Authorization: `Bearer ${Cookies.get("token")}`,
+               },
+            })
+            .then((res) => {
+               console.log(res.data);
+               setOrderHistory(res.data);
+            });
+      }
+   }, []);
+   const editProfile = (e) => {
+      e.preventDefault();
+      const formEl = new FormData(e.target);
+      const data = Object.fromEntries(formEl);
+      console.log(data);
+      axios
+         .patch("https://backends.donnachoice.com/api/users/profile/", data, {
             headers: {
                Authorization: `Bearer ${Cookies.get("token")}`,
             },
-         }).then(res => {
-            console.log(res.data);
-            setOrderHistory(res.data);
          })
-      }
-   }, []);
+         .then((res) => {
+            console.log(res.data);
+            setUser(res.data);
+            setEdit(false);
+            Cookies.set("token", res.data.access);
+            swal({
+               title: ar ? "تم التعديل بنجاح" : "Updated Successfully",
+               icon: "success",
+               button: ar ? "موافق" : "Ok",
+            });
+         })
+         .catch((err) => {
+            console.log(err);
+         });
+   };
 
    if (loading) {
-      return <PorfileP />
+      return <PorfileP />;
    }
    return (
       <div
@@ -90,8 +123,9 @@ export default function Profile() {
                   <div className="flex items-center">
                      {/* <svg className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg> */}
                      <i
-                        className={`text-gray-400 mx-2 fas ${ar ? "fa-chevron-left" : "fa-chevron-right"
-                           }`}
+                        className={`text-gray-400 mx-2 fas ${
+                           ar ? "fa-chevron-left" : "fa-chevron-right"
+                        }`}
                      ></i>
                      <span className="text-sm font-medium text-gray-700 hover:text-gray-900">
                         {ar ? "الملف الشخصي" : "Profile"}
@@ -102,8 +136,9 @@ export default function Profile() {
                   <div className="flex items-center">
                      {/* <svg className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg> */}
                      <i
-                        className={`text-gray-400 mx-2 fas ${ar ? "fa-chevron-left" : "fa-chevron-right"
-                           }`}
+                        className={`text-gray-400 mx-2 fas ${
+                           ar ? "fa-chevron-left" : "fa-chevron-right"
+                        }`}
                      ></i>
 
                      <span className="capitalize text-sm font-medium text-gray-500">
@@ -140,9 +175,7 @@ export default function Profile() {
                   </li>
                   <li>
                      <Link href={"/cart"}>
-                        <a
-                           className="flex items-center gap-2 p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100"
-                        >
+                        <a className="flex items-center gap-2 p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100">
                            <i className="fad fa-shopping-cart text-gray-500 text-xl hidden sm:block"></i>
                            <span className="flex-1 whitespace-nowrap">
                               {ar ? "العربة" : "Cart"}
@@ -155,9 +188,7 @@ export default function Profile() {
                   </li>
                   <li>
                      <Link href={"/compare"}>
-                        <a
-                           className="flex items-center gap-2 p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100"
-                        >
+                        <a className="flex items-center gap-2 p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100">
                            {/* <i className="fad fa-random"></i> */}
                            <i className="fad fa-random text-gray-500 text-xl hidden sm:block"></i>
                            <span className="flex-1 whitespace-nowrap">
@@ -187,58 +218,166 @@ export default function Profile() {
             <div className="head capitalize flex gap-4 items-center text-xl md:text-3xl">
                <i className="fad fa-user-circle text-gray-600 text-5xl"></i>
                {user.first_name + " " + user.last_name}
-               <button className="justify-self-end ml-auto bg-gray-200 text-gray-700 rounded-full w-10 h-10 text-sm border border-gray-300 shadow">
+               <button
+                  onClick={() => setEdit(true)}
+                  className="justify-self-end ml-auto bg-gray-200 text-gray-700 rounded-full w-10 h-10 text-sm border border-gray-300 shadow"
+               >
                   <i className="fad fa-edit"></i>
-                  </button>
+               </button>
             </div>
-            <div className="info grid grid-cols-8 bg-gray-50 rounded-md border max-w-full overflow-x-auto">
-               <div className="col-span-3 md:col-span-2">
-                  <div className="py-2 px-4 border-b">
-                     {ar ? "الاسم الاول" : "First Name"}
-                  </div>
-                  <div className="py-2 px-4 border-b">
-                     {ar ? "الكنية" : "Last Name"}
-                  </div>
-                  <div className="py-2 px-4 border-b">
-                     {ar ? "البريد الإلكتروني" : "Email"}
-                  </div>
-                  {/* <div className="py-2 px-4 border-b">
+            {!edit ? (
+               <div className="info grid grid-cols-8 bg-gray-50 rounded-md border max-w-full overflow-x-auto">
+                  <div className="col-span-3 md:col-span-2">
+                     <div className="py-2 px-4 border-b">
+                        {ar ? "الاسم الاول" : "First Name"}
+                     </div>
+                     <div className="py-2 px-4 border-b">
+                        {ar ? "الكنية" : "Last Name"}
+                     </div>
+                     <div className="py-2 px-4 border-b">
+                        {ar ? "البريد الإلكتروني" : "Email"}
+                     </div>
+                     {/* <div className="py-2 px-4 border-b">
                      {ar ? "الهاتف" : "Phone"}
                   </div> */}
-                  <div className="py-2 px-4 ">
-                     {ar ? "الهاتف" : "Phone"}
+                     <div className="py-2 px-4 ">{ar ? "الهاتف" : "Phone"}</div>
                   </div>
-               </div>
-               <div className="text-gray-700 col-span-5 md:col-span-6">
-                  <div
-                     className={`py-2 px-4 capitalize ${ar ? "border-r" : "border-l"
+                  <div className="text-gray-700 col-span-5 md:col-span-6">
+                     <div
+                        className={`py-2 px-4 capitalize ${
+                           ar ? "border-r" : "border-l"
                         } border-b`}
-                  >
-                     {user.first_name}
-                  </div>
-                  <div
-                     className={`py-2 px-4 capitalize ${ar ? "border-r" : "border-l"
+                     >
+                        {user.first_name}
+                     </div>
+                     <div
+                        className={`py-2 px-4 capitalize ${
+                           ar ? "border-r" : "border-l"
                         } border-b`}
-                  >
-                     {user.last_name}
-                  </div>
-                  <div
-                     className={`py-2 px-4 ${ar ? "border-r" : "border-l"} border-b`}
-                  >
-                     {user.email}
-                  </div>
-                  {/* <div
+                     >
+                        {user.last_name}
+                     </div>
+                     <div
+                        className={`py-2 px-4 ${
+                           ar ? "border-r" : "border-l"
+                        } border-b`}
+                     >
+                        {user.email}
+                     </div>
+                     {/* <div
                      className={`py-2 px-4 ${ar ? "border-r" : "border-l"} border-b`}
                   >
                      {user.phone ? user.phone : "no phone number yet."}
                   </div> */}
-                  <div className={`py-2 px-4 ${ar ? "border-r" : "border-l"}`}>
-                     {user.phone ? user.phone : "no phone yet."}
+                     <div
+                        className={`py-2 px-4 ${ar ? "border-r" : "border-l"}`}
+                     >
+                        {user.phone ? user.phone : "no phone yet."}
+                     </div>
                   </div>
                </div>
-            </div>
+            ) : (
+               <form
+                  onSubmit={editProfile}
+                  className="info grid grid-cols-8 bg-gray-50 rounded-md border max-w-full overflow-x-auto"
+               >
+                  <div className="col-span-3 md:col-span-2">
+                     <div className="py-2 px-4 border-b">
+                        {ar ? "الاسم الاول" : "First Name"}
+                     </div>
+                     <div className="py-2 px-4 border-b">
+                        {ar ? "الكنية" : "Last Name"}
+                     </div>
+                     <div className="py-2 px-4 border-b">
+                        {ar ? "البريد الإلكتروني" : "Email"}
+                     </div>
+                     <div className="py-2 px-4 border-b ">
+                        {ar ? "الهاتف" : "Phone"}
+                     </div>
+                  </div>
+                  <div className="text-gray-700 col-span-5 md:col-span-6">
+                     <div
+                        className={`py-1 px-4 capitalize ${
+                           ar ? "border-r" : "border-l"
+                        } border-b`}
+                     >
+                        {/* {user.first_name} */}
+                        <input
+                           type="text"
+                           name="first_name"
+                           defaultValue={user.first_name}
+                           // onChange={handleChange}
+                           className="py-1 px-2 w-full bg-white rounded focus:outline-none"
+                           placeholder="First Name"
+                        />
+                     </div>
+                     <div
+                        className={`py-1 px-4 capitalize ${
+                           ar ? "border-r" : "border-l"
+                        } border-b`}
+                     >
+                        {/* {user.last_name} */}
+                        <input
+                           type="text"
+                           name="last_name"
+                           defaultValue={user.last_name}
+                           // onChange={handleChange}
+                           className="py-1 px-2 w-full bg-white rounded focus:outline-none"
+                           placeholder="Last Name"
+                        />
+                     </div>
+                     <div
+                        className={`py-1 px-4 ${
+                           ar ? "border-r" : "border-l"
+                        } border-b`}
+                     >
+                        {/* {user.email} */}
+                        <input
+                           type="text"
+                           name="email"
+                           defaultValue={user.email}
+                           // onChange={handleChange}
+                           className="py-1 px-2 w-full bg-white rounded focus:outline-none"
+                           placeholder="Email"
+                        />
+                     </div>
+                     <div
+                        className={`py-1 px-4 border-b ${
+                           ar ? "border-r" : "border-l"
+                        }`}
+                     >
+                        {/* {user.phone ? user.phone : "no phone yet."} */}
+                        <input
+                           type="tel"
+                           name="phone"
+                           defaultValue={user.phone}
+                           // onChange={handleChange}
+                           className="py-1 px-2 w-full bg-white rounded focus:outline-none"
+                           placeholder="Phone"
+                        />
+                     </div>
+                  </div>
+                  <div className="col-span-12 btns flex p-4 gap-4 justify-center items-center">
+                     <button
+                        type="submit"
+                        className="py-2 px-4 bg-primary-100 text-white rounded-md"
+                     >
+                        {ar ? "حفظ" : "Save"}
+                     </button>
+                     <button
+                        onClick={() => setEdit(false)}
+                        type="button"
+                        className="py-2 px-4 bg-gray-500 text-white rounded-md"
+                     >
+                        {ar ? "إلغاء" : "Cancel"}
+                     </button>
+                  </div>
+               </form>
+            )}
             <div className="space-y-4">
-               <h4 className="text-xl font-bold">{ar ? "تاريخ الطلب" : "Order history"}</h4>
+               <h4 className="text-xl font-bold">
+                  {ar ? "تاريخ الطلب" : "Order history"}
+               </h4>
                {/* */}
                {orderHistory.length == 0 ? (
                   <div className="bg-gray-50 rounded-md border p-8">
@@ -253,7 +392,7 @@ export default function Profile() {
                         </a>
                      </Link>
                   </div>
-               ) :
+               ) : (
                   <div className="overflow-x-auto relative shadow-md sm:rounded-lg border">
                      <table className="w-full text-sm text-left text-gray-500">
                         <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b">
@@ -274,23 +413,34 @@ export default function Profile() {
                            {orderHistory.map((order, index) => {
                               return (
                                  <tr className="bg-white border-b" key={index}>
-                                    <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
-                                       {order.items?.slice(0, 2).map(item => {
+                                    <th
+                                       scope="row"
+                                       className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap"
+                                    >
+                                       {order.items?.slice(0, 2).map((item) => {
                                           return (
                                              <>
-                                                <p key={item.id}>{ar ? item.option.product.name_ar : item.option.product.name}</p>
+                                                <p key={item.id}>
+                                                   {ar
+                                                      ? item.option.product
+                                                           .name_ar
+                                                      : item.option.product
+                                                           .name}
+                                                </p>
                                              </>
-                                          )
+                                          );
                                        })}
                                        {order.items?.length > 2 && (
-                                       <p className="font-bold underline">+{order.items.length - 2}</p>
+                                          <p className="font-bold underline">
+                                             +{order.items.length - 2}
+                                          </p>
                                        )}
                                        {/* <p>Apple MacBook Pro 17</p>
                                        <p>item</p>
                                        <p className="font-bold underline">+3</p> */}
                                     </th>
                                     <td className="py-4 px-6 whitespace-nowrap">
-                                       {order.created.slice(0,10)}
+                                       {order.created.slice(0, 10)}
                                     </td>
                                     <td className="py-4 px-6">
                                        {ar ? "ريال" : "QR"} {order.total}
@@ -308,13 +458,12 @@ export default function Profile() {
                                        {/* <a href="#" className="font-medium text-white text-sm py-1 px-2 bg-primary-100 text-center rounded">Review</a> */}
                                     </td>
                                  </tr>
-                              )
-                           })
-                           }
+                              );
+                           })}
                         </tbody>
                      </table>
                   </div>
-               }
+               )}
             </div>
          </div>
       </div>

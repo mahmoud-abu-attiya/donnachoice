@@ -5,9 +5,9 @@ const HomeP = () => {
       <>
          <div className="h-[75vh] w-[95vw] mx-auto">
             <div role="status" className="w-full animate-pulse h-full">
-               <div class="flex justify-center items-center w-full h-full bg-gray-300 rounded">
+               <div className="flex justify-center items-center w-full h-full bg-gray-300 rounded">
                   <svg
-                     class="w-12 h-12 text-gray-200"
+                     className="w-12 h-12 text-gray-200"
                      xmlns="http://www.w3.org/2000/svg"
                      aria-hidden="true"
                      fill="currentColor"
@@ -21,9 +21,9 @@ const HomeP = () => {
          <div className="container">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-10 py-8">
                <div role="status" className="w-full animate-pulse h-full">
-                  <div class="flex justify-center items-center w-full h-40 bg-gray-300 rounded">
+                  <div className="flex justify-center items-center w-full h-40 bg-gray-300 rounded">
                      <svg
-                        class="w-12 h-12 text-gray-200"
+                        className="w-12 h-12 text-gray-200"
                         xmlns="http://www.w3.org/2000/svg"
                         aria-hidden="true"
                         fill="currentColor"
@@ -34,9 +34,9 @@ const HomeP = () => {
                   </div>
                </div>
                <div role="status" className="w-full animate-pulse h-full">
-                  <div class="flex justify-center items-center w-full h-40 bg-gray-300 rounded">
+                  <div className="flex justify-center items-center w-full h-40 bg-gray-300 rounded">
                      <svg
-                        class="w-12 h-12 text-gray-200"
+                        className="w-12 h-12 text-gray-200"
                         xmlns="http://www.w3.org/2000/svg"
                         aria-hidden="true"
                         fill="currentColor"
@@ -47,9 +47,9 @@ const HomeP = () => {
                   </div>
                </div>
                <div role="status" className="w-full animate-pulse h-full">
-                  <div class="flex justify-center items-center w-full h-40 bg-gray-300 rounded">
+                  <div className="flex justify-center items-center w-full h-40 bg-gray-300 rounded">
                      <svg
-                        class="w-12 h-12 text-gray-200"
+                        className="w-12 h-12 text-gray-200"
                         xmlns="http://www.w3.org/2000/svg"
                         aria-hidden="true"
                         fill="currentColor"

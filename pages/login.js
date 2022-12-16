@@ -444,8 +444,8 @@ export default function Login() {
                         </p>
                         <form className="space-y-4 md:space-y-6" id="forgot_form">
                            {resetEmailError && (
-                              <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg" role="alert">
-                                 <span class="font-medium">{resetEmailError}</span>
+                              <div className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg" role="alert">
+                                 <span className="font-medium">{resetEmailError}</span>
                               </div>
                            )}
                            <div>
