@@ -11,7 +11,7 @@ import Link from "next/link";
 const DelivaryDetails = (props) => {
    const [phoneCode, setPhoneCode] = useState();
    const [country, setCountry] = useState();
-   const [fastD, setFastD] = useState(true);
+   const [fastD, setFastD] = useState(false);
    const ar = useSelector((state) => state.langs.value);
    const delivaryDetails = JSON.parse(localStorage.getItem("delivaryDetails"));
    const [formloading, setformloading] = useState(false);
@@ -31,7 +31,8 @@ const DelivaryDetails = (props) => {
 
    const fast = () => {
       let fastDelivary = document.getElementById("fastDelivary");
-      console.log(fastDelivary.checked);
+      setFastD(fastDelivary.checked);
+      props.setFastDelivary(fastDelivary.checked);
    };
 
    // block letters from inputs type number
@@ -86,7 +87,7 @@ const DelivaryDetails = (props) => {
             building_number: building_number.value,
             street_number: street_number.value,
             notes: notes.value,
-            fast_delivary: fastDelivary.checked,
+            fast_delivery: fastDelivary.checked,
          };
          e.preventDefault();
          localStorage.setItem("delivaryDetails", JSON.stringify(USER_INFO));
@@ -444,7 +445,7 @@ const DelivaryDetails = (props) => {
                      <input
                         type="checkbox"
                         onChange={() => fast()}
-                        defaultChecked
+                        // defaultChecked
                         name="fastDelivary"
                         id="fastDelivary"
                      />
@@ -469,7 +470,10 @@ const DelivaryDetails = (props) => {
                      {ar ? "السعر الإجمالي (ريال قطري)" : "total price (QR) : "}
                      <span className="text-xl font-bold">
                         {" "}
-                        {props.totalPrice}
+                        {props.totalPrice} <br />
+                        {fastD && <span className="fastD text-sm font-normal">
+                           <i className="fad fa-check-circle text-green-600"></i> {ar ? "التوصيل السريع فقط +15 ريال" : "Fast Delivary just +15 QR"} <i className="fad fa-shipping-fast text-xl text-primary-100"></i>
+                           </span>}
                      </span>
                   </div>
                </div>

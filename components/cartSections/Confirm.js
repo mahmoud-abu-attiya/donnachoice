@@ -30,7 +30,7 @@ const Confirm = ({ data }) => {
                <span className="font-bold">
                   {ar ? "هاتف بديل" : "Alt phone"}:
                </span>{" "}
-               {data.first_name}
+               {data.alt_phone ? data.alt_phone : ar ? "لاشئ" : "None"}
             </p>
             <p>
                <span className="font-bold">{ar ? "الدوله" : "Country"} : </span>{" "}

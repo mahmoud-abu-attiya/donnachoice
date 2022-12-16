@@ -44,6 +44,7 @@ const Cart = () => {
    const dispatch = useDispatch();
    const [cartSections, setcartSections] = useState(1);
    const [paymentForm, setPaymentForm] = useState("");
+   const [fastDelivary, setFastDelivary] = useState(false);
 
    useEffect(() => {
       const amounts = document.querySelectorAll(".product-amount-value");
@@ -67,6 +68,7 @@ const Cart = () => {
             })
             .then((res) => {
                setProducts(res.data);
+               console.log(res.data);
                setLoading(false);
             });
       } else {
@@ -147,7 +149,14 @@ const Cart = () => {
             )
             .then((res) => {
                console.log(res.data);
-               setPaymentForm(res.data.form);
+               if (res.data.success) {
+                  setPaymentForm(res.data.form);
+               } else {
+                  swal(ar ? "خطأ !" :"Error!", ar ? res.data.error_ar : res.data.error, "error").then(() =>
+                     location.reload()
+                  );
+               }
+               
             });
       } else {
          axios
@@ -166,13 +175,68 @@ const Cart = () => {
                      location.reload()
                   );
                } else {
-                  swal("Error!", "lorem ipsome!", "error").then(() =>
+                  swal(ar ? "خطأ !" :"Error!", ar ? res.data.error_ar : res.data.error, "error").then(() =>
                      location.reload()
                   );
                }
                console.log(res.data);
             });
       }
+   };
+
+   const decreaseProductAmount = (e) => {
+      const input = e.target.parentElement.querySelector("input");
+      if (input.value > 1) {
+         input.value = parseInt(input.value) - 1;
+      }
+   };
+
+   const increaseProductAmount = (e) => {
+      const input = e.target.parentElement.querySelector("input");
+      if (parseInt(input.value) <= 9) {
+         input.value = parseInt(input.value) + 1;
+      }
+   };
+
+   const updateQuantity = () => {
+      const tableRows = document.querySelectorAll("tbody tr");
+      tableRows.forEach((row) => {
+         const productId = row.id;
+         const productAmount = row.querySelector(".product_amount").value;
+
+         const auth = Cookies.get("auth");
+         if (auth) {
+            axios
+               .patch(
+                  `https://backends.donnachoice.com/api/products/cart/`,
+                  {
+                     option: +productId,
+                     quantity: +productAmount,
+                  },
+                  {
+                     headers: {
+                        Authorization: `Bearer ${Cookies.get("token")}`,
+                     },
+                  }
+               )
+               .then((res) => {
+                  console.log(res.data);
+               })
+               .catch((err) => {
+                  console.log(err);
+               });
+         } else {
+            const storedCart =
+               JSON.parse(localStorage.getItem("stored-cart")) || [];
+            const storedCartIds = storedCart.map((item) => item.id);
+            const index = storedCartIds.indexOf(productId);
+            if (index > -1) {
+               storedCart[index].quantity = productAmount;
+            }
+            localStorage.setItem("stored-cart", JSON.stringify(storedCart));
+            dispatch(setCartCount(getNumberOfProductsInCart()));
+         }
+      });
    };
 
    if (loading) {
@@ -339,78 +403,122 @@ const Cart = () => {
                               {products.length == 0
                                  ? "there is no products in cart yet."
                                  : products.map((product, index) => {
-                                       return (
-                                          <tr
-                                             key={product.id}
-                                             className="bg-white border-b"
-                                          >
-                                             <td className="p-4 w-4">
-                                                {index + 1}
-                                             </td>
-                                             <th className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
-                                                <img
-                                                   className="h-12 aspect-square object-cover"
-                                                   src={
-                                                      product.product.images
-                                                         .length == 0
-                                                         ? "https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg"
-                                                         : product.product.images[0].img
-                                                   }
-                                                   alt={product.product.name}
-                                                />
-                                                <Link
-                                                   href={`/products/${product.product.slug}`}
-                                                >
-                                                   <a className="hover:underline">
-                                                      {ar
-                                                         ? product.product.name_ar
-                                                         : product.product.name}
-                                                   </a>
-                                                </Link>
-                                             </th>
-                                             <td className="py-4 px-6">
-                                                {ar ? "ريال" : "QR"}
-                                                <span className="product-total-price">
-                                                   {product.price}
-                                                </span>
-                                             </td>
-                                             <td className="py-4 px-6 product-amount">
-                                                <div className="flex items-center gap-3">
-                                                   <div>
-                                                      <input
-                                                         readOnly
-                                                         defaultValue={
-                                                            product.added_quantity ||
-                                                            amountStor.find(
-                                                               (item) =>
-                                                                  (item.id =
-                                                                     product.id)
-                                                            ).amount
-                                                         }
-                                                         type="number"
-                                                         min={1}
-                                                         id="first_product"
-                                                         className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 product-amount-value"
-                                                         required
-                                                      />
-                                                   </div>
-                                                </div>
-                                             </td>
-                                             <td className="py-4 px-6">
-                                                <button
-                                                   onClick={() =>
-                                                      removeProductFromCart(
-                                                         product.id
-                                                      )
-                                                   }
-                                                   className="px-4 py-2 rounded text-xl text-white bg-red-700"
-                                                >
-                                                   <i className="fad fa-trash-alt"></i>
-                                                </button>
-                                             </td>
-                                          </tr>
-                                       );
-                                    })}
+                                      return (
+                                         <tr
+                                            id={product.id}
+                                            key={product.id}
+                                            className="bg-white border-b"
+                                         >
+                                            <td className="p-4 w-4">
+                                               {index + 1}
+                                            </td>
+                                            <th className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
+                                               <img
+                                                  className="h-12 aspect-square object-cover"
+                                                  src={
+                                                     product.product.images
+                                                        .length == 0
+                                                        ? "https://www.peacemakersnetwork.org/wp-content/uploads/2019/09/placeholder.jpg"
+                                                        : product.product
+                                                             .images[0].img
+                                                  }
+                                                  alt={product.product.name}
+                                               />
+                                               <Link
+                                                  href={`/products/${product.product.slug}`}
+                                               >
+                                                  <a className="hover:underline">
+                                                     {ar
+                                                        ? product.product
+                                                             .name_ar
+                                                        : product.product.name}
+                                                  </a>
+                                               </Link>
+                                            </th>
+                                            <td className="py-4 px-6">
+                                               {ar ? "ريال" : "QR"}
+                                               <span className="product-total-price">
+                                                  {product.price}
+                                               </span>
+                                            </td>
+                                            <td className="py-4 px-6 product-amount">
+                                               <div className="flex items-center gap-3">
+                                                  {/* <div> */}
+                                                  {/* <input
+                                                        readOnly
+                                                        defaultValue={
+                                                           product.added_quantity ||
+                                                           amountStor.find(
+                                                              (item) =>
+                                                                 (item.id =
+                                                                    product.id)
+                                                           ).amount
+                                                        }
+                                                        type="number"
+                                                        min={1}
+                                                         max={product.product.stock}
+                                                        id="first_product"
+                                                        className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 product-amount-value"
+                                                        required
+                                                     /> */}
+                                                  {/* <div class="flex items-center space-x-3"> */}
+                                                  <button
+                                                     class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 h-6 w-6 justify-center"
+                                                     type="button"
+                                                     onClick={
+                                                        decreaseProductAmount
+                                                     }
+                                                  >
+                                                     -
+                                                  </button>
+                                                  <div>
+                                                     <input
+                                                        readOnly
+                                                        defaultValue={
+                                                           product.added_quantity ||
+                                                           amountStor.find(
+                                                              (item) =>
+                                                                 (item.id =
+                                                                    product.id)
+                                                           ).amount
+                                                        }
+                                                        type="number"
+                                                        min={1}
+                                                        max={10}
+                                                        id="product_amount"
+                                                        class="product_amount bg-gray-50 outline-none w-14 border border-gray-300 text-gray-900 text-sm rounded-lg block px-2.5 py-1"
+                                                        placeholder="1"
+                                                        required
+                                                     />
+                                                  </div>
+                                                  <button
+                                                     class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 h-6 w-6 justify-center"
+                                                     type="button"
+                                                     onClick={
+                                                        increaseProductAmount
+                                                     }
+                                                  >
+                                                     +
+                                                  </button>
+                                                  {/* </div>
+                                                  </div> */}
+                                               </div>
+                                            </td>
+                                            <td className="py-4 px-6">
+                                               <button
+                                                  onClick={() =>
+                                                     removeProductFromCart(
+                                                        product.id
+                                                     )
+                                                  }
+                                                  className="px-4 py-2 rounded text-xl text-white bg-red-700"
+                                               >
+                                                  <i className="fad fa-trash-alt"></i>
+                                               </button>
+                                            </td>
+                                         </tr>
+                                      );
+                                   })}
                            </tbody>
                         </table>
                      </div>
@@ -438,7 +546,9 @@ const Cart = () => {
                         </div>
                         <button
                            type="button"
-                           onClick={() => nextstep(2)}
+                           onClick={() => {
+                              nextstep(2), updateQuantity();
+                           }}
                            className="w-full bg-primary-100 text-white rounded-md py-4"
                         >
                            {ar ? "التالي" : "Next"}{" "}
@@ -459,6 +569,7 @@ const Cart = () => {
                   totalAmount={totalAmount}
                   totalPrice={totalPrice}
                   nextstep={nextstep}
+                  setFastDelivary={setFastDelivary}
                />
             )}
             {cartSections == 3 && (
@@ -546,7 +657,16 @@ const Cart = () => {
                               : "total price (QR) : "}
                            <span className="text-xl font-bold">
                               {" "}
-                              {totalPrice}
+                              {totalPrice} <br />
+                              {fastDelivary && (
+                                 <span className="fastD text-sm font-normal">
+                                    <i className="fad fa-check-circle text-green-600"></i>{" "}
+                                    {ar
+                                       ? "التوصيل السريع فقط +15 ريال"
+                                       : "Fast Delivary just +15 QR"}{" "}
+                                    <i className="fad fa-shipping-fast text-xl text-primary-100"></i>
+                                 </span>
+                              )}
                            </span>
                         </div>
                      </div>
@@ -611,7 +731,16 @@ const Cart = () => {
                               : "total price (QR) : "}
                            <span className="text-xl font-bold">
                               {" "}
-                              {totalPrice}
+                              {totalPrice} <br />
+                              {fastDelivary && (
+                                 <span className="fastD text-sm font-normal">
+                                    <i className="fad fa-check-circle text-green-600"></i>{" "}
+                                    {ar
+                                       ? "التوصيل السريع فقط +15 ريال"
+                                       : "Fast Delivary just +15 QR"}{" "}
+                                    <i className="fad fa-shipping-fast text-xl text-primary-100"></i>
+                                 </span>
+                              )}
                            </span>
                         </div>
                      </div>

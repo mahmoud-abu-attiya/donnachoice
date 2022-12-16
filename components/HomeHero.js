@@ -41,11 +41,24 @@ export default function App() {
                         key={swiper.id}
                         className="flex justify-center items-center"
                      >
-                        <img
+                        {/* <img
                            src={swiper.img_desktop}
                            className="min-h-full min-w-full object-cover"
                            alt=""
-                        />
+                        /> */}
+                        <picture className="h-full w-full object-cover">
+                           <source
+                              media="(min-width: 767px)"
+                              srcSet={swiper.img_desktop}
+                              className="h-full w-full object-cover"
+                           />
+                           <source srcSet={swiper.img_mobile} className="h-full w-full object-cover" />
+                           <img
+                              className="h-full w-full object-cover"
+                              src={swiper.img_mobile}
+                              alt="vivikola vivi kola qatar"
+                           />
+                        </picture>
                      </SwiperSlide>
                   );
                })}
