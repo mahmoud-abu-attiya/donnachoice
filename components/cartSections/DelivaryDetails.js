@@ -61,6 +61,9 @@ const DelivaryDetails = (props) => {
       // console.log(e.options[e.selectedIndex].text);
 
       let delivaryForm = document.querySelector(".delivaryform");
+      delivaryForm.addEventListener("submit", (e) => {
+         e.preventDefault();
+      });
       delivaryForm.onsubmit = (e) => {
          e.preventDefault();
          let first_name = document.getElementById("first_name"),

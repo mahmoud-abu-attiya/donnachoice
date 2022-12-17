@@ -1,8 +1,13 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const Confirm = ({ data }) => {
    const ar = useSelector((state) => state.langs.value);
+   useEffect(() => {
+      
+      console.log(data);
+   }, []);
    return (
       <div className="col-span-8 lg:col-span-6">
          <div className="bg-gray-50 p-4 border rounded-md text-xl space-y-4">
@@ -67,7 +72,7 @@ const Confirm = ({ data }) => {
                   {ar ? "ميزة التوصيل السريع" : "Fast delivery feature"} :
                </span>{" "}
                {ar ? (
-                  data.fast_delivary ? (
+                  data.fast_delivery ? (
                      <span>
                         مفعل{" "}
                         <i className="fas fa-check-circle fa-sm text-green-500"></i>
@@ -78,7 +83,7 @@ const Confirm = ({ data }) => {
                         <i className="fas fa-times fa-sm text-red-600"></i>
                      </span>
                   )
-               ) : data.fast_delivary ? (
+               ) : data.fast_delivery ? (
                   <span>
                      active{" "}
                      <i className="fas fa-check-circle fa-sm text-green-500"></i>
