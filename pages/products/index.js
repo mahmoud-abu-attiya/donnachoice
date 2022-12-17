@@ -356,11 +356,7 @@ export default function Products({ brands, categorys }) {
                      </>
                   ) : products.length > 0 ? (
                      products
-                        .filter((item) =>
-                           item.name.toLowerCase().includes(query.toLowerCase())
-                        )
                         .map((product) => {
-                           <input type="text" />;
                            return <ProductBox key={product.id} product={product} />;
                         })
                   ) : (

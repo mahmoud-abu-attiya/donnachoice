@@ -61,7 +61,7 @@ export default function Index() {
             <div className="bg-gray-50 p-4 rounded shadow border mt-6">
                <h4 className="text-xl mb-2">{ar ? "الفئات" : "Categories"}</h4>
                <a href="#" className="hover:underline">
-                  <p className="mb-4 ml-4 text-gray-500">All</p>
+                  <p className="mb-4 ml-4 text-gray-500">{ar ? "الكل" :"All"}</p>
                </a>
                {BlogCategory.map((cat) => {
                   return (

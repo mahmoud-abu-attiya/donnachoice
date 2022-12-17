@@ -45,6 +45,7 @@ const Cart = () => {
    const [cartSections, setcartSections] = useState(1);
    const [paymentForm, setPaymentForm] = useState("");
    const [fastDelivary, setFastDelivary] = useState(false);
+   const [btnLoading, setBtnLoading] = useState(false);
 
    
 
@@ -155,6 +156,7 @@ const Cart = () => {
       setUserInfo(valuse);
    };
    const pay = () => {
+      setBtnLoading(true);
       if (payment) {
          axios
             .post(
@@ -175,6 +177,7 @@ const Cart = () => {
                      location.reload()
                   );
                }
+               setBtnLoading(false);
                
             });
       } else {
@@ -199,6 +202,7 @@ const Cart = () => {
                   );
                }
                console.log(res.data);
+               setBtnLoading(false);
             });
       }
    };
@@ -607,7 +611,7 @@ const Cart = () => {
                            >
                               <label
                                  htmlFor="cach"
-                                 className="flex gap-2 justify-center items-center text-2xl font-bold border rounded-md p-4 bg-white"
+                                 className="flex gap-2 justify-center items-center md:text-2xl font-bold border rounded-md p-4 bg-white"
                               >
                                  <input
                                     defaultChecked
@@ -622,7 +626,7 @@ const Cart = () => {
                               </label>
                               <label
                                  htmlFor="online"
-                                 className="flex gap-2 justify-center items-center text-2xl font-bold border rounded-md p-4 bg-white"
+                                 className="flex gap-2 justify-center items-center md:text-2xl font-bold border rounded-md p-4 bg-white"
                               >
                                  <input
                                     type="radio"
@@ -776,17 +780,24 @@ const Cart = () => {
                            {ar ? "عودة" : "Back"}
                         </button>
                         <button
+                           disabled={btnLoading}
                            type="button"
                            onClick={pay}
                            className="w-full bg-primary-100 text-white rounded-md py-4 flex items-center gap-2 justify-center"
                         >
-                           {ar ? "التالي" : "Next"}{" "}
-                           <i
-                              className={`fas ${
-                                 ar ? "fa-arrow-left" : "fa-arrow-right"
-                              }`}
-                           ></i>{" "}
-                           {ar ? "أكد الطلب" : "Confirm order"}
+                           {btnLoading ? (
+                              <i className="fas fa-spinner fa-spin"></i>
+                           ) : (
+                              <span>
+                                 {ar ? "التالي" : "Next"}
+                                 <i
+                                    className={`fas ${
+                                       ar ? "fa-arrow-left" : "fa-arrow-right"
+                                    }`}
+                                 ></i>{" "}
+                                 {ar ? "أكد الطلب" : "Confirm order"}
+                              </span>
+                              )}
                         </button>
                      </div>
                   </div>

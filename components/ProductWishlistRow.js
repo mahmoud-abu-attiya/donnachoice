@@ -207,8 +207,10 @@ export default function ProductWishlistRow({ product }) {
 
    return (
       <tr key={product.id} className="bg-white border-b product-row">
-         <td className="p-4 md:w-32">
+         <td className="p-4 px-6 min-w-[7rem]">
+            <div className="img-container">
             <img
+               className="h-20 w-20 object-cover"
                src={
                   product.images.length > 0
                      ? product.images[0].img
@@ -216,6 +218,7 @@ export default function ProductWishlistRow({ product }) {
                }
                alt="Apple Watch"
             />
+            </div>
          </td>
          <td className="py-4 px-6 font-semibold text-gray-900">
             <Link href={`/products/${product.slug}`}>
