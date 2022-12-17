@@ -115,6 +115,7 @@ const handleCompareLocalStorage = (compareElement, itemSlug, changed) => {
 };
 
 const ProductBox = (props) => {
+   console.log(props.product);
    const ar = useSelector(state => state.langs.value)
    const [storedCartIds, setStoredCartIds] = useState([]);
    const [authState, setAuthState] = useState(false);

@@ -46,18 +46,38 @@ const Cart = () => {
    const [paymentForm, setPaymentForm] = useState("");
    const [fastDelivary, setFastDelivary] = useState(false);
 
+   
+
    useEffect(() => {
       const amounts = document.querySelectorAll(".product-amount-value");
       const prices = document.querySelectorAll(".product-total-price");
-      setTotalAmount(0);
-      setTotalPrice(0);
-      for (let i = 0; i < amounts.length; i++) {
-         setTotalAmount((x) => x + parseInt(amounts[i].value));
-         setTotalPrice(
-            (x) =>
-               x + parseInt(prices[i].textContent) * parseInt(amounts[i].value)
-         );
-      }
+      const edit_amounts = document.querySelectorAll(".edit_amount");
+      // setTotalAmount(0);
+      // setTotalPrice(0);
+      // set total amount and price
+      const setTotalAP = () => {
+         for (let i = 0; i < amounts.length; i++) {
+               setTotalAmount((x) => x + parseInt(amounts[i].value));
+               setTotalPrice(
+                  (x) =>
+                     x + parseInt(prices[i].textContent) * parseInt(amounts[i].value)
+               );
+            }
+      };
+      setTotalAP();
+      // edit amount
+      // edit_amounts.forEach((edit_amount) => {
+      //    edit_amount.addEventListener("click", (e) => {
+      //       // console.log(e.target.classList);
+      //       if (e.target.textContent === "+" && totalAmount < 10) {
+      //          setTotalAmount(totalAmount++);
+      //       }
+      //       if (e.target.textContent === "-" && totalAmount > 1) {
+      //          setTotalAmount(totalAmount--);
+      //       }
+      //    });
+      // });
+
       const auth = Cookies.get("auth");
       if (auth) {
          axios
@@ -68,7 +88,6 @@ const Cart = () => {
             })
             .then((res) => {
                setProducts(res.data);
-               console.log(res.data);
                setLoading(false);
             });
       } else {
@@ -149,7 +168,7 @@ const Cart = () => {
             )
             .then((res) => {
                console.log(res.data);
-               if (res.data.success) {
+               if (res.data.form) {
                   setPaymentForm(res.data.form);
                } else {
                   swal(ar ? "خطأ !" :"Error!", ar ? res.data.error_ar : res.data.error, "error").then(() =>
@@ -188,6 +207,8 @@ const Cart = () => {
       const input = e.target.parentElement.querySelector("input");
       if (input.value > 1) {
          input.value = parseInt(input.value) - 1;
+         setTotalAmount(totalAmount- 1);
+         setTotalPrice(totalPrice - +input.dataset.price);
       }
    };
 
@@ -195,6 +216,8 @@ const Cart = () => {
       const input = e.target.parentElement.querySelector("input");
       if (parseInt(input.value) <= 9) {
          input.value = parseInt(input.value) + 1;
+         setTotalAmount(totalAmount+ 1);
+         setTotalPrice(totalPrice + +input.dataset.price);
       }
    };
 
@@ -461,9 +484,9 @@ const Cart = () => {
                                                         className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 product-amount-value"
                                                         required
                                                      /> */}
-                                                  {/* <div class="flex items-center space-x-3"> */}
+                                                  {/* <div className="flex items-center space-x-3"> */}
                                                   <button
-                                                     class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 h-6 w-6 justify-center"
+                                                     className="edit_amount remove inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 h-6 w-6 justify-center"
                                                      type="button"
                                                      onClick={
                                                         decreaseProductAmount
@@ -486,13 +509,14 @@ const Cart = () => {
                                                         min={1}
                                                         max={10}
                                                         id="product_amount"
-                                                        class="product_amount bg-gray-50 outline-none w-14 border border-gray-300 text-gray-900 text-sm rounded-lg block px-2.5 py-1"
+                                                        className="product_amount bg-gray-50 outline-none w-14 border border-gray-300 text-gray-900 text-sm rounded-lg block px-2.5 py-1 product-amount-value"
                                                         placeholder="1"
+                                                        data-price={product.price}
                                                         required
                                                      />
                                                   </div>
                                                   <button
-                                                     class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 h-6 w-6 justify-center"
+                                                     className="edit_amount add inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 h-6 w-6 justify-center"
                                                      type="button"
                                                      onClick={
                                                         increaseProductAmount
@@ -618,22 +642,16 @@ const Cart = () => {
                                  >
                                     <p className="mb-4">
                                        {ar
-                                          ? "خسائر اللازمة ومطالبة حدة بل. الآخر الحلفاء أن غزو, إجلاء وتنامت عدد مع. لقهر معركة لبلجيكا، بـ انه, ربع الأثنان المقيتة في, اقتصّت المحور حدة و. هذه ما طرفاً عالمية استسلام,"
-                                          : "- Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae at rem corporis sint modi sunt minus quibusdam reprehenderit fugit minima, fuga aliquid inventore architecto corrupti voluptas illum cupiditate ratione delectus."}
-                                    </p>
-                                    <p className="mb-4">
-                                       {ar
-                                          ? "خسائر اللازمة ومطالبة حدة بل. الآخر الحلفاء أن غزو, إجلاء وتنامت عدد مع. لقهر معركة لبلجيكا، بـ انه, ربع الأثنان المقيتة في, اقتصّت المحور حدة و. هذه ما طرفاً عالمية استسلام,"
-                                          : "- Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae at rem corporis sint modi sunt minus quibusdam reprehenderit fugit minima, fuga aliquid inventore architecto corrupti voluptas illum cupiditate ratione delectus."}
+                                          ? "- وسيلة حديثة للدفع , سريعة وفعالة وأمنة"
+                                          : "- A modern, safe and fast payment method to receive your package that’s highly recommended"}
                                     </p>
                                  </div>
-                                 {/* <button className="bg-primary-100 shadow rounded-md text-primary-300 w-full p-4 max-w-sm m-auto font-bold text-xl">Pay now</button> */}
                               </div>
                            ) : (
                               <div>
                                  {ar
-                                    ? "خسائر اللازمة ومطالبة حدة بل. الآخر الحلفاء أن غزو, إجلاء وتنامت عدد مع. لقهر معركة لبلجيكا، بـ انه, ربع الأثنان المقيتة في, اقتصّت المحور حدة و. هذه ما طرفاً عالمية استسلام,"
-                                    : "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid atque deleniti excepturi officia dolore consequuntur! Vel voluptatibus tenetur deserunt ut exercitationem officiis illo quo, facere temporibus voluptate soluta iste molestiae."}
+                                    ? "- خيار سهل وأمن للدفع عند الإستلام"
+                                    : "- An easy and safe choice to receive your order and pay on your doorstep"}
                               </div>
                            )}
                         </div>
@@ -759,7 +777,7 @@ const Cart = () => {
                         </button>
                         <button
                            type="button"
-                           onClick={() => pay()}
+                           onClick={pay}
                            className="w-full bg-primary-100 text-white rounded-md py-4 flex items-center gap-2 justify-center"
                         >
                            {ar ? "التالي" : "Next"}{" "}

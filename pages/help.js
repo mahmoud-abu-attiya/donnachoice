@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import Hero from "../components/Hero";
 import { useSelector } from "react-redux";
 import swal from "sweetalert";
+import axios from "axios";
 
 export default function Help() {
+   const [loading, setLoading] = useState(false)
    const ar = useSelector((state) => state.langs.value);
    const sweetalert = (form) => {
       swal({
@@ -16,17 +18,27 @@ export default function Help() {
    };
    const sendEmail = (e) => {
       e.preventDefault();
+      setLoading(true)
       let formData = new FormData(e.target);
       const data = Object.fromEntries(formData);
       console.log(data);
-      fetch("https://formsubmit.co/ajax/mahmoud.abuattiya106@gmail.com", {
-         method: "POST",
-         headers: { "Content-Type": "application/json" },
-         body: data,
-      }).then(res => {
-         sweetalert(e.target)
-         console.log(res);
-      });
+      // fetch("https://formsubmit.co/ajax/mahmoud.abuattiya106@gmail.com", {
+      //    method: "POST",
+      //    headers: { "Content-Type": "application/json" },
+      //    body: data,
+      // }).then(res => {
+      //    sweetalert(e.target)
+      //    console.log(res);
+      // });
+      axios.post("https://backends.donnachoice.com/api/contact_us/", data).then((res) => {
+         sweetalert(e.target);
+         setLoading(false);
+         console.log(res.data);
+      }).catch((err) => {
+         console.log(err);
+         setLoading(false)
+      }
+      );
    };
    return (
       <>
@@ -117,8 +129,8 @@ export default function Help() {
                   </h2>
                   <p className="mb-8 lg:mb-16 font-light text-center text-gray-500 sm:text-xl">
                      {ar
-                        ? "هل لديك مشكلة فنية؟ تريد إرسال ملاحظات حول إصدار تجريبي خاصية؟ هل تحتاج إلى تفاصيل حول خطة أعمالنا؟ دعنا نعرف."
-                        : "Got a technical issue? Want to send feedback about a beta feature? Need details about our Business plan? Let us know."}
+                        ? "يسعدنا الاتصال بك للإجابة على جميع أسئلتك"
+                        : "We would be happy to contact you to answer all your questions."}
                   </p>
                   <form onSubmit={sendEmail} className="space-y-8">
                      <div>
@@ -176,10 +188,15 @@ export default function Help() {
                         />
                      </div>
                      <button
+                        disabled={loading}
                         type="submit"
                         className="text-white max-w-screen-md w-full text-xl bg-gradient-to-r from-primary-200 via-primary-200 to-pink-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg px-5 py-2.5 text-center mr-2 mb-2"
                      >
-                        {ar ? "إرسال" : "Send"}
+                        {loading ? (
+                           <i className="fas fa-spinner fa-spin"></i>
+                        ) : (
+                           ar ? "إرسال" : "Send"
+                           )}
                      </button>
                   </form>
                </div>

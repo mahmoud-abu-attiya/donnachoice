@@ -62,6 +62,7 @@ const DelivaryDetails = (props) => {
 
       let delivaryForm = document.querySelector(".delivaryform");
       delivaryForm.onsubmit = (e) => {
+         e.preventDefault();
          let first_name = document.getElementById("first_name"),
             last_name = document.getElementById("last_name"),
             phone = document.getElementById("phone"),

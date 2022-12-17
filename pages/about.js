@@ -11,8 +11,8 @@ export default function About() {
          <div className="container text-center py-10">
             <h1 className="mb-8 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl">
                {ar
-                  ? "نحن نستثمر في إمكانات العالم"
-                  : "We invest in the world’s potential"}
+                  ? "من نحن"
+                  : "About us"}
             </h1>
             <p className="mb-6 text-lg text-start font-normal text-gray-600 lg:text-xl sm:px-16 xl:px-48">
                {ar
