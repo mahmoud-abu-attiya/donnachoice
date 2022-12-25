@@ -268,7 +268,7 @@ const Product = ({ product }) => {
 	return (
 		<>
 			<Head>
-				<title>{product.name}</title>
+				<title>{product?.name}</title>
 				<meta name="description" content={product?.describtion} />
 				<meta name="keywords" content={relatedPro.map(pro => pro.name)} />
 				<meta name="author" content="DonnaChoice" />
