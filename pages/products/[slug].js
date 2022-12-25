@@ -275,14 +275,14 @@ const Product = ({ product }) => {
 				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 				<meta property="og:title" content={product?.name} />
 				<meta property="og:description" content={product?.describtion} />
-				<meta property="og:image" content={product?.images[0].img} />
+				<meta property="og:image" content={product?.images[0]?.img} />
 				<meta property="og:url" content={product?.slug} />
 				<meta property="og:type" content="website" />
 				<meta property="og:site_name" content="DonnaChoice" />
 				<meta name="twitter:card" content="summary" />
 				<meta name="twitter:title" content={product?.name} />
 				<meta name="twitter:description" content={product?.describtion} />
-				<meta name="twitter:image" content={product?.images[0].img} />
+				<meta name="twitter:image" content={product?.images[0]?.img} />
 				{/* <meta name="twitter:site" content="@DonnaChoice" />
 				<meta name="twitter:creator" content="@DonnaChoice" /> */}
 			</Head>
