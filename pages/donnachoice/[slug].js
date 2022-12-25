@@ -6,8 +6,8 @@ import { useSelector } from "react-redux";
 import Hero from "../../components/Hero";
 import ProductBox from "../../components/ProductBox";
 
-const Influ = () => {
-   const [influ, setInflu] = useState();
+const Shop = () => {
+   const [shop, setShop] = useState();
    const ar = useSelector((state) => state.langs.value);
    const [products, setProducts] = useState();
    const router = useRouter();
@@ -17,11 +17,11 @@ const Influ = () => {
       console.log(influSlug);
       axios
          .get(
-            `https://backends.donnachoice.com/api/influencer/?slug=${influSlug}`
+            `https://backends.donnachoice.com/api/donna/?slug=${influSlug}`
          )
          .then((res) => {
             console.log(res.data);
-            setInflu(res.data[0]);
+            setShop(res.data[0]);
             setLoading(false);
          })
          .catch((err) => {
@@ -41,7 +41,7 @@ const Influ = () => {
    }
    return (
       <div dir={ar ? "rtl" : "ltr"}>
-         <Hero title={ar ? influ.name_ar : influ.name} not={true} img={influ.img} bg={influ.background_img}/>
+         <Hero title={ar ? shop.name_ar : shop.name} not={true} img={shop.img} bg={shop.background_img}/>
          <div className="container py-6">
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
                {products &&
@@ -54,4 +54,4 @@ const Influ = () => {
    );
 };
 
-export default Influ;
+export default Shop;

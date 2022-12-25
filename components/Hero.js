@@ -2,9 +2,13 @@
 import Link from "next/link";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
+import bg from "../public/images/bg.jpg";
 
 const Hero = (props) => {
    const ar = useSelector((state) => state.langs.value);
+   useEffect(() => {
+      document.querySelector(".hero").style.backgroundImage = props.bg ? `url(${props.bg})` : `url(${bg})`;
+   }, []);
    return (
       <div dir={ar ? "rtl" : "ltr"} className="hero py-16 bg-url relative">
          <div className="overlay z-10"></div>

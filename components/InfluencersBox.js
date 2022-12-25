@@ -5,11 +5,11 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
-const BrandSection = ({item}) => {
+const BrandSection = ({item, cat}) => {
    const ar = useSelector((state) => state.langs.value);
 
    return (
-      <Link href={`influencers/${item.slug}`}>
+      <Link href={cat == "shop" ? `donnachoice/${item.slug}` : `influencers/${item.slug}`}>
          <a className="h-full">
             <div className="h-full bg-gray-100 rounded-lg border border-gray-200 shadow-md">
                <div className="img-container">

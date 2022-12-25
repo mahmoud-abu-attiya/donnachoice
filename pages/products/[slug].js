@@ -12,6 +12,7 @@ import Cookies from "js-cookie";
 import Link from "next/link";
 import ProductSwiper from "../../components/ProductSwiper";
 import ProductReviews from "../../components/ProductReviews";
+import Head from "next/head";
 
 const getNumberOfProductsInWishlist = () => {
 	const storedWishlist =
@@ -131,7 +132,7 @@ const Product = ({ product }) => {
 		(option) => option.id == selectedOption
 	)?.quantity;
 	useEffect(() => {
-		console.log(product);
+		// console.log(product);
 		cart.load();
 		storedCart = cart.storedCart;
 		storedCartIds = cart.storedCartIds;
@@ -212,6 +213,20 @@ const Product = ({ product }) => {
 		dispatch(setCompareCount(getNumberOfProductsInCompare()));
 	};
 
+	const share = () => {
+		if (navigator.share) {
+			navigator
+				.share({
+					title: product.name,
+					url: window.location.href,
+				})
+				.then(() => console.log("Successful share"))
+				.catch((error) => console.log("Error sharing", error));
+		} else {
+			alert("Share not supported");
+		}
+	};
+
 	const addSelectedOptionToCart = (btn, quantity = 1) => {
 		cart.load();
 		cart.add(selectedOption, quantity);
@@ -233,7 +248,7 @@ const Product = ({ product }) => {
 				`https://backends.donnachoice.com/api/products/?parents__slug=${product.slug}`
 			)
 			.then((res) => setRelatedPro(res.data));
-		console.log(product);
+		// console.log(product);
 		axios
 			.get(
 				`https://backends.donnachoice.com/api/products/${product.slug}/rate/`
@@ -251,7 +266,27 @@ const Product = ({ product }) => {
 	};
 
 	return (
-		product && (
+		<>
+			<Head>
+				<title>{product.name}</title>
+				<meta name="description" content={product.describtion} />
+				<meta name="keywords" content={relatedPro.map(pro => pro.name)} />
+				<meta name="author" content="DonnaChoice" />
+				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+				<meta property="og:title" content={product.name} />
+				<meta property="og:description" content={product.describtion} />
+				<meta property="og:image" content={product.images[0].img} />
+				<meta property="og:url" content={product.slug} />
+				<meta property="og:type" content="website" />
+				<meta property="og:site_name" content="DonnaChoice" />
+				<meta name="twitter:card" content="summary" />
+				<meta name="twitter:title" content={product.name} />
+				<meta name="twitter:description" content={product.describtion} />
+				<meta name="twitter:image" content={product.images[0].img} />
+				{/* <meta name="twitter:site" content="@DonnaChoice" />
+				<meta name="twitter:creator" content="@DonnaChoice" /> */}
+			</Head>
+		{product && (
 			<div dir={ar ? "rtl" : "ltr"}>
 				<div className="container mt-8">
 					<nav
@@ -564,7 +599,8 @@ const Product = ({ product }) => {
 									</div>
 									<button
 										className="text-xl border rounded self-stretch px-4 bg-gray-100 hover:shadow transition hover:scale-105 text-red-600"
-										title="Add product to wishlist"
+										// title="Add product to wishlist"
+										title={ar ? "أضف المنتج إلى قائمة الرغبات" : "Add product to wishlist"}
 										onClick={() =>
 											handleWishList(
 												product.slug,
@@ -576,12 +612,23 @@ const Product = ({ product }) => {
 									</button>
 									<button
 										className="text-xl border rounded self-stretch px-4 bg-gray-100 hover:shadow transition hover:scale-105 text-blue-600"
-										title="Add product to comper list"
+										// title="Add product to comper list"
+										title={ar ? "إضافة المنتج إلى قائمة المقارنة" : "Add product to comper list"}
 										onClick={() => handleCompare(product.slug)}
 									>
 										<i
 											ref={compareIcon}
 											className="fas fa-random"
+										></i>
+									</button>
+									<button
+										className="text-xl border rounded self-stretch px-4 bg-gray-100 hover:shadow transition hover:scale-105 text-yellow-600"
+										title={ar ? "مشاركة المنتج" : "Share product"}
+										onClick={() => share()}
+									>
+										<i
+											ref={compareIcon}
+											className="fas fa-share-alt"
 										></i>
 									</button>
 								</div>
@@ -603,7 +650,8 @@ const Product = ({ product }) => {
 					</div>
 				</div>
 			</div>
-		)
+		)}
+		</>
 	);
 };
 

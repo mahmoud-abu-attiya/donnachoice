@@ -118,7 +118,7 @@ const Brand = () => {
                </div>
                <hr className="my-8 h-px bg-gray-200 border-0" />
                <div className="sm:px-8 pb-8">
-                  <div className="aspect-v mb-8 rounded overflow-hidden shadow-md">
+                  <div className="aspect-v mb-8 rounded overflow-hidden shadow-md max-w-screen-lg mx-auto">
                      <img
                         src={blog.img}
                         className="w-full rounded"

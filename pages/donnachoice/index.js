@@ -1,32 +1,33 @@
 import React from 'react'
-import BrandSection from '../../components/BrandSection'
 import Hero from '../../components/Hero'
-import Axios from 'axios'
+import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { info } from 'autoprefixer'
-import bg from '../../public/images/brands-bg.jpg'
+import InfluencersBox from '../../components/InfluencersBox'
 
-export const getStaticProps = async () => {
-   const res = await fetch('https://backends.donnachoice.com/api/brand/');
-   let brands = await res.json();
-   return {
-      props: {
-         brands: brands
-      }
-   }
-}
-
-export default function Index({ brands }) {
-   const ar = useSelector(state => state.langs.value)
+export default function Index() {
+   const [shops, setShops] = useState([]);
+   const ar = useSelector((state) => state.langs.value);
    const [query, setQuery] = useState("");
-   // useEffect(() => {
-   //    console.log(brands);
-   //    console.log(bg);
-   // }, [brands]);
+   const [loading, setLoading] = useState(true);
+   useEffect(() => {
+      axios.get("https://backends.donnachoice.com/api/donna/")
+      .then((res) => {
+         setShops(res.data)
+         // console.log(res.data);
+         setLoading(false);
+      })
+      .catch((err) => {
+         console.log(err);
+      }
+      )
+   }, []);
+   if (loading) {
+      return <div>Loading...</div>;
+   }
    return (
       <div>
-         <Hero title={ar ? "العلامات التجارية" : "brands"} bg={bg.src} />
+         <Hero title={ar ? "اختيار دونا" : "Donna Choice"} not={true} />
          <div className="container pt-6">
             <div dir={ar ? "rtl" : "ltr"} className="relative max-w-lg mx-auto">
                <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
@@ -40,8 +41,8 @@ export default function Index({ brands }) {
                   onChange={(e) => setQuery(e.target.value)}
                />
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-10 py-8">
-               {brands
+            <div dir={ar ? "rtl" : "ltr"} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-10 py-8">
+               {shops
                   .filter((item) => {
                      if (ar) {
                         return item.name_ar.toLowerCase().includes(query.toLowerCase())
@@ -49,11 +50,12 @@ export default function Index({ brands }) {
                         return item.name.toLowerCase().includes(query.toLowerCase())
                      }
                   }
-                  ).map((brand) => {
+                  ).map((shop) => {
                      return (
-                        <BrandSection key={brand.id} name={brand.name} name_ar={brand.name_ar} img={brand.img} slug={brand.slug} />
-                     )
-                  })}
+                        // <InfluencersBox key={brand.id} name={brand.name} name_ar={brand.name_ar} img={brand.img} slug={brand.slug} />
+                        <InfluencersBox key={shop.id} item={shop} cat="shop"/>
+                        )
+                     })}
             </div>
          </div>
       </div>

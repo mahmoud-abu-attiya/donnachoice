@@ -88,6 +88,31 @@ export default function Profile() {
          })
          .catch((err) => {
             console.log(err);
+            let errors = ""; 
+            err.response.data.email?.map((e) => 
+            {
+               errors = errors + " " + (e)
+            });
+            err.response.data.first_name?.map((e) =>
+            {
+               errors = errors + " " + (e)
+            });
+            err.response.data.last_name?.map((e) =>
+            {
+               errors = errors + " " + (e)
+            });
+            err.response.data.phone?.map((e) =>
+            {
+               errors = errors + " " + (e)
+            });
+
+            console.log(errors);
+            swal({
+               title: ar ? "حدث خطأ" : "Error!",
+               icon: "error",
+               text: errors,
+               button: ar ? "موافق" : "Ok",
+            });
          });
    };
 
@@ -348,12 +373,15 @@ export default function Profile() {
                      >
                         {/* {user.phone ? user.phone : "no phone yet."} */}
                         <input
-                           type="tel"
+                           type="text"
+                           pattern="\d*"
+                           maxlength="8"
                            name="phone"
                            defaultValue={user.phone}
                            // onChange={handleChange}
                            className="py-1 px-2 w-full bg-white rounded focus:outline-none"
                            placeholder="Phone"
+                           required
                         />
                      </div>
                   </div>

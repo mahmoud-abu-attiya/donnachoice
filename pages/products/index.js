@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import ProductBoxP from "../../components/placeholder/ProductBoxP";
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
+import bg from "../../public/images/products-bg.jpg";
 
 export const getStaticProps = async () => {
    const brandRes = await fetch("https://backends.donnachoice.com/api/brand/");
@@ -145,7 +146,7 @@ export default function Products({ brands, categorys }) {
 
    return (
       <div dir={ar ? "rtl" : "ltr"}>
-         <Hero title={ar ? "المنتجات" : "Products"} />
+         <Hero title={ar ? "المنتجات" : "Products"} bg={bg.src} />
          <div className="container">
             <div className="grid grid-cols-8 gap-4 py-8">
                <aside

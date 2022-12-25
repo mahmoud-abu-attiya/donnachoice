@@ -7,12 +7,12 @@ import { setAmount } from "../slices/wishlistIndicatorSlice";
 import { setCartCount } from "../slices/cartIndicatorSlice";
 import { setCompareCount } from "../slices/compareIndicatorSlice";
 // import { addToWishList, removeFromWishList } from "../slices/wishListSlice"
-import { useSelector } from 'react-redux'
+import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Image from "next/image";
-import offer from "../public/images/offer.png"
+import offer from "../public/images/offer.png";
 
 const getNumberOfProductsInWishlist = () => {
    const storedWishlist =
@@ -115,8 +115,8 @@ const handleCompareLocalStorage = (compareElement, itemSlug, changed) => {
 };
 
 const ProductBox = (props) => {
-   console.log(props.product);
-   const ar = useSelector(state => state.langs.value)
+   // console.log(props.product);
+   const ar = useSelector((state) => state.langs.value);
    const [storedCartIds, setStoredCartIds] = useState([]);
    const [authState, setAuthState] = useState(false);
    let storedCart = [];
@@ -138,15 +138,28 @@ const ProductBox = (props) => {
       }
       handleCompareLocalStorage(compareIcon, props.product.slug, false);
       setStoredCartIds(tempStoredCartIds);
+
+      document.querySelectorAll(".name").forEach((productBox) => {
+         productBox.addEventListener("click", () => {
+            window.location.href = `/products/${props.product.slug}`;
+         });
+      });
    }, []);
-   // const wishList = useSelector((state) => state.wishList.value)
-   // const [wished, setwished] = useState(false);
+
+   const share = () => {
+      if (navigator.share) {
+         navigator
+            .share({
+               title: `${props.product.name} from Donnachoice online store`,
+               url: `/products/${props.product.slug}`,
+            })
+            .then(() => console.log("Successful share"))
+            .catch((error) => console.log("Error sharing", error));
+      } else {
+         alert("Share not supported");
+      }
+   };
    const handleWishList = (item, isWish) => {
-      // if (wishList.includes(item)) {
-      //    dispatch(removeFromWishList(item))
-      // } else {
-      //    dispatch(addToWishList(item))
-      // }
       console.log(authState);
       if (!authState) {
          handleWishlistLocalStorage(heartIcon, item, true);
@@ -274,7 +287,7 @@ const ProductBox = (props) => {
          dispatch(setCartCount(getNumberOfProductsInCart()));
       }
       if (cartBtn.parentElement) {
-         toggleOptionsMenu()
+         toggleOptionsMenu();
       }
    };
 
@@ -295,55 +308,93 @@ const ProductBox = (props) => {
 
    const addedOne = (element, productId) => {
       // element.textContent = "Done";
-      if (element.textContent == "Add to cart" || element.textContent == "أضف إلى العربة") {
-         element.textContent = ar ? "ازالة" : "Remove"
+      if (
+         element.textContent == "Add to cart" ||
+         element.textContent == "أضف إلى العربة"
+      ) {
+         element.textContent = ar ? "ازالة" : "Remove";
       } else {
-         element.textContent = ar ? "أضف إلى العربة" : "Add to cart"
+         element.textContent = ar ? "أضف إلى العربة" : "Add to cart";
       }
-   }
+   };
 
    return (
       <div className="w-full flex flex-col relative border bg-gray-50 rounded-lg shadow-md">
          {props.product.options[0].discount != 0 && (
             <div className="offer">
                <Image src={offer} alt="product offer" />
-               <div className="percing">{props.product.options[0].discount}%</div>
+               <div className="percing">
+                  {props.product.options[0].discount}%
+               </div>
             </div>
          )}
-         <div className="opacity-50 transition hover:opacity-100 z-10 absolute top-[1rem] text-red-500 text-xl right-[1rem]">
+         <div className="opacity-50 transition bg-gray-500 rounded-full w-9 h-9 flex items-center justify-center hover:opacity-100 z-10 absolute top-[1rem] text-red-500 text-xl right-[1rem]">
             {authState ? (
                <button
                   className="z-10"
                   onClick={() =>
-                     handleWishList(props.product.slug, props.product.is_wishlist)
+                     handleWishList(
+                        props.product.slug,
+                        props.product.is_wishlist
+                     )
                   }
-                  title="Add to wishlist"
+                  title={
+                     ar
+                        ? "أضف المنتج إلى قائمة الرغبات"
+                        : "Add product to wishlist"
+                  }
                >
                   {props.product.is_wishlist ? (
-                     <i ref={heartIcon} className="fas fa-heart"></i>
+                     <i
+                        ref={heartIcon}
+                        className="fas fa-heart drop-shadow-sm"
+                     ></i>
                   ) : (
-                     <i ref={heartIcon} className="far fa-heart"></i>
+                     <i
+                        ref={heartIcon}
+                        className="far fa-heart drop-shadow-sm"
+                     ></i>
                   )}
                </button>
             ) : (
                <button
                   className="z-10"
                   onClick={() =>
-                     handleWishList(props.product.slug, props.product.is_wishlist)
+                     handleWishList(
+                        props.product.slug,
+                        props.product.is_wishlist
+                     )
                   }
-                  title="Add to wishlist"
+                  title={
+                     ar
+                        ? "أضف المنتج إلى قائمة الرغبات"
+                        : "Add product to wishlist"
+                  }
                >
                   <i ref={heartIcon} className="far fa-heart"></i>
                </button>
             )}
          </div>
-         <div className="opacity-50 transition hover:opacity-100 z-10 absolute top-[3rem] text-blue-500 text-xl right-[1rem]">
+         <div className="opacity-50 transition bg-gray-500 rounded-full w-9 h-9 flex items-center justify-center hover:opacity-100 z-10 absolute top-[4rem] text-blue-400 text-xl right-[1rem]">
             <button
                className=""
                onClick={() => handleCompare(props.product.slug)}
-               title="Add to compare list"
+               title={
+                  ar
+                     ? "إضافة المنتج إلى قائمة المقارنة"
+                     : "Add product to comper list"
+               }
             >
                <i ref={compareIcon} className="fas fa-random"></i>
+            </button>
+         </div>
+         <div className="opacity-50 transition bg-gray-500 rounded-full w-9 h-9 flex items-center justify-center hover:opacity-100 z-10 absolute top-[7rem] text-yellow-500 text-xl right-[1rem]">
+            <button
+               className=""
+               onClick={() => share(props.product.slug)}
+               title={ar ? "مشاركة" : "Share"}
+            >
+               <i ref={compareIcon} className="fas fa-share-alt"></i>
             </button>
          </div>
          <Link href={`/products/${props.product.slug}`}>
@@ -359,41 +410,84 @@ const ProductBox = (props) => {
                      alt={`${props.product.name} img`}
                   />
                </div>
-               <div className="px-2 sm:px-5 sm:pb-5">
-                  <h5 className="text-xl font-semibold tracking-tight text-gray-900">
-                     {ar ? props.product.name_ar : props.product.name}
-                  </h5>
-                  <div className={`flex items-center my-2.5 ${props.product.rate < 1 ? "text-gray-300" : "text-yellow-500"}`}>
-                     <i className={`${props.product.rate >= 1 ? "fas" : "far"} fa-star`}></i>
-                     <i className={`${props.product.rate >= 2 ? "fas" : "far"} fa-star`}></i>
-                     <i className={`${props.product.rate >= 3 ? "fas" : "far"} fa-star`}></i>
-                     <i className={`${props.product.rate >= 4 ? "fas" : "far"} fa-star`}></i>
-                     <i className={`${props.product.rate >= 5 ? "fas" : "far"} fa-star`}></i>
-                     <span className={`bg-blue-100 ${props.product.rate < 1 ? "text-gray-300" : "text-blue-500"} text-xs font-semibold mr-2 px-2.5 py-0.5 rounded ml-3`}>
-                        {props.product.rate ? `${props.product.rate}.0` : 0}
-                     </span>
-                  </div>
-               </div>
             </a>
          </Link>
+         <div className="px-2 sm:px-5 sm:pb-5">
+            <h5 className="name text-xl font-semibold tracking-tight text-gray-900">
+               <a href={`/products/${props.product.slug}`}>
+                  {ar ? props.product.name_ar : props.product.name}
+               </a>
+            </h5>
+            <div
+               className={`flex items-center my-2.5 ${
+                  props.product.rate < 1 ? "text-gray-300" : "text-yellow-500"
+               }`}
+            >
+               <i
+                  className={`${
+                     props.product.rate >= 1 ? "fas" : "far"
+                  } fa-star`}
+               ></i>
+               <i
+                  className={`${
+                     props.product.rate >= 2 ? "fas" : "far"
+                  } fa-star`}
+               ></i>
+               <i
+                  className={`${
+                     props.product.rate >= 3 ? "fas" : "far"
+                  } fa-star`}
+               ></i>
+               <i
+                  className={`${
+                     props.product.rate >= 4 ? "fas" : "far"
+                  } fa-star`}
+               ></i>
+               <i
+                  className={`${
+                     props.product.rate >= 5 ? "fas" : "far"
+                  } fa-star`}
+               ></i>
+               <span
+                  className={`bg-blue-100 ${
+                     props.product.rate < 1 ? "text-gray-300" : "text-blue-500"
+                  } text-xs font-semibold mr-2 px-2.5 py-0.5 rounded ml-3`}
+               >
+                  {props.product.rate ? `${props.product.rate}.0` : 0}
+               </span>
+            </div>
+         </div>
          <div className="space-y-4 flex flex-col justify-end grow px-2 sm:px-5 pb-2 sm:pb-5">
             {props.product.options[0].discount == 0 && (
                <span className="text-xl sm:text-2xl mb-4 sm:mb-0 font-bold text-gray-900">
-                  {props.product.options[0]?.price}<span className="text-sm">{ar ? "ريال" : "QR"}</span>
+                  {props.product.options[0]?.price}
+                  <span className="text-sm">{ar ? "ريال" : "QR"}</span>
                </span>
             )}
             {props.product.options[0].discount != 0 && (
                <span className="text-xl sm:text-2xl mb-4 sm:mb-0 font-bold text-gray-900">
                   <span className="block text-sm line-through text-gray-500">
-                  {props.product.options[0]?.price}<span className="text-sm">{ar ? "ريال" : "QR"}</span>
+                     {props.product.options[0]?.price}
+                     <span className="text-sm">{ar ? "ريال" : "QR"}</span>
                   </span>
-                  {props.product.options[0]?.price_after_discount}<span className="text-sm">{ar ? "ريال" : "QR"}</span>
+                  {props.product.options[0]?.price_after_discount}
+                  <span className="text-sm">{ar ? "ريال" : "QR"}</span>
                </span>
             )}
             <div className="relative w-full sm:w-fit">
                <button
                   className="text-white w-full bg-primary-100 hover:bg-primary-200 focus:outline-none font-medium rounded-lg text-sm px-4 py-2.5 text-center"
-                  onClick={props.product.options.length > 1 ? () => toggleOptionsMenu(props.product.slug) : (e) => { handleCart({ textContent: "Add" }, props.product.options[0].id); addedOne(e.target, props.product.options[0].id) }}
+                  onClick={
+                     props.product.options.length > 1
+                        ? () => toggleOptionsMenu(props.product.slug)
+                        : (e) => {
+                             handleCart(
+                                { textContent: "Add" },
+                                props.product.options[0].id
+                             );
+                             addedOne(e.target, props.product.options[0].id);
+                          }
+                  }
                >
                   {ar ? "أضف إلى العربة" : "Add to cart"}
                </button>
@@ -404,14 +498,19 @@ const ProductBox = (props) => {
                   >
                      {props.product.options.map((option) => {
                         return (
-                           <div key={option.id} className="text-xs items-center grid grid-cols-3 option">
+                           <div
+                              key={option.id}
+                              className="text-xs items-center grid grid-cols-3 option"
+                           >
                               <span>{option.name}</span>
                               <span>{option.price}QR</span>
                               {authState ? (
                                  <button
                                     className="bg-primary-100 text-white rounded p-2"
                                     data-slug={props.product.slug}
-                                    onClick={(e) => handleCart(e.target, option.id)}
+                                    onClick={(e) =>
+                                       handleCart(e.target, option.id)
+                                    }
                                  >
                                     {option.is_added_to_cart ? "Remove" : "Add"}
                                  </button>
@@ -419,9 +518,13 @@ const ProductBox = (props) => {
                                  <button
                                     className="bg-primary-100 text-white rounded p-2"
                                     data-slug={props.product.slug}
-                                    onClick={(e) => handleCart(e.target, option.id)}
+                                    onClick={(e) =>
+                                       handleCart(e.target, option.id)
+                                    }
                                  >
-                                    {storedCartIds.includes(option.id) ? "Remove" : "Add"}
+                                    {storedCartIds.includes(option.id)
+                                       ? "Remove"
+                                       : "Add"}
                                  </button>
                               )}
                            </div>

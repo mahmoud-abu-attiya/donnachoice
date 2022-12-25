@@ -35,21 +35,7 @@ const DelivaryDetails = (props) => {
       props.setFastDelivary(fastDelivary.checked);
    };
 
-   // block letters from inputs type number
-   const BLFNI = () => {
-      let inputs = document.querySelectorAll("input[type=number]");
-      const blockLetters = ["e", "E", "+", "-"];
-      inputs.forEach((input) => {
-         input.addEventListener("keydown", (e) => {
-            if (blockLetters.includes(e.key)) {
-               e.preventDefault();
-            }
-         });
-      });
-   };
-
    useEffect(() => {
-      BLFNI();
       let e = document.querySelector("select");
       let phoneCode = e.options[e.selectedIndex].value;
       let country = e.options[e.selectedIndex].text;
@@ -212,7 +198,9 @@ const DelivaryDetails = (props) => {
                         {emailErr}
                      </div>
                      <Link href={"/login"}>
-                        <a className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2">Login</a>
+                        <a className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2">
+                           Login
+                        </a>
                      </Link>
                   </div>
                )}
@@ -337,16 +325,16 @@ const DelivaryDetails = (props) => {
                            </span>
                            <input
                               // defaultValue={delivaryDetails?.phone}
-                              type="number"
-                              maxLength={8}
-                              minLength={8}
+                              type="text"
+                              pattern="/^\d*$/" // only numbers
+                              maxlength="8"
                               id="phone"
                               className={`rounded-none ${
                                  ar ? "rounded-l-lg" : "rounded-r-lg"
                               } bg-white border text-gray-900 block flex-1 min-w-0 w-full text-sm ${
                                  phoneErr ? "border-red-500" : "border-gray-300"
                               } p-2.5`}
-                              placeholder="123-45-678"
+                              placeholder="12345678"
                               onChange={() => setPhoneErr(false)}
                               required
                            />
@@ -360,12 +348,13 @@ const DelivaryDetails = (props) => {
                            {ar ? "هاتف بديل" : "Alt Phone"}
                         </label>
                         <input
-                           type="number"
+                           type="text"
+                           pattern="\d*" // only numbers
+                           maxlength="8"
                            // defaultValue={delivaryDetails?.alt_phone}
                            id="alt_phone"
                            className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                           placeholder="123-45-678"
-                           pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
+                           placeholder="12345678"
                         />
                      </div>
                      <div>
@@ -391,7 +380,8 @@ const DelivaryDetails = (props) => {
                            {ar ? "رقم الشارع*" : "Street Number*"}
                         </label>
                         <input
-                           type="number"
+                           type="text"
+                           pattern="\d*" // only numbers
                            id="Street"
                            // defaultValue={delivaryDetails?.street_number}
                            className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -406,7 +396,8 @@ const DelivaryDetails = (props) => {
                            {ar ? "رقم المنطقة*" : "Zone Number*"}
                         </label>
                         <input
-                           type="number"
+                           type="text"
+                           pattern="\d*" // only numbers
                            id="zone"
                            // defaultValue={delivaryDetails?.zone_number}
                            className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -421,8 +412,8 @@ const DelivaryDetails = (props) => {
                            {ar ? "رقم المبني*" : "Building Number*"}
                         </label>
                         <input
-                           type="number"
-                           // defaultValue={delivaryDetails?.building_number}
+                           type="text"
+                           pattern="\d*" // only numbers
                            id="Address"
                            className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                            placeholder
@@ -475,9 +466,15 @@ const DelivaryDetails = (props) => {
                      <span className="text-xl font-bold">
                         {" "}
                         {props.totalPrice} <br />
-                        {fastD && <span className="fastD text-sm font-normal">
-                           <i className="fad fa-check-circle text-green-600"></i> {ar ? "التوصيل السريع فقط +15 ريال" : "Fast Delivary just +15 QR"} <i className="fad fa-shipping-fast text-xl text-primary-100"></i>
-                           </span>}
+                        {fastD && (
+                           <span className="fastD text-sm font-normal">
+                              <i className="fad fa-check-circle text-green-600"></i>{" "}
+                              {ar
+                                 ? "التوصيل السريع فقط +15 ريال"
+                                 : "Fast Delivary just +15 QR"}{" "}
+                              <i className="fad fa-shipping-fast text-xl text-primary-100"></i>
+                           </span>
+                        )}
                      </span>
                   </div>
                </div>
