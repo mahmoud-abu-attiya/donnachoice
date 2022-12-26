@@ -63,6 +63,7 @@ export default function Products({ brands, categorys }) {
    }, []);
 
    useEffect(() => {
+      // console.log(products);
       if (request) {
          request.cancel();
       }

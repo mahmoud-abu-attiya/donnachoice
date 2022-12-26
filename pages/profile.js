@@ -373,12 +373,11 @@ export default function Profile() {
                      >
                         {/* {user.phone ? user.phone : "no phone yet."} */}
                         <input
-                           type="text"
-                           pattern="\d*"
+                           type="number"
+                           onInput={(e) => {e.target.value = Math.max(0, parseInt(e.target.value)).toString().slice(0,8)}}
                            maxlength="8"
                            name="phone"
                            defaultValue={user.phone}
-                           // onChange={handleChange}
                            className="py-1 px-2 w-full bg-white rounded focus:outline-none"
                            placeholder="Phone"
                            required

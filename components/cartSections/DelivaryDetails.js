@@ -35,7 +35,23 @@ const DelivaryDetails = (props) => {
       props.setFastDelivary(fastDelivary.checked);
    };
 
+
+      // block letters from inputs type number
+      const BLFNI = () => {
+         let inputs = document.querySelectorAll("input[type=number]");
+         const blockLetters = ["e", "E", "+", "-"];
+         inputs.forEach((input) => {
+            input.addEventListener("input", (e) => {
+               e.target.value = Math.max(0, parseInt(e.target.value)).toString().slice(0,8)
+               if (blockLetters.includes(e.key)) {
+                  e.preventDefault();
+               }
+            });
+         });
+      };
+
    useEffect(() => {
+      BLFNI();
       let e = document.querySelector("select");
       let phoneCode = e.options[e.selectedIndex].value;
       let country = e.options[e.selectedIndex].text;
@@ -324,9 +340,7 @@ const DelivaryDetails = (props) => {
                               +{phoneCode}
                            </span>
                            <input
-                              // defaultValue={delivaryDetails?.phone}
-                              type="text"
-                              pattern="/^\d*$/" // only numbers
+                              type="number"
                               maxlength="8"
                               id="phone"
                               className={`rounded-none ${
@@ -348,8 +362,8 @@ const DelivaryDetails = (props) => {
                            {ar ? "هاتف بديل" : "Alt Phone"}
                         </label>
                         <input
-                           type="text"
-                           pattern="\d*" // only numbers
+                           type="number"
+                           // onInput={(e) => {e.target.value = Math.max(0, parseInt(e.target.value)).toString().slice(0,8)}}
                            maxlength="8"
                            // defaultValue={delivaryDetails?.alt_phone}
                            id="alt_phone"
@@ -380,8 +394,7 @@ const DelivaryDetails = (props) => {
                            {ar ? "رقم الشارع*" : "Street Number*"}
                         </label>
                         <input
-                           type="text"
-                           pattern="\d*" // only numbers
+                           type="number"
                            id="Street"
                            // defaultValue={delivaryDetails?.street_number}
                            className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -396,8 +409,7 @@ const DelivaryDetails = (props) => {
                            {ar ? "رقم المنطقة*" : "Zone Number*"}
                         </label>
                         <input
-                           type="text"
-                           pattern="\d*" // only numbers
+                           type="number"
                            id="zone"
                            // defaultValue={delivaryDetails?.zone_number}
                            className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -412,8 +424,7 @@ const DelivaryDetails = (props) => {
                            {ar ? "رقم المبني*" : "Building Number*"}
                         </label>
                         <input
-                           type="text"
-                           pattern="\d*" // only numbers
+                           type="number"
                            id="Address"
                            className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                            placeholder
@@ -449,7 +460,6 @@ const DelivaryDetails = (props) => {
                      </label>
                   </div>
                </div>
-               {/* <button className="hidden" type="submit"></button> */}
             </div>
             <div className="col-span-8 lg:col-span-2 flex flex-col gap-4">
                <div className="bg-gray-50 p-4 border rounded-md">
