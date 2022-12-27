@@ -40,10 +40,53 @@ export default function Products({ brands, categorys }) {
    const [loading, setLoading] = useState(true);
    const [price, setPrice] = useState({ max_price: 10000, min_price: 0 });
    const [maxPrice, setMaxPrice] = useState(10000)
-   const [minPrice, setMinPrice] = useState(0)
+   const [minPrice, setMinPrice] = useState(0);
+   const [filter, setFilter] = useState(true);
+
+   const filterByPrice = (products) => {
+      console.log(products);
+      let max = 0;
+      let min = 999999999;
+      for (let i = 0; i < products.length; i++) {
+         products[i].options.forEach(option => {
+            // console.log(option.price)
+            if (+option.price_after_discount > max) {
+               max = option.price_after_discount
+            }
+            if (+option.price_after_discount < min) {
+               min = option.price_after_discount
+            }
+         })
+      }
+      setMaxPrice(max)
+      setMinPrice(min)
+      setPrice({ max_price: max, min_price: min })
+      console.log(max);
+      console.log(min);
+   }
+
+   const resetFilter = () => {
+      let ranges = document.querySelectorAll(".range-slider__thumb")
+      for (let i = 0; i < ranges.length; i++) {
+         ranges[0].style = "";
+         ranges[1].style = "";
+         // ranges[0].setAttribute("aria-valuenow", minPrice)
+         // ranges[1].setAttribute("aria-valuenow", maxPrice)
+         // ranges[0].setAttribute("aria-valuetext", minPrice)
+         // ranges[1].setAttribute("aria-valuetext", maxPrice)
+         ranges[0].style.left = "calc(0% + 12px)";
+         ranges[1].style.left = "calc(100% + -12px)";
+         console.log(ranges[i].style);
+      }
+      setFilter(!filter);
+      setSearchQuery("");
+      setPrice({ max_price: maxPrice, min_price: minPrice })
+   }
+
 
 
    useEffect(() => {
+      
       if (window.innerWidth < 1023) {
          setSmScreen(true);
       }
@@ -60,6 +103,9 @@ export default function Products({ brands, categorys }) {
          });
          setSearchQuery(q);
       };
+      axios.get("https://backends.donnachoice.com/api/products/").then((res) => {
+         filterByPrice(res.data)
+   });
    }, []);
 
    useEffect(() => {
@@ -81,6 +127,7 @@ export default function Products({ brands, categorys }) {
                console.log(res.data);
                setProducts(res.data);
                setLoading(false);
+               // filterByPrice(res.data)
             })
             .catch((err) => {
                if (axios.isCancel(err)) {
@@ -104,6 +151,7 @@ export default function Products({ brands, categorys }) {
                setFilterPopup(false);
                setProducts(res.data);
                setLoading(false);
+               // filterByPrice(res.data);
             })
             .catch((err) => {
                if (axios.isCancel(err)) {
@@ -115,26 +163,29 @@ export default function Products({ brands, categorys }) {
                setLoading(false);
             });
       }
+      
    }, [searchQuery]);
 
-   const handleSelect = (e) => {
-      let selected = e.target.options[e.target.options.selectedIndex]
-      setPrice({
-         max_price: selected.getAttribute("max_price") ? +selected.getAttribute("max_price") : 10000,
-         min_price: selected.getAttribute("min_price") ? +selected.getAttribute("min_price") : 0,
-      })
-      console.log(price);
-      setPriceRange()
-   };
-   const setPriceRange = () => {
+   // const handleSelect = (e) => {
+   //    let selected = e.target.options[e.target.options.selectedIndex]
+   //    setPrice({
+   //       max_price: selected.getAttribute("max_price") ? +selected.getAttribute("max_price") : maxPrice,
+   //       min_price: selected.getAttribute("min_price") ? +selected.getAttribute("min_price") : minPrice,
+   //    })
+   //    console.log(price);
+   //    setPriceRange()
+   // };
+   const setPriceRange = (e) => {
+      // console.log(e);
       let ranges = document.querySelectorAll(".range-slider__thumb")
       // ranges.forEach(range => {
       //    console.log(range.getAttribute("aria-valuenow"))
       // })
-      console.log(+ranges[0].getAttribute("aria-valuenow"));
-      console.log(+ranges[1].getAttribute("aria-valuenow"));
-         setMaxPrice(+ranges[1].getAttribute("aria-valuenow"))
-         setMinPrice(+ranges[0].getAttribute("aria-valuenow"))
+      // console.log(+ranges[0].getAttribute("aria-valuenow"));
+      // console.log(+ranges[1].getAttribute("aria-valuenow"));
+         // setPrice({max_price : +ranges[1].getAttribute("aria-valuenow"), min_price : +ranges[0].getAttribute("aria-valuenow")})
+         setPrice({max_price : e[1], min_price : e[0]})
+         // setMinPrice(+ranges[0].getAttribute("aria-valuenow"))
       // if (ar) {
       //    setMaxPrice(+ranges[0].getAttribute("aria-valuenow"))
       //    setMinPrice(+ranges[1].getAttribute("aria-valuenow"))
@@ -183,21 +234,22 @@ export default function Products({ brands, categorys }) {
                            />
                         </div>
                      </div>
-                     <div>
+                     <div dir="ltr">
                         <h5 className="mb-2">{ar ? "نطاق السعر" : "Price Range"}</h5>
                         <div className="price">
                            <RangeSlider
-                           onInput={() => setPriceRange()}
-                           min={price.min_price}
-                           max={price.max_price}
+                           onInput={(e) => setPriceRange(e)}
+                           // min={price.min_price}
+                           min={minPrice}
+                           max={maxPrice}
                            defaultValue={[price.min_price, price.max_price]}
                            />
                         </div>
                         <div className="flex gap-4 my-4">
                            <div className="flex">
                               <span
-                                 className={`inline-flex items-center px-2 text-sm text-gray-900 bg-gray-200 ${ar ? "rounded-r-lg" : "rounded-l-md"
-                                    } border border-r-0 border-gray-300`}
+                                 className="inline-flex items-center px-2 text-sm text-gray-900 bg-gray-200 rounded-l-md
+                                    border border-r-0 border-gray-300"
                               >
                                  Min
                               </span>
@@ -205,18 +257,17 @@ export default function Products({ brands, categorys }) {
                                  type="number"
                                  id="lt"
                                  name="options__price__gte"
-                                 className={`rounded-none outline-none ${ar ? "rounded-l-lg" : "rounded-r-lg"
-                                    } bg-gray-50 border text-gray-900 focus:ring-primary-200 focus:border-primary-200 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5`}
+                                 className={`rounded-none outline-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-primary-200 focus:border-primary-200 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5`}
                                  placeholder="10"
                                  min={1}
-                                 value={minPrice}
+                                 value={price.min_price}
                                  readOnly
                               />
                            </div>
                            <div className="flex">
                               <span
-                                 className={`inline-flex items-center px-2 text-sm text-gray-900 bg-gray-200 ${ar ? "rounded-r-lg" : "rounded-l-md"
-                                    } border border-r-0 border-gray-300`}
+                                 className="inline-flex items-center px-2 text-sm text-gray-900 bg-gray-200 rounded-l-md
+                                    border border-r-0 border-gray-300"
                               >
                                  Max
                               </span>
@@ -224,11 +275,10 @@ export default function Products({ brands, categorys }) {
                                  type="number"
                                  id="gt"
                                  name="options__price__lte"
-                                 className={`rounded-none outline-none ${ar ? "rounded-l-lg" : "rounded-r-lg"
-                                    } bg-gray-50 border text-gray-900 focus:ring-primary-200 focus:border-primary-200 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5`}
+                                 className={`rounded-none outline-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-primary-200 focus:border-primary-200 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5`}
                                  placeholder="100"
                                  min={1}
-                                 value={maxPrice}
+                                 value={price.max_price}
                                  readOnly
                               />
                            </div>
@@ -263,7 +313,7 @@ export default function Products({ brands, categorys }) {
                         <h5 className="mb-2">{ar ? "ماركة" : "Brand"}</h5>
                         <select
                            id="countries"
-                           onChange={(e) => handleSelect(e)}
+                           // onChange={(e) => handleSelect(e)}
                            name="brand__slug"
                            className="bg-gray-50 outline-none border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-200 focus:border-primary-200 block w-full p-2.5"
                         >
@@ -327,7 +377,7 @@ export default function Products({ brands, categorys }) {
                            id="reset_filter"
                            // className="text-white w-full bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
                            className="border border-primary-100 w-full bg-gradient-to-r bg-primary-300 text-primary-100 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2"
-                           onClick={() => setSearchQuery("")}
+                           onClick={() => resetFilter()}
                         >
                            {ar ? "إعادة ضبط" : "Reset"}
                         </button>

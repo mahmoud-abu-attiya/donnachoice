@@ -147,7 +147,7 @@ export default function Order() {
                            <td className="py-4 px-6">
                               <button
                                  disabled={item.is_rated}
-                                 title={item.is_rated ? "you already rared this product." : ""}
+                                 title={item.is_rated ? (ar ? "لقد قمت بالفعل بتقييم هذا المنتج" : "You have already rated this product") : ""}
                                  onClick={() => reviwe(item)}
                                  className={`font-medium text-white text-sm py-1 px-2 text-center rounded ${item.is_rated
                                     ? "bg-gray-300 text-200"
@@ -181,24 +181,24 @@ export default function Order() {
                      <td className="p-4">{order?.count.count}</td>
                      <td className="p-4">{order?.total} {ar ? "ريال" : "QR"}</td>
                      <td className="p-4">
-                        <button
+                        {/* <button
                            onClick={() => setReorder(!Reorder)}
                            className="font-medium text-primary-100 border border-primary-100 text-sm py-1 px-2 bg-primary-300 text-center rounded"
                         >
                            {ar ? "اعادة الطلب" : "Reorder"}
-                        </button>
+                        </button> */}
                      </td>
                   </tr>
                </tbody>
             </table>
          </div>
-         {Reorder && (
+         {/* {Reorder && (
             <button className="py-3 px-5 w-fit mx-auto my-8 bg-primary-100 rounded-md text-white shadow-md">
                {ar
                   ? `اعادة طلب ${order.items.length} منتجات`
                   : `Reorder ${order.items.length} items`}
             </button>
-         )}
+         )} */}
          <div>{Reviwe && <ReviewForm item={orderReview} />}</div>
       </div>
    );
