@@ -60,13 +60,15 @@ const Footer = () => {
          </div>
          <div className="container md:flex gap-8 md:justify-between p-4 sm:p-6">
             <div className="mb-6 md:mb-0">
-               <a href="#" className="flex items-center">
+               <Link href={"/"}>
+               <a className="flex items-center">
                   <img
                      src="https://i.postimg.cc/nrsTJywx/donna-logo.png"
                      className="mr-5 h-28 drop-shadow"
                      alt="FlowBite Logo"
                   />
                </a>
+               </Link>
                <p className="max-w-sm">
                   {ar ? `
                   مع دونا ، نقدم الرعاية القصوى والأناقة لجميع احتياجاتك.

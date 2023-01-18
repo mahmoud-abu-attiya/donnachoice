@@ -32,6 +32,9 @@ const getNumberOfProductsInCompare = () => {
 const Subnav = () => {
    // const lang = useSelector(state => state.langs.value)
    const ar = useSelector((state) => state.langs.value);
+   const [stored_cart, setStoredCart] = useState([])
+   const token = Cookies.get("token");
+   // let stored_cart = JSON.parse(localStorage.getItem("stored-cart")) || [];
    const auth = Cookies.get("auth");
    const wishlistIndicator = useSelector(
       (state) => state.wishlistIndicator.count
@@ -44,6 +47,7 @@ const Subnav = () => {
          dispatch(setAmount(getNumberOfProductsInWishlist()));
          dispatch(setCartCount(getNumberOfProductsInCart()));
          dispatch(setCompareCount(getNumberOfProductsInCompare()));
+         setStoredCart(localStorage.getItem("stored-cart"))
       } else {
          axios
             .get(`https://backends.donnachoice.com/api/counts`, {
@@ -127,7 +131,9 @@ const Subnav = () => {
                      </span>
                   </a>
                </Link>
-               <Link href={"/cart"}>
+               <Link href={auth ? `https://backends.donnachoice.com/cart/login_with_token?token=${token}&lang=${ar ? "ar" : "en"}`
+               :
+               `https://backends.donnachoice.com/cart/save_items_to_session?items=${stored_cart}&lang=${ar ? "ar" : "en"}`}>
                   <a className="cart relative">
                      <i className="fas fa-shopping-cart"></i>
                      <span

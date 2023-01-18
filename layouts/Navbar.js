@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import Head from "next/head";
 import { useSelector } from "react-redux";
+import Cookies from "js-cookie";
 
 const Nav = () => {
    const [paymentState, setPaymentState] = useState(true);
@@ -15,14 +16,22 @@ const Nav = () => {
    const router = useRouter();
    const [toggle, setToggle] = useState(false);
    useEffect(() => {
-      const payment = window.location.search.split("=")[1];
-      // console.log(payment);
+      // const payment = window.location.search.split("=")[1];
+      const queryParameters = new URLSearchParams(window.location.search)
+      const payment = queryParameters.get("status")
+      const items = queryParameters.get("items")
+      const token = queryParameters.get("token")
+
+      localStorage.setItem("stored-cart", items || []);
+      Cookies.set("token", token || "");
+
 		if (payment === "True") {
 			setPaymentState(true);
 			localStorage.setItem("stored-cart", []);
 		} else {
 			setPaymentState(false);
 		}
+      
       payment === "True" ? setPaymentState(true) : setPaymentState(false);
       const closenav = () => {
          setToggle(false);
@@ -36,14 +45,6 @@ const Nav = () => {
    }, []);
    return (
       <>
-         {/* <Head>
-        <link
-          rel="stylesheet"
-          href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
-          crossOrigin="anonymous"
-        />
-      </Head> */}
          {paymentState && (
             <div
                className="succsseAlert shadow-xl p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg"
