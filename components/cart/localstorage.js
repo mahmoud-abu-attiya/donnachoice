@@ -3,7 +3,7 @@ export class LocalStorageCart {
     storedCartIds = []
 
     load() {
-        this.storedCart = JSON.parse(localStorage.getItem("stored-cart")) || []
+        this.storedCart = JSON.parse(localStorage.getItem("stored-cart") || "[]")
         this.storedCartIds = this.storedCart.map(item => item.id)
     }
 

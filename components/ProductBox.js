@@ -15,25 +15,34 @@ import Image from "next/image";
 import offer from "../public/images/offer.png";
 
 const getNumberOfProductsInWishlist = () => {
-   const storedWishlist =
-      JSON.parse(localStorage.getItem("stored-wishlist")) || [];
+   const storedWishlist = [];
+      if(localStorage.getItem("stored-wishlist")){
+         storedWishlist = JSON.parse(localStorage.getItem("stored-wishlist"));
+      }
    return storedWishlist.length;
 };
 
 const getNumberOfProductsInCart = () => {
-   const storedCart = JSON.parse(localStorage.getItem("stored-cart")) || [];
+   const storedCart = [];
+   if(localStorage.getItem("stored-cart")){
+      storedCart = JSON.parse(localStorage.getItem("stored-cart"));
+   }
    return storedCart.length;
 };
 
 const getNumberOfProductsInCompare = () => {
-   const storedCompare =
-      JSON.parse(localStorage.getItem("stored-compare")) || [];
+   const storedCompare = [];
+      if(localStorage.getItem("stored-compare")){
+         storedCompare = JSON.parse(localStorage.getItem("stored-compare"));
+      }
    return storedCompare.length;
 };
 
 const handleWishlistLocalStorage = (heartElement, itemSlug, changed) => {
-   const storedWishlist =
-      JSON.parse(localStorage.getItem("stored-wishlist")) || [];
+   const storedWishlist = [];
+      if(localStorage.getItem("stored-wishlist")){
+         storedWishlist = JSON.parse(localStorage.getItem("stored-wishlist"));
+      }
    if (storedWishlist.includes(itemSlug)) {
       if (changed) {
          storedWishlist.splice(storedWishlist.indexOf(itemSlug), 1);
@@ -57,7 +66,7 @@ const handleWishlistLocalStorage = (heartElement, itemSlug, changed) => {
 };
 
 const handleCartLocalStorage = (addToCartButton, itemId, changed) => {
-   const storedCart = JSON.parse(localStorage.getItem("stored-cart")) || [];
+   const storedCart = JSON.parse(localStorage.getItem("stored-cart") || "[]");
    const storedCartIds = storedCart.map((cartId) => cartId.id);
    if (storedCartIds.includes(itemId)) {
       if (changed) {
@@ -90,8 +99,10 @@ const handleCartLocalStorage = (addToCartButton, itemId, changed) => {
 };
 
 const handleCompareLocalStorage = (compareElement, itemSlug, changed) => {
-   const storedCompare =
-      JSON.parse(localStorage.getItem("stored-compare")) || [];
+   const storedCompare = [];
+      if(localStorage.getItem("stored-compare")){
+         storedCompare = JSON.parse(localStorage.getItem("stored-compare"));
+      }
    if (storedCompare.includes(itemSlug)) {
       if (changed) {
          storedCompare.splice(storedCompare.indexOf(itemSlug), 1);
@@ -126,7 +137,7 @@ const ProductBox = (props) => {
    const optionsMenu = useRef();
    const dispatch = useDispatch();
    useEffect(() => {
-      storedCart = JSON.parse(localStorage.getItem("stored-cart")) || [];
+      storedCart = JSON.parse(localStorage.getItem("stored-cart") || "[]");
       const tempStoredCartIds = storedCart.map((cartId) => cartId.id);
       // console.log(tempStoredCartIds)
       auth = Cookies.get("auth");
