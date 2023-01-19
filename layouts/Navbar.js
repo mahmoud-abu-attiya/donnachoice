@@ -19,7 +19,7 @@ const Nav = () => {
       // const payment = window.location.search.split("=")[1];
       const queryParameters = new URLSearchParams(window.location.search)
       const payment = queryParameters.get("status")
-      const items = queryParameters.get("items")
+      const items = decodeURI(queryParameters.get("items"))
       const token = queryParameters.get("token")
 
       localStorage.setItem("stored-cart", items || []);
