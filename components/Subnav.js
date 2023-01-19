@@ -12,23 +12,30 @@ import Langs from "./Langs";
 import Currencies from "./Currencies";
 import Cookies from "js-cookie";
 
+
 const getNumberOfProductsInWishlist = () => {
-   const storedWishlist =
-      JSON.parse(localStorage.getItem("stored-wishlist")) || [];
+   const storedWishlist = [];
+      if(localStorage.getItem("stored-wishlist")){
+         storedWishlist = JSON.parse(localStorage.getItem("stored-wishlist"));
+      }
    return storedWishlist.length;
 };
 
 const getNumberOfProductsInCart = () => {
-   const storedCart = JSON.parse(localStorage.getItem("stored-cart")) || [];
+   let storedCart = [];
+   if (localStorage.getItem("stored-cart")) {
+      storedCart = JSON.parse(localStorage.getItem("stored-cart"));
+   }
    return storedCart.length;
 };
 
 const getNumberOfProductsInCompare = () => {
-   const storedCompare =
-      JSON.parse(localStorage.getItem("stored-compare")) || [];
+   let storedCompare = [];
+      if(localStorage.getItem("stored-compare")){
+         storedCompare = JSON.parse(localStorage.getItem("stored-compare"));
+      }
    return storedCompare.length;
 };
-
 const Subnav = () => {
    // const lang = useSelector(state => state.langs.value)
    const ar = useSelector((state) => state.langs.value);
