@@ -31,6 +31,11 @@ export default function Profile() {
       localStorage.removeItem("user");
       location.reload();
    };
+   const opencart = (e) => {
+      e.preventDefault();
+      const token = Cookies.get("token");
+      window.location.href = `https://backends.donnachoice.com/cart/login_with_token?token=${token}&lang=${ar ? "ar" : "en"}`;
+   }
    useEffect(() => {
       if (!Cookies.get("auth")) {
          router.push("/login");
@@ -199,8 +204,8 @@ export default function Profile() {
                      </Link>
                   </li>
                   <li>
-                     <Link href={"/cart"}>
-                        <a className="flex items-center gap-2 p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100">
+                     {/* <Link href={"/cart"}> */}
+                        <a onClick={(e) => opencart(e)} href={"/cart"} className="flex items-center gap-2 p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100">
                            <i className="fad fa-shopping-cart text-gray-500 text-xl hidden sm:block"></i>
                            <span className="flex-1 whitespace-nowrap">
                               {ar ? "العربة" : "Cart"}
@@ -209,7 +214,7 @@ export default function Profile() {
                               {cartIndicator}
                            </span>
                         </a>
-                     </Link>
+                     {/* </Link> */}
                   </li>
                   <li>
                      <Link href={"/compare"}>
