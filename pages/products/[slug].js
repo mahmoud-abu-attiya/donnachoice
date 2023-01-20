@@ -637,17 +637,21 @@ const Product = ({ product }) => {
 
 						{/* ///////////////////////////////////////////////// */}
 					</div>
-					<hr className="my-8 h-px bg-gray-200 border-0" />
-					<div className="mb-8">
-						<h2 className="font-bold text-3xl mb-8">
-							{ar ? "منتجات ذات صله" : "Related Products"}
-						</h2>
-						<div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-							{relatedPro.map((pro) => (
-								<ProductBox key={pro.id} product={pro} />
-							))}
-						</div>
-					</div>
+					{relatedPro.length > 0 && (
+						<>
+							<hr className="my-8 h-px bg-gray-200 border-0" />
+							<div className="mb-8">
+								<h2 className="font-bold text-3xl mb-8">
+									{ar ? "منتجات ذات صله" : "Related Products"}
+								</h2>
+								<div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+									{relatedPro.map((pro) => (
+										<ProductBox key={pro.id} product={pro} />
+									))}
+								</div>
+							</div>
+						</>
+					)}
 				</div>
 			</div>
 		)}
