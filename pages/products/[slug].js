@@ -256,7 +256,7 @@ const Product = ({ product }) => {
 			.then((res) => setReviews(res.data));
 	}, [product]);
 
-	const [price, setPrice] = useState(product.options[0].price);
+	const [price, setPrice] = useState(product?.options[0].price);
 
 	const selectOption = (e, optionId, price) => {
 		setselectedOption(optionId);
