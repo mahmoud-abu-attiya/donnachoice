@@ -22,10 +22,10 @@ const getNumberOfProductsInWishlist = () => {
 };
 
 const getNumberOfProductsInCart = () => {
-   let storedCart = [];
-   if (localStorage.getItem("stored-cart")) {
-      storedCart = JSON.parse(localStorage.getItem("stored-cart"));
-   }
+   let storedCart = JSON.parse(localStorage.getItem("stored-cart") || "[]");
+   // if (localStorage.getItem("stored-cart")) {
+   //    storedCart = JSON.parse(localStorage.getItem("stored-cart"));
+   // }
    return storedCart.length;
 };
 

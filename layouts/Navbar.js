@@ -17,21 +17,25 @@ const Nav = () => {
    const [toggle, setToggle] = useState(false);
    useEffect(() => {
       // const payment = window.location.search.split("=")[1];
-      const queryParameters = new URLSearchParams(window.location.search)
-      const payment = queryParameters.get("status")
-      const items = decodeURI(queryParameters.get("items"))
-      const token = queryParameters.get("token")
+      const queryParameters = new URLSearchParams(window.location.search);
+      const payment = queryParameters.get("status");
+      const items = decodeURI(
+         queryParameters.get("items") ||
+            localStorage.getItem("stored-cart") ||
+            "[]"
+      ).replaceAll("'", '"');
+      const token = queryParameters.get("token") || Cookies.get("token") || "";
 
-      localStorage.setItem("stored-cart", items || []);
-      Cookies.set("token", token || "");
+      localStorage.setItem("stored-cart", items);
+      Cookies.set("token", token);
 
-		if (payment === "True") {
-			setPaymentState(true);
-			localStorage.setItem("stored-cart", []);
-		} else {
-			setPaymentState(false);
-		}
-      
+      if (payment === "True") {
+         setPaymentState(true);
+         localStorage.setItem("stored-cart", "[]");
+      } else {
+         setPaymentState(false);
+      }
+
       payment === "True" ? setPaymentState(true) : setPaymentState(false);
       const closenav = () => {
          setToggle(false);
@@ -50,12 +54,10 @@ const Nav = () => {
                className="succsseAlert shadow-xl p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg"
                role="alert"
             >
-               <p>
-						Payment completed successfully
-					</p>
-					<button onClick={() => setPaymentState(false)}>
-						<i className="fas fa-times"></i>
-					</button>
+               <p>Payment completed successfully</p>
+               <button onClick={() => setPaymentState(false)}>
+                  <i className="fas fa-times"></i>
+               </button>
             </div>
          )}
          <header className="bg-gray-50">
