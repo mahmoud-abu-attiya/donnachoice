@@ -256,8 +256,11 @@ const Product = ({ product }) => {
 			.then((res) => setReviews(res.data));
 	}, [product]);
 
-	const selectOption = (e, optionId) => {
+	const [price, setPrice] = useState(product.options[0].price);
+
+	const selectOption = (e, optionId, price) => {
 		setselectedOption(optionId);
+		setPrice(price);
 		let currentOption = document.querySelector(".active-option");
 		if (currentOption) {
 			currentOption.classList.remove("active-option", "border-primary-100");
@@ -443,7 +446,7 @@ const Product = ({ product }) => {
 								</div>
 								{product.options[0].discount == 0 ? (
 									<div className="text-xl text-gray-700 mt-8">
-										{product.options[0].price} {ar ? "ريال" : "QR"} 
+										{price} {ar ? "ريال" : "QR"} 
 									</div>
 								) : (
 									<div className="text-xl text-gray-700 flex gap-2 mb-2 mt-8">
@@ -497,7 +500,7 @@ const Product = ({ product }) => {
 												<button
 													key={option.id}
 													onClick={(e) =>
-														selectOption(e, option.id)
+														selectOption(e, option.id, option.price)
 													}
 													className={
 														index == 0
