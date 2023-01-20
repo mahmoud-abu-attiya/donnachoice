@@ -14,34 +14,24 @@ import Cookies from "js-cookie";
 
 
 const getNumberOfProductsInWishlist = () => {
-   const storedWishlist = [];
-      if(localStorage.getItem("stored-wishlist")){
-         storedWishlist = JSON.parse(localStorage.getItem("stored-wishlist"));
-      }
+   const storedWishlist = JSON.parse(localStorage.getItem("stored-wishlist") || "[]");
    return storedWishlist.length;
 };
 
 const getNumberOfProductsInCart = () => {
    let storedCart = JSON.parse(localStorage.getItem("stored-cart") || "[]");
-   // if (localStorage.getItem("stored-cart")) {
-   //    storedCart = JSON.parse(localStorage.getItem("stored-cart"));
-   // }
    return storedCart.length;
 };
 
 const getNumberOfProductsInCompare = () => {
-   let storedCompare = [];
-      if(localStorage.getItem("stored-compare")){
-         storedCompare = JSON.parse(localStorage.getItem("stored-compare"));
-      }
+   let storedCompare = JSON.parse(localStorage.getItem("stored-compare") || "[]");
    return storedCompare.length;
 };
+
+
 const Subnav = () => {
-   // const lang = useSelector(state => state.langs.value)
    const ar = useSelector((state) => state.langs.value);
-   const [stored_cart, setStoredCart] = useState([])
    const token = Cookies.get("token");
-   // let stored_cart = JSON.parse(localStorage.getItem("stored-cart")) || [];
    const auth = Cookies.get("auth");
    const wishlistIndicator = useSelector(
       (state) => state.wishlistIndicator.count
@@ -49,12 +39,20 @@ const Subnav = () => {
    const cartIndicator = useSelector((state) => state.cartIndicator.count);
    const compareIndicator = useSelector((state) => state.compareIndicator.count);
    const dispatch = useDispatch();
+   const opencart = (e) => {
+      e.preventDefault();
+      const cartitems = localStorage.getItem("stored-cart") || "[]";
+      if (auth) {
+         window.location.href = `https://backends.donnachoice.com/cart/login_with_token?token=${token}&lang=${ar ? "ar" : "en"}`;
+      } else {
+         window.location.href = `https://backends.donnachoice.com/cart/save_items_to_session?items=${cartitems}&lang=${ar ? "ar" : "en"}`;
+      }
+   }
    useEffect(() => {
       if (!auth) {
          dispatch(setAmount(getNumberOfProductsInWishlist()));
          dispatch(setCartCount(getNumberOfProductsInCart()));
          dispatch(setCompareCount(getNumberOfProductsInCompare()));
-         setStoredCart(localStorage.getItem("stored-cart"))
       } else {
          axios
             .get(`https://backends.donnachoice.com/api/counts`, {
@@ -69,19 +67,6 @@ const Subnav = () => {
          dispatch(setCompareCount(getNumberOfProductsInCompare()));
       }
    }, []);
-
-   // export default function Subnav () {
-   // const cartCount = useSelector((state) => state.cart.value)
-   // const wishCount = useSelector((state) => state.wishList.value)
-
-   const [wishListCount, setwishListCount] = useState();
-   const [cartCount, setcartCount] = useState();
-   // useEffect(() => {
-   //    axios.get("https://backends.donnachoice.com/api/counts").then(res => {
-   //       setwishListCount(res.data.wishlist)
-   //       setcartCount(res.data.cart)
-   //    })
-   // }, [wishListCount]);
    return (
       <div className="bg-primary-200 px-0 sm:px-4 py-2.5 text-white">
          <div className="container flex justify-between items-center flex-wrap">
@@ -138,10 +123,7 @@ const Subnav = () => {
                      </span>
                   </a>
                </Link>
-               <Link href={auth ? `https://backends.donnachoice.com/cart/login_with_token?token=${token}&lang=${ar ? "ar" : "en"}`
-               :
-               `https://backends.donnachoice.com/cart/save_items_to_session?items=${stored_cart}&lang=${ar ? "ar" : "en"}`}>
-                  <a className="cart relative">
+                  <a onClick={(e) => opencart(e)} href={"/cart"} className="cart relative">
                      <i className="fas fa-shopping-cart"></i>
                      <span
                         className="top-0 left-[115%] absolute w-4 h-4 border border-white bg-red-500 rounded-full text-xs flex items-center justify-center"
@@ -150,7 +132,6 @@ const Subnav = () => {
                         {cartIndicator}
                      </span>
                   </a>
-               </Link>
                <Link href={"/compare"}>
                   <a className="compare relative">
                      <i className="fas fa-random"></i>
@@ -162,11 +143,6 @@ const Subnav = () => {
                      </span>
                   </a>
                </Link>
-               {/* <Link href={"#"}>
-                  <a className="search">
-                     <i className="fas fa-search"></i>
-                  </a>
-               </Link> */}
             </div>
          </div>
       </div>
