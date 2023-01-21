@@ -36,7 +36,9 @@ const Subnav = () => {
    const wishlistIndicator = useSelector(
       (state) => state.wishlistIndicator.count
    );
-   const cartIndicator = useSelector((state) => state.cartIndicator.count);
+   // const cartIndicator = useSelector((state) => state.cartIndicator.count);
+   const [cartIndicator, setCartIndicator] = useState(0);
+   const cartCount = useSelector((state) => state.cartIndicator.count);
    const compareIndicator = useSelector((state) => state.compareIndicator.count);
    const dispatch = useDispatch();
    const opencart = (e) => {
@@ -49,12 +51,12 @@ const Subnav = () => {
       }
    }
    useEffect(() => {
-      if(!auth){
-         if (!localStorage.getItem("stored-cart") || localStorage.getItem("stored-cart") == "[]") {
-            cartIndicator = 0;
-         }
-      }
       if (!auth) {
+         if (!localStorage.getItem("stored-cart") || localStorage.getItem("stored-cart") == "[]") {
+            setCartIndicator(0);
+         } else {
+            setCartIndicator(cartCount);
+         }
          dispatch(setAmount(getNumberOfProductsInWishlist()));
          dispatch(setCartCount(getNumberOfProductsInCart()));
          dispatch(setCompareCount(getNumberOfProductsInCompare()));
