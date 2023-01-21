@@ -49,6 +49,11 @@ const Subnav = () => {
       }
    }
    useEffect(() => {
+      if(!auth){
+         if (!localStorage.getItem("stored-cart") || localStorage.getItem("stored-cart") == "[]") {
+            cartIndicator = 0;
+         }
+      }
       if (!auth) {
          dispatch(setAmount(getNumberOfProductsInWishlist()));
          dispatch(setCartCount(getNumberOfProductsInCart()));
