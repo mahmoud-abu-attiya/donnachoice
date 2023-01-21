@@ -13,8 +13,8 @@ const Langs = () => {
    }, []);
 
    const setLang = () => {
+      localStorage.setItem("lang", !lang);
       dispatch(handelLangs(!lang));
-      localStorage.setItem("lang", lang);
    };
    return (
       <button
