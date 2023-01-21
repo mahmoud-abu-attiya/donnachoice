@@ -341,7 +341,7 @@ const Product = ({ product }) => {
 						</ol>
 					</nav>
 					<hr className="my-8 h-px bg-gray-200 border-0" />
-					<div className="product grid grid-cols-1 md:grid-cols-2 gap-8">
+					<div className="product grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
 						<div className="p-s">
 							<ProductSwiper images={product.images} offer={product.options[0].discount} />
 						</div>
@@ -642,7 +642,7 @@ const Product = ({ product }) => {
 					</div>
 					{relatedPro.length > 0 && (
 						<>
-							<hr className="my-8 h-px bg-gray-200 border-0" />
+							<hr className="mb-8 h-px bg-gray-200 border-0" />
 							<div className="mb-8">
 								<h2 className="font-bold text-3xl mb-8">
 									{ar ? "منتجات ذات صله" : "Related Products"}

@@ -7,8 +7,8 @@ import Image from "next/image";
 import img from "../../public/images/no-result.png";
 import { useSelector } from "react-redux";
 import ProductBoxP from "../../components/placeholder/ProductBoxP";
-import RangeSlider from 'react-range-slider-input';
-import 'react-range-slider-input/dist/style.css';
+import RangeSlider from "react-range-slider-input";
+import "react-range-slider-input/dist/style.css";
 import bg from "../../public/images/products-bg.jpg";
 
 export const getStaticProps = async () => {
@@ -30,16 +30,16 @@ export const getStaticProps = async () => {
 let request = null;
 export default function Products({ brands, categorys }) {
    const ar = useSelector((state) => state.langs.value);
-   const [query, setQuery] = useState("");
+   // const [query, setQuery] = useState("");
    const [products, setProducts] = useState([]);
-   const [categorySlug, setCategorySlug] = useState();
+   // const [categorySlug, setCategorySlug] = useState();
    const [searchQuery, setSearchQuery] = useState("");
    const [Floading, setFloading] = useState(false);
-   const [smScreen, setSmScreen] = useState(false);
+   // const [smScreen, setSmScreen] = useState(false);
    const [filterPopup, setFilterPopup] = useState(false);
    const [loading, setLoading] = useState(true);
    const [price, setPrice] = useState({ max_price: 10000, min_price: 0 });
-   const [maxPrice, setMaxPrice] = useState(10000)
+   const [maxPrice, setMaxPrice] = useState(10000);
    const [minPrice, setMinPrice] = useState(0);
    const [filter, setFilter] = useState(true);
 
@@ -47,26 +47,30 @@ export default function Products({ brands, categorys }) {
       console.log(products);
       let max = 0;
       let min = 999999999;
-      for (let i = 0; i < products.length; i++) {
-         products[i].options.forEach(option => {
-            // console.log(option.price)
-            if (+option.price_after_discount > max) {
-               max = option.price_after_discount
-            }
-            if (+option.price_after_discount < min) {
-               min = option.price_after_discount
-            }
-         })
+      if (products.length == 0) {
+         max = 10000;
+         min = 0;
+      } else {
+         for (let i = 0; i < products.length; i++) {
+            products[i].options.forEach((option) => {
+               if (+option.price_after_discount > max) {
+                  max = option.price_after_discount;
+               }
+               if (+option.price_after_discount < min) {
+                  min = option.price_after_discount;
+               }
+            });
+         }
       }
-      setMaxPrice(max)
-      setMinPrice(min)
-      setPrice({ max_price: max, min_price: min })
+      setMaxPrice(max);
+      setMinPrice(min);
+      setPrice({ max_price: max, min_price: min });
       console.log(max);
       console.log(min);
-   }
+   };
 
    const resetFilter = () => {
-      let ranges = document.querySelectorAll(".range-slider__thumb")
+      let ranges = document.querySelectorAll(".range-slider__thumb");
       for (let i = 0; i < ranges.length; i++) {
          ranges[0].style = "";
          ranges[1].style = "";
@@ -80,16 +84,30 @@ export default function Products({ brands, categorys }) {
       }
       setFilter(!filter);
       setSearchQuery("");
-      setPrice({ max_price: maxPrice, min_price: minPrice })
-   }
+      setPrice({ max_price: maxPrice, min_price: minPrice });
+   };
 
-
+   const handleBrandSelect = (e) => {
+      let slug = e.target.value;
+      const URL = `https://backends.donnachoice.com/api/products/?options__price__gte=${minPrice}&options__price__lte=${maxPrice}&brand__slug=${slug}&`;
+      axios
+         .get(URL, { cancelToken: request.token })
+         .then((res) => {
+            filterByPrice(res.data);
+         })
+         .catch((err) => {
+            if (axios.isCancel(err)) {
+               console.log("we cancelled previous request");
+            } else {
+               console.log(err);
+            }
+         });
+   };
 
    useEffect(() => {
-      
-      if (window.innerWidth < 1023) {
-         setSmScreen(true);
-      }
+      // if (window.innerWidth < 1023) {
+      //    setSmScreen(true);
+      // }
       let urlparam = window.location.search;
       setSearchQuery(urlparam);
       let filter_btn = document.getElementById("filter_btn");
@@ -103,10 +121,10 @@ export default function Products({ brands, categorys }) {
          });
          setSearchQuery(q);
       };
-      axios.get("https://backends.donnachoice.com/api/products/").then((res) => {
-         filterByPrice(res.data)
-   });
    }, []);
+   // useEffect(() => {
+
+   // }, [brandSlug])
 
    useEffect(() => {
       // console.log(products);
@@ -163,7 +181,6 @@ export default function Products({ brands, categorys }) {
                setLoading(false);
             });
       }
-      
    }, [searchQuery]);
 
    // const handleSelect = (e) => {
@@ -177,15 +194,15 @@ export default function Products({ brands, categorys }) {
    // };
    const setPriceRange = (e) => {
       // console.log(e);
-      let ranges = document.querySelectorAll(".range-slider__thumb")
+      let ranges = document.querySelectorAll(".range-slider__thumb");
       // ranges.forEach(range => {
       //    console.log(range.getAttribute("aria-valuenow"))
       // })
       // console.log(+ranges[0].getAttribute("aria-valuenow"));
       // console.log(+ranges[1].getAttribute("aria-valuenow"));
-         // setPrice({max_price : +ranges[1].getAttribute("aria-valuenow"), min_price : +ranges[0].getAttribute("aria-valuenow")})
-         setPrice({max_price : e[1], min_price : e[0]})
-         // setMinPrice(+ranges[0].getAttribute("aria-valuenow"))
+      // setPrice({max_price : +ranges[1].getAttribute("aria-valuenow"), min_price : +ranges[0].getAttribute("aria-valuenow")})
+      setPrice({ max_price: e[1], min_price: e[0] });
+      // setMinPrice(+ranges[0].getAttribute("aria-valuenow"))
       // if (ar) {
       //    setMaxPrice(+ranges[0].getAttribute("aria-valuenow"))
       //    setMinPrice(+ranges[1].getAttribute("aria-valuenow"))
@@ -194,7 +211,7 @@ export default function Products({ brands, categorys }) {
       //    setMinPrice(+ranges[1].getAttribute("aria-valuenow"))
 
       // }
-   }
+   };
 
    return (
       <div dir={ar ? "rtl" : "ltr"}>
@@ -202,8 +219,9 @@ export default function Products({ brands, categorys }) {
          <div className="container">
             <div className="grid grid-cols-8 gap-4 py-8">
                <aside
-                  className={`filter col-span-2 ${ar ? "border-l md:pl-4" : "border-r md:pr-4"
-                     } ${filterPopup ? "flex" : "hidden"} `}
+                  className={`filter col-span-2 ${
+                     ar ? "border-l md:pl-4" : "border-r md:pr-4"
+                  } ${filterPopup ? "flex" : "hidden"} `}
                >
                   <div className="max-w-[400px] space-y-4">
                      <h3 className="text-2xl">{ar ? "الفلاتر" : "Filter"}</h3>
@@ -235,14 +253,16 @@ export default function Products({ brands, categorys }) {
                         </div>
                      </div>
                      <div dir="ltr">
-                        <h5 className="mb-2">{ar ? "نطاق السعر" : "Price Range"}</h5>
+                        <h5 className="mb-2">
+                           {ar ? "نطاق السعر" : "Price Range"}
+                        </h5>
                         <div className="price">
                            <RangeSlider
-                           onInput={(e) => setPriceRange(e)}
-                           // min={price.min_price}
-                           min={minPrice}
-                           max={maxPrice}
-                           defaultValue={[price.min_price, price.max_price]}
+                              onInput={(e) => setPriceRange(e)}
+                              // min={price.min_price}
+                              min={minPrice}
+                              max={maxPrice}
+                              defaultValue={[price.min_price, price.max_price]}
                            />
                         </div>
                         <div className="flex gap-4 my-4">
@@ -296,7 +316,9 @@ export default function Products({ brands, categorys }) {
                               return (
                                  <option
                                     selected={
-                                       searchQuery.includes(`category__slug=${cat.slug}`)
+                                       searchQuery.includes(
+                                          `category__slug=${cat.slug}`
+                                       )
                                           ? true
                                           : false
                                     }
@@ -313,7 +335,7 @@ export default function Products({ brands, categorys }) {
                         <h5 className="mb-2">{ar ? "ماركة" : "Brand"}</h5>
                         <select
                            id="countries"
-                           // onChange={(e) => handleSelect(e)}
+                           onChange={(e) => handleBrandSelect(e)}
                            name="brand__slug"
                            className="bg-gray-50 outline-none border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-200 focus:border-primary-200 block w-full p-2.5"
                         >
@@ -322,12 +344,18 @@ export default function Products({ brands, categorys }) {
                               return (
                                  <option
                                     selected={
-                                       searchQuery.includes(`brand__slug=${brand.slug}`)
+                                       searchQuery.includes(
+                                          `brand__slug=${brand.slug}`
+                                       )
                                           ? true
                                           : false
                                     }
-                                    max_price={brand.max_price ? brand.max_price : 10000}
-                                    min_price={brand.min_price ? brand.min_price : 0}
+                                    max_price={
+                                       brand.max_price ? brand.max_price : 10000
+                                    }
+                                    min_price={
+                                       brand.min_price ? brand.min_price : 0
+                                    }
                                     value={brand.slug}
                                     key={brand.id}
                                  >
@@ -407,10 +435,11 @@ export default function Products({ brands, categorys }) {
                         <ProductBoxP />
                      </>
                   ) : products.length > 0 ? (
-                     products
-                        .map((product) => {
-                           return <ProductBox key={product.id} product={product} />;
-                        })
+                     products.map((product) => {
+                        return (
+                           <ProductBox key={product.id} product={product} />
+                        );
+                     })
                   ) : (
                      <div className="text-2xl capitalize text-center col-span-4">
                         there no products matching your filter
