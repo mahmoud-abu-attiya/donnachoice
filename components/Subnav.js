@@ -30,6 +30,7 @@ const Subnav = () => {
    const opencart = (e) => {
       e.preventDefault();
       const cartitems = localStorage.getItem("stored-cart") || "[]";
+      localStorage.setItem("stored-cart", "[]");
       if (auth) {
          window.location.href = `https://backends.donnachoice.com/cart/login_with_token?token=${token}&lang=${ar ? "ar" : "en"}`;
       } else {
@@ -51,7 +52,6 @@ const Subnav = () => {
       return storedCompare.length;
    };
    useEffect(() => {
-      dispatch(setCartCount(0))
       if (!auth) {
          dispatch(setAmount(getNumberOfProductsInWishlist()));
          dispatch(setCartCount(getNumberOfProductsInCart()));

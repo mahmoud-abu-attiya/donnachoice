@@ -118,6 +118,13 @@ export default function Products() {
          });
          setSearchQuery(q);
       };
+      const input = document.getElementById("simple-search");
+      input.addEventListener("keypress", (e) => {
+         if (e.key === "Enter") {
+            e.preventDefault();
+            document.getElementById("filter").click();
+         }
+      });
    }, []);
 
    useEffect(() => {
@@ -427,6 +434,7 @@ export default function Products() {
                   </div>
                </aside>
                <button
+                  id="filter"
                   onClick={() => setFilterPopup(true)}
                   className="filter_btn col-span-8 max-w-[10rem] px-5 py-3 bg-gray-100 shadow hidden gap-4 items-center text-xl text-primary-200 border rounded"
                >
