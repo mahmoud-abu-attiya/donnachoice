@@ -11,24 +11,24 @@ import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
 import bg from "../../public/images/products-bg.jpg";
 
-export const getStaticProps = async () => {
-   const brandRes = await fetch("https://backends.donnachoice.com/api/brand/");
-   let brands = await brandRes.json();
+// export const getStaticProps = async () => {
+//    // const brandRes = await fetch("https://backends.donnachoice.com/api/brand/");
+//    // let brands = await brandRes.json();
 
-   const categoryRes = await fetch(
-      "https://backends.donnachoice.com/api/category/"
-   );
-   let categorys = await categoryRes.json();
-   return {
-      props: {
-         brands,
-         categorys,
-      },
-   };
-};
+//    const categoryRes = await fetch(
+//       "https://backends.donnachoice.com/api/category/"
+//    );
+//    let categorys = await categoryRes.json();
+//    return {
+//       props: {
+//          // brands,
+//          categorys,
+//       },
+//    };
+// };
 
 let request = null;
-export default function Products({ brands, categorys }) {
+export default function Products() {
    const ar = useSelector((state) => state.langs.value);
    // const [query, setQuery] = useState("");
    const [products, setProducts] = useState([]);
@@ -105,9 +105,6 @@ export default function Products({ brands, categorys }) {
    };
 
    useEffect(() => {
-      // if (window.innerWidth < 1023) {
-      //    setSmScreen(true);
-      // }
       let urlparam = window.location.search;
       setSearchQuery(urlparam);
       let filter_btn = document.getElementById("filter_btn");
@@ -122,9 +119,6 @@ export default function Products({ brands, categorys }) {
          setSearchQuery(q);
       };
    }, []);
-   // useEffect(() => {
-
-   // }, [brandSlug])
 
    useEffect(() => {
       // console.log(products);
@@ -211,6 +205,25 @@ export default function Products({ brands, categorys }) {
       //    setMinPrice(+ranges[1].getAttribute("aria-valuenow"))
 
       // }
+   };
+   const [brands, setBrands] = useState([]);
+   const [categories, setCategories] = useState([]);
+
+   useEffect(() => {
+      axios.get("https://backends.donnachoice.com/api/brand/").then((res) => {
+         setBrands(res.data);
+      });
+      axios.get("https://backends.donnachoice.com/api/category/").then((res) => {
+         setCategories(res.data);
+      });
+   }, []);
+
+   const handleCategory = (e) => {
+      let slug = e.target.value;
+      axios.get(`https://backends.donnachoice.com/api/brand/?category=${slug}`).then((res) => {
+         setBrands(res.data);
+         console.log(res.data);
+      });
    };
 
    return (
@@ -307,12 +320,13 @@ export default function Products({ brands, categorys }) {
                      <div>
                         <h5 className="mb-2">{ar ? "الفئات" : "Categories"}</h5>
                         <select
+                           onChange={(e) => handleCategory(e)}
                            id="countries"
                            name="category__slug"
                            className="bg-gray-50 outline-none border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-200 focus:border-primary-200 block w-full p-2.5"
                         >
                            <option value={""}>{ar ? "الكل" : "All"}</option>
-                           {categorys.map((cat) => {
+                           {categories.map((cat) => {
                               return (
                                  <option
                                     selected={
