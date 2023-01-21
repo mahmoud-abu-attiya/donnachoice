@@ -17,7 +17,17 @@ const Nav = () => {
    const [toggle, setToggle] = useState(false);
    useEffect(() => {
       // const payment = window.location.search.split("=")[1];
+      const queryParameters = new URLSearchParams(window.location.search);
+      const payment = queryParameters.get("status");
 
+      if (payment === "True") {
+         setPaymentState(true);
+         localStorage.setItem("stored-cart", "[]");
+      } else {
+         setPaymentState(false);
+      }
+
+      payment === "True" ? setPaymentState(true) : setPaymentState(false);
       const closenav = () => {
          setToggle(false);
       };

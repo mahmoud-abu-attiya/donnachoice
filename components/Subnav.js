@@ -64,14 +64,6 @@ const Subnav = () => {
       localStorage.setItem("stored-cart", items);
       Cookies.set("token", token);
 
-      if (payment === "True") {
-         setPaymentState(true);
-         localStorage.setItem("stored-cart", "[]");
-      } else {
-         setPaymentState(false);
-      }
-
-      payment === "True" ? setPaymentState(true) : setPaymentState(false);
       if (!auth) {
 
          dispatch(setAmount(getNumberOfProductsInWishlist()));
