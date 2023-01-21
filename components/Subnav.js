@@ -13,20 +13,7 @@ import Currencies from "./Currencies";
 import Cookies from "js-cookie";
 
 
-const getNumberOfProductsInWishlist = () => {
-   const storedWishlist = JSON.parse(localStorage.getItem("stored-wishlist") || "[]");
-   return storedWishlist.length;
-};
 
-const getNumberOfProductsInCart = () => {
-   let storedCart = JSON.parse(localStorage.getItem("stored-cart") || "[]");
-   return storedCart.length;
-};
-
-const getNumberOfProductsInCompare = () => {
-   let storedCompare = JSON.parse(localStorage.getItem("stored-compare") || "[]");
-   return storedCompare.length;
-};
 
 
 const Subnav = () => {
@@ -37,8 +24,7 @@ const Subnav = () => {
       (state) => state.wishlistIndicator.count
    );
    // const cartIndicator = useSelector((state) => state.cartIndicator.count);
-   const [cartIndicator, setCartIndicator] = useState(0);
-   const cartCount = useSelector((state) => state.cartIndicator.count);
+   const cartIndicator = useSelector((state) => state.cartIndicator.count);
    const compareIndicator = useSelector((state) => state.compareIndicator.count);
    const dispatch = useDispatch();
    const opencart = (e) => {
@@ -50,13 +36,22 @@ const Subnav = () => {
          window.location.href = `https://backends.donnachoice.com/cart/save_items_to_session?items=${cartitems}&lang=${ar ? "ar" : "en"}`;
       }
    }
+   const getNumberOfProductsInWishlist = () => {
+      const storedWishlist = JSON.parse(localStorage.getItem("stored-wishlist") || "[]");
+      return storedWishlist.length;
+   };
+   
+   const getNumberOfProductsInCart = () => {
+      let storedCart = JSON.parse(localStorage.getItem("stored-cart") || "[]");
+      return storedCart.length;
+   };
+   
+   const getNumberOfProductsInCompare = () => {
+      let storedCompare = JSON.parse(localStorage.getItem("stored-compare") || "[]");
+      return storedCompare.length;
+   };
    useEffect(() => {
       if (!auth) {
-         if (!localStorage.getItem("stored-cart") || localStorage.getItem("stored-cart") == "[]") {
-            setCartIndicator(0);
-         } else {
-            setCartIndicator(cartCount);
-         }
          dispatch(setAmount(getNumberOfProductsInWishlist()));
          dispatch(setCartCount(getNumberOfProductsInCart()));
          dispatch(setCompareCount(getNumberOfProductsInCompare()));
