@@ -53,7 +53,6 @@ const Subnav = () => {
    };
    useEffect(() => {
       const queryParameters = new URLSearchParams(window.location.search);
-      const payment = queryParameters.get("status");
       const items = decodeURI(
          queryParameters.get("items") ||
             localStorage.getItem("stored-cart") ||
@@ -62,7 +61,10 @@ const Subnav = () => {
       const token = queryParameters.get("token") || Cookies.get("token") || "";
 
       localStorage.setItem("stored-cart", items);
-      Cookies.set("token", token);
+      if (token){
+         Cookies.set("token", token);
+         Cookies.set("auth", true);
+      }
 
       if (!auth) {
 
