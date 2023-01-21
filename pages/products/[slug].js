@@ -132,7 +132,7 @@ const Product = ({ product }) => {
 		(option) => option.id == selectedOption
 	)?.quantity;
 	useEffect(() => {
-		// console.log(product);
+		setproCount(1);
 		cart.load();
 		storedCart = cart.storedCart;
 		storedCartIds = cart.storedCartIds;
