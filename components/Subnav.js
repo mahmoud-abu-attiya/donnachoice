@@ -52,7 +52,28 @@ const Subnav = () => {
       return storedCompare.length;
    };
    useEffect(() => {
+      const queryParameters = new URLSearchParams(window.location.search);
+      const payment = queryParameters.get("status");
+      const items = decodeURI(
+         queryParameters.get("items") ||
+            localStorage.getItem("stored-cart") ||
+            "[]"
+      ).replaceAll("'", '"');
+      const token = queryParameters.get("token") || Cookies.get("token") || "";
+
+      localStorage.setItem("stored-cart", items);
+      Cookies.set("token", token);
+
+      if (payment === "True") {
+         setPaymentState(true);
+         localStorage.setItem("stored-cart", "[]");
+      } else {
+         setPaymentState(false);
+      }
+
+      payment === "True" ? setPaymentState(true) : setPaymentState(false);
       if (!auth) {
+
          dispatch(setAmount(getNumberOfProductsInWishlist()));
          dispatch(setCartCount(getNumberOfProductsInCart()));
          dispatch(setCompareCount(getNumberOfProductsInCompare()));
