@@ -362,7 +362,8 @@ input[type=number] {
    }
 }
 .img-offer{
-   padding: 0 10px;
+   width: 95%;
+   height: 100%;
 }
 .aspect-v img{
    width: 100%;

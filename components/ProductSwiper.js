@@ -27,7 +27,8 @@ export default function ProductSwiper(props) {
             navigation={true}
             thumbs={{ swiper: thumbsSwiper }}
             modules={[FreeMode, Thumbs]}
-            className="mySwiper2"
+            className="mySwiper2 h-fit"
+            style={{ paddingTop: "1rem" }}
             loop={true}
          >
             {props.images.length != 0 ? (
