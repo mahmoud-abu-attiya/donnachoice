@@ -131,6 +131,10 @@ const Product = ({ product }) => {
 	const optionQ = product?.options.find(
 		(option) => option.id == selectedOption
 	)?.quantity;
+
+	useEffect(() => {
+		setproCount(1);
+	}, [product]);
 	useEffect(() => {
 		setproCount(1);
 		cart.load();
