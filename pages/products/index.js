@@ -118,14 +118,14 @@ export default function Products() {
          });
          setSearchQuery(q);
       };
-      const input = document.getElementById("simple-search");
-      input.addEventListener("keypress", (e) => {
-         if (e.key === "Enter") {
-            e.preventDefault();
-            document.getElementById("filter").click();
-         }
-      });
+
    }, []);
+   const enter = (e) => {
+      if (e.key === "Enter") {
+         e.preventDefault();
+         filter_btn.click();
+      }
+   };
 
    useEffect(() => {
       // console.log(products);
@@ -184,34 +184,10 @@ export default function Products() {
       }
    }, [searchQuery]);
 
-   // const handleSelect = (e) => {
-   //    let selected = e.target.options[e.target.options.selectedIndex]
-   //    setPrice({
-   //       max_price: selected.getAttribute("max_price") ? +selected.getAttribute("max_price") : maxPrice,
-   //       min_price: selected.getAttribute("min_price") ? +selected.getAttribute("min_price") : minPrice,
-   //    })
-   //    console.log(price);
-   //    setPriceRange()
-   // };
    const setPriceRange = (e) => {
       // console.log(e);
       let ranges = document.querySelectorAll(".range-slider__thumb");
-      // ranges.forEach(range => {
-      //    console.log(range.getAttribute("aria-valuenow"))
-      // })
-      // console.log(+ranges[0].getAttribute("aria-valuenow"));
-      // console.log(+ranges[1].getAttribute("aria-valuenow"));
-      // setPrice({max_price : +ranges[1].getAttribute("aria-valuenow"), min_price : +ranges[0].getAttribute("aria-valuenow")})
       setPrice({ max_price: e[1], min_price: e[0] });
-      // setMinPrice(+ranges[0].getAttribute("aria-valuenow"))
-      // if (ar) {
-      //    setMaxPrice(+ranges[0].getAttribute("aria-valuenow"))
-      //    setMinPrice(+ranges[1].getAttribute("aria-valuenow"))
-      // } else {
-      //    setMaxPrice(+ranges[0].getAttribute("aria-valuenow"))
-      //    setMinPrice(+ranges[1].getAttribute("aria-valuenow"))
-
-      // }
    };
    const [brands, setBrands] = useState([]);
    const [categories, setCategories] = useState([]);
@@ -264,6 +240,7 @@ export default function Products() {
                            </div>
                            <input
                               name="q"
+                              onKeyUp={enter}
                               type="text"
                               id="simple-search"
                               className="bg-gray-50 outline-none border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-200 focus:border-primary-200 block w-full pl-10 p-2.5"
@@ -434,7 +411,6 @@ export default function Products() {
                   </div>
                </aside>
                <button
-                  id="filter"
                   onClick={() => setFilterPopup(true)}
                   className="filter_btn col-span-8 max-w-[10rem] px-5 py-3 bg-gray-100 shadow hidden gap-4 items-center text-xl text-primary-200 border rounded"
                >
