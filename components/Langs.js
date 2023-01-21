@@ -7,10 +7,10 @@ const Langs = () => {
    const dispatch = useDispatch();
    const lang = useSelector((state) => state.langs.value);
 
-   useEffect(() => {
-      const currentLang = localStorage.getItem("lang") == "true" ? true : false;
-      dispatch(handelLangs(currentLang));
-   }, []);
+   // useEffect(() => {
+   //    const currentLang = localStorage.getItem("lang") == "true" ? true : false;
+   //    dispatch(handelLangs(currentLang));
+   // }, []);
 
    const setLang = () => {
       dispatch(handelLangs(!lang));
