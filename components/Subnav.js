@@ -51,6 +51,7 @@ const Subnav = () => {
       return storedCompare.length;
    };
    useEffect(() => {
+      dispatch(setCartCount(0))
       if (!auth) {
          dispatch(setAmount(getNumberOfProductsInWishlist()));
          dispatch(setCartCount(getNumberOfProductsInCart()));
