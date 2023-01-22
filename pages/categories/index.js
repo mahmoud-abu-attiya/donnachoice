@@ -1,22 +1,29 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Category from '../../components/Category'
 import Hero from "../../components/Hero"
 import { useSelector } from 'react-redux'
+import axios from 'axios'
 
-export const getStaticProps = async () => {
-   const res = await fetch('https://backends.donnachoice.com/api/categories/');
-   let categories = await res.json();
-   return {
-      props: {
-         categories,
-      }
-   }
-}
+// export const getStaticProps = async () => {
+//    const res = await fetch('https://backends.donnachoice.com/api/categories/');
+//    let categories = await res.json();
+//    return {
+//       props: {
+//          categories,
+//       }
+//    }
+// }
 
-export default function Categories({ categories }) {
+export default function Categories() {
 	const ar = useSelector(state => state.langs.value)
+	const [categories, setCategories] = useState([]);
 	useEffect(()=>{
 		console.log(categories);
+		axios.get('https://backends.donnachoice.com/api/categories/')
+		.then(res => {
+			setCategories(res.data);
+		}
+		).catch(err => console.log(err));
 	},[categories])
 	return (
 		<div>
