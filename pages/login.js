@@ -201,7 +201,7 @@ export default function Login() {
          {log == 2 && (
             <section className="bg-gray-50">
                <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto">
-                  <a
+                  {/* <a
                      className="flex items-center mb-6 text-2xl font-semibold text-gray-900"
                   >
                      <img
@@ -209,7 +209,7 @@ export default function Login() {
                         src="https://i.postimg.cc/nrsTJywx/donna-logo.png"
                         alt="logo"
                      />
-                  </a>
+                  </a> */}
                   <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-lg xl:p-0">
                      <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
@@ -332,7 +332,7 @@ export default function Login() {
          {log == 1 && (
             <section className="bg-gray-50">
                <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-                  <a
+                  {/* <a
                      className="flex items-center mb-6 text-2xl font-semibold text-gray-900"
                   >
                      <img
@@ -340,7 +340,7 @@ export default function Login() {
                         src="https://i.postimg.cc/nrsTJywx/donna-logo.png"
                         alt="logo"
                      />
-                  </a>
+                  </a> */}
                   <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
                      <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
@@ -425,7 +425,7 @@ export default function Login() {
          {forget && (
             <section className="bg-gray-50">
                <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-                  <a
+                  {/* <a
                      className="flex items-center mb-6 text-2xl font-semibold text-gray-900"
                   >
                      <img
@@ -433,7 +433,7 @@ export default function Login() {
                         src="https://i.postimg.cc/nrsTJywx/donna-logo.png"
                         alt="logo"
                      />
-                  </a>
+                  </a> */}
                   <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
                      <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
