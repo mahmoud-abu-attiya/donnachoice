@@ -40,7 +40,7 @@ export default function Index({ brands }) {
                   onChange={(e) => setQuery(e.target.value)}
                />
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-10 py-8">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-10 py-8">
                {brands
                   .filter((item) => {
                      if (ar) {
