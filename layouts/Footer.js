@@ -168,7 +168,7 @@ const Footer = () => {
             </div>
          </div>
          <div className=" bg-primary-100 text-gray-100 p-4 sm:p-6">
-            <div className="container sm:flex sm:items-center sm:justify-between">
+            <div className="container flex flex-col sm:flex-row text-center sm:text-left items-center justify-between">
                <span className="text-sm sm:text-center capitalize inline-block">
                   {ar ? "تطوير وتنفيذ" : "developed by"}{" "}
                   <a
