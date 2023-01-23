@@ -13,7 +13,6 @@ export default function App() {
 
    useEffect(() => {
       axios.get("https://backends.donnachoice.com/api/swiper/").then((res) => {
-         console.log(res.data);
          setSwiperImgs(res.data);
       });
    }, []);

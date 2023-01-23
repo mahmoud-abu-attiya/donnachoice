@@ -23,8 +23,9 @@ const Subnav = () => {
    const wishlistIndicator = useSelector(
       (state) => state.wishlistIndicator.count
    );
-   // const cartIndicator = useSelector((state) => state.cartIndicator.count);
+   // const [cartIndicator, setCartIndicator] = useState(useSelector((state) => state.cartIndicator.count));
    const cartIndicator = useSelector((state) => state.cartIndicator.count);
+   // const cartIndicator = useSelector((state) => state.cartIndicator.count);
    const compareIndicator = useSelector((state) => state.compareIndicator.count);
    const dispatch = useDispatch();
    const opencart = (e) => {
@@ -52,6 +53,7 @@ const Subnav = () => {
       return storedCompare.length;
    };
    useEffect(() => {
+
       const queryParameters = new URLSearchParams(window.location.search);
       const items = decodeURI(
          queryParameters.get("items") ||
@@ -64,14 +66,6 @@ const Subnav = () => {
       if (token){
          Cookies.set("token", token);
          Cookies.set("auth", true);
-      }
-
-      if (!auth) {
-
-         dispatch(setAmount(getNumberOfProductsInWishlist()));
-         dispatch(setCartCount(getNumberOfProductsInCart()));
-         dispatch(setCompareCount(getNumberOfProductsInCompare()));
-      } else {
          axios
             .get(`https://backends.donnachoice.com/api/counts`, {
                headers: {
@@ -82,8 +76,11 @@ const Subnav = () => {
                dispatch(setAmount(res.data.wishlist));
                dispatch(setCartCount(res.data.cart));
             });
-         dispatch(setCompareCount(getNumberOfProductsInCompare()));
+      } else {
+         dispatch(setAmount(getNumberOfProductsInWishlist()));
+         dispatch(setCartCount(getNumberOfProductsInCart()));
       }
+         dispatch(setCompareCount(getNumberOfProductsInCompare()));
    }, []);
    return (
       <div className="bg-primary-200 px-0 sm:px-4 py-2.5 text-white">
