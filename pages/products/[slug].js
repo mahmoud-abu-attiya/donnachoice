@@ -13,6 +13,7 @@ import Link from "next/link";
 import ProductSwiper from "../../components/ProductSwiper";
 import ProductReviews from "../../components/ProductReviews";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 const getNumberOfProductsInWishlist = () => {
 	const storedWishlist =
@@ -106,7 +107,21 @@ export const getStaticProps = async ({ params }) => {
 	};
 };
 
-const Product = ({ product }) => {
+const Product = () => {
+	const [product, setProduct] = useState({options:[], images:[]});
+	const router = useRouter()
+	const { slug } = router.query
+	useEffect(() => {
+		console.log(slug);
+		axios.get(`https://backends.donnachoice.com/api/products/${slug}/`)
+		.then(res => {
+			setProduct(res.data)
+			console.log(res.data);
+			setselectedOption(res.data.options[0])
+		}
+		)
+		.catch(err => console.log(err))
+	}, [slug]);
 	const [proCount, setproCount] = useState(1);
 	const ar = useSelector((state) => state.langs.value);
 	let storedCart,
@@ -118,7 +133,7 @@ const Product = ({ product }) => {
 	const heartIcon = useRef();
 	const compareIcon = useRef();
 	const [selectedOption, setselectedOption] = useState(
-		product?.options[0]?.id
+		product?.options[0]
 	);
 	const dispatch = useDispatch();
 	let cart;
@@ -129,7 +144,7 @@ const Product = ({ product }) => {
 	}
 
 	const optionQ = product?.options.find(
-		(option) => option.id == selectedOption
+		(option) => option.id == selectedOption.id
 	)?.quantity;
 
 	useEffect(() => {
@@ -233,7 +248,7 @@ const Product = ({ product }) => {
 
 	const addSelectedOptionToCart = (btn, quantity = 1) => {
 		cart.load();
-		cart.add(selectedOption, quantity);
+		cart.add(selectedOption.id, quantity);
 		cart.save();
 		cart.setCartCount(setCartCount, dispatch);
 		if (btn.classList.contains("atbtn")) {
@@ -260,11 +275,11 @@ const Product = ({ product }) => {
 			.then((res) => setReviews(res.data));
 	}, [product]);
 
-	const [price, setPrice] = useState(product?.options[0].price);
+	const [price, setPrice] = useState(product?.options[0]?.price);
 
-	const selectOption = (e, optionId, price) => {
-		setselectedOption(optionId);
-		setPrice(price);
+	const selectOption = (e, option) => {
+		setselectedOption(option);
+		setPrice(option.price);
 		let currentOption = document.querySelector(".active-option");
 		if (currentOption) {
 			currentOption.classList.remove("active-option", "border-primary-100");
@@ -347,7 +362,7 @@ const Product = ({ product }) => {
 					<hr className="my-8 h-px bg-gray-200 border-0" />
 					<div className="product grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
 						<div className="p-s">
-							<ProductSwiper images={product.images} offer={product.options[0].discount} />
+							<ProductSwiper images={product.images} offer={product.options[0]?.discount} />
 						</div>
 						{/* ///////////////////////////////////////////////// */}
 						<div>
@@ -420,16 +435,16 @@ const Product = ({ product }) => {
 												{ar ? "ماركة :" : "brand:"}
 											</span>{" "}
 											{ar
-												? product.brand.name_ar
-												: product.brand.name}
+												? product.brand?.name_ar
+												: product.brand?.name}
 										</p>
 										<p className="text-gray-600">
 											<span className="font-light capitalize">
 												{ar ? "الفئة :" : "category:"}
 											</span>{" "}
 											{ar
-												? product.category.name_ar
-												: product.category.name}
+												? product.category?.name_ar
+												: product.category?.name}
 										</p>
 										<p className="text-gray-600">
 											<span className="font-light capitalize">
@@ -448,7 +463,7 @@ const Product = ({ product }) => {
 								<div className={tab != 3 ? "hidden" : ""}>
 									<ProductReviews reviews={reviews} />
 								</div>
-								{product.options[0].discount == 0 ? (
+								{product.options[0]?.discount == 0 ? (
 									<div className="text-xl text-gray-700 mt-8">
 										{price} {ar ? "ريال" : "QR"} 
 									</div>
@@ -456,9 +471,9 @@ const Product = ({ product }) => {
 									<div className="text-xl text-gray-700 flex gap-2 mb-2 mt-8">
 										<div>
 											<span className="block text-sm line-through text-gray-500">
-												{product.options[0].price} {ar ? "ريال" : "QR"}
+												{product.options[0]?.price} {ar ? "ريال" : "QR"}
 												</span>
-											{product.options[0].price_after_discount} {ar ? "ريال" : "QR"}
+											{product.options[0]?.price_after_discount} {ar ? "ريال" : "QR"}
 										</div>
 									</div>
 								)}
@@ -504,7 +519,7 @@ const Product = ({ product }) => {
 												<button
 													key={option.id}
 													onClick={(e) =>
-														selectOption(e, option.id, option.price)
+														selectOption(e, option)
 													}
 													className={
 														index == 0
@@ -523,7 +538,7 @@ const Product = ({ product }) => {
 										{ar && "يوجد"}{" "}
 										{
 											product.options.find(
-												(option) => option.id == selectedOption
+												(option) => option.id == selectedOption.id
 											).quantity
 										}{" "}
 										{ar ? "في المخزن" : "in stock"}
@@ -569,7 +584,7 @@ const Product = ({ product }) => {
 									</div>
 									<button
 										onClick={() =>
-											setproCount(proCount >= 10 ? 10 : proCount + 1)
+											setproCount(proCount >= 10 || proCount >= selectedOption.quantity ? Math.min(10, selectedOption.quantity) : proCount + 1)
 										}
 										className="inline-flex items-center p-2 font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200"
 										type="button"
