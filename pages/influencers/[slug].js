@@ -6,6 +6,12 @@ import { useSelector } from "react-redux";
 import Hero from "../../components/Hero";
 import ProductBox from "../../components/ProductBox";
 
+export async function getServerSideProps(context) {
+   return {
+     props: {}, // will be passed to the page component as props
+   };
+}
+
 const Influ = () => {
    const [influ, setInflu] = useState();
    const ar = useSelector((state) => state.langs.value);
